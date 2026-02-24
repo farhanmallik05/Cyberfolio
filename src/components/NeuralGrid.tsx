@@ -1,0 +1,53 @@
+"use client";
+
+import { useRef, useMemo } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Points, PointMaterial } from "@react-three/drei";
+import * as THREE from "three";
+import { motion } from "framer-motion-3d"; // Though we just animate normally here, good to have
+
+function Particles() {
+    const ref = useRef<THREE.Points>(null);
+
+    // Generating a grid/sphere of points
+    const positions = useMemo(() => {
+        const pts = new Float32Array(500 * 3);
+        for (let i = 0; i < 500; i++) {
+            pts[i * 3] = (Math.random() - 0.5) * 10;
+            pts[i * 3 + 1] = (Math.random() - 0.5) * 10;
+            pts[i * 3 + 2] = (Math.random() - 0.5) * 10;
+        }
+        return pts;
+    }, []);
+
+    useFrame((state, delta) => {
+        if (ref.current) {
+            ref.current.rotation.x -= delta / 10;
+            ref.current.rotation.y -= delta / 15;
+        }
+    });
+
+    return (
+        <group rotation={[0, 0, Math.PI / 4]}>
+            <Points ref={ref} positions={positions} stride={3} frustumCulled={false}>
+                <PointMaterial
+                    transparent
+                    color="#00F0FF"
+                    size={0.05}
+                    sizeAttenuation={true}
+                    depthWrite={false}
+                />
+            </Points>
+        </group>
+    );
+}
+
+export function NeuralGrid() {
+    return (
+        <div className="absolute inset-0 w-full h-full -z-10 bg-transparent pointer-events-none opacity-50">
+            <Canvas camera={{ position: [0, 0, 5] }}>
+                <Particles />
+            </Canvas>
+        </div>
+    );
+}

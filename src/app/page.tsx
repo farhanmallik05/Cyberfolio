@@ -1,101 +1,100 @@
-import Image from "next/image";
+"use client";
+
+import { NeuralGrid } from "@/components/NeuralGrid";
+import { GlitchText } from "@/components/ui/GlitchText";
+import { NeonButton } from "@/components/ui/NeonButton";
+import { Code, Terminal, Cpu } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <main className="relative min-h-screen flex items-center justify-center overflow-hidden w-full">
+      <NeuralGrid />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+      {/* Holographic Dashboard Split Layout */}
+      <div className="container mx-auto px-4 z-10 w-full max-w-7xl flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-24 relative">
+
+        {/* Left Panel: Floating Tech Holograms */}
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1, delay: 0.2 }}
+          className="flex-1 w-full flex justify-center lg:justify-start lg:pl-12"
+        >
+          <div className="relative w-64 h-64 md:w-96 md:h-96">
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              className="absolute inset-0 rounded-full border border-neon-blue/20 border-dashed"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+            <motion.div
+              animate={{ rotate: -360 }}
+              transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+              className="absolute inset-4 rounded-full border border-neon-magenta/20 border-dotted"
+            />
+
+            {/* Center piece */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="relative w-32 h-32 flex items-center justify-center neon-border-blue rounded-full bg-cyber-panel/50 backdrop-blur-md">
+                <Cpu className="w-12 h-12 text-neon-blue animate-pulse" />
+              </div>
+            </div>
+
+            {/* Orbiting Icons */}
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+              className="absolute inset-0 origin-center"
+            >
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-cyber-panel p-3 rounded-full border border-neon-purple shadow-[0_0_15px_#6A00FF]">
+                <Code className="w-6 h-6 text-neon-purple" />
+              </div>
+            </motion.div>
+
+            <motion.div
+              animate={{ rotate: -360 }}
+              transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+              className="absolute inset-0 origin-center"
+            >
+              <div className="absolute top-1/2 -right-4 -translate-y-1/2 bg-cyber-panel p-3 rounded-full border border-neon-green shadow-[0_0_15px_#39FF14]">
+                <Terminal className="w-6 h-6 text-neon-green" />
+              </div>
+            </motion.div>
+          </div>
+        </motion.div>
+
+        {/* Right Panel: Glitch Info & CTAs */}
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1, delay: 0.4 }}
+          className="flex-1 w-full text-center lg:text-left flex flex-col gap-6"
         >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          <div className="space-y-2">
+            <h2 className="text-neon-blue font-orbitron tracking-[0.2em] text-sm md:text-md uppercase">
+              AI & Automation Developer
+            </h2>
+            <GlitchText
+              text="FARHAN MALLIK"
+              className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight"
+            />
+          </div>
+
+          <p className="text-foreground/80 md:text-lg max-w-xl mx-auto lg:mx-0 font-inter leading-relaxed">
+            Engineering intelligent systems, automation frameworks & advanced digital solutions. Architecting the future, one protocol at a time.
+          </p>
+
+          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 mt-4">
+            <NeonButton variant="blue" onClick={() => window.location.href = '/projects'}>
+              View Projects
+            </NeonButton>
+            <NeonButton variant="magenta" onClick={() => window.location.href = '/services'}>
+              Deploy Collaboration
+            </NeonButton>
+          </div>
+        </motion.div>
+
+      </div>
+    </main>
   );
 }

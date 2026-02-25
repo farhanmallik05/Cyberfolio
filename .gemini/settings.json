@@ -1,0 +1,8 @@
+{
+    "mcpServers": {
+        "cyberfolio-docs": {
+            "url": "https://gitmcp.io/farhanmallik05/Cyberfolio",
+            "type": "sse"
+        }
+    }
+}

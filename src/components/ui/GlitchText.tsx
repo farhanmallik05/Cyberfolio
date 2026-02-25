@@ -22,14 +22,14 @@ export function GlitchText({ text, as: Component = "h1", className, ...props }: 
             {...props}
         >
             <span className={cn(
-                "absolute top-0 left-0 -ml-1 text-neon-magenta opacity-70",
+                "absolute top-0 left-0 -ml-1 text-mech-blue opacity-70",
                 isHovered ? "animate-pulse" : ""
             )} style={{ clipPath: "polygon(0 0, 100% 0, 100% 45%, 0 45%)" }}>
                 {text}
             </span>
             <span className="relative z-10">{text}</span>
             <span className={cn(
-                "absolute top-0 left-0 ml-1 text-neon-blue opacity-70",
+                "absolute top-0 left-0 ml-1 text-mech-cyan opacity-70",
                 isHovered ? "animate-pulse" : ""
             )} style={{ clipPath: "polygon(0 55%, 100% 55%, 100% 100%, 0 100%)" }}>
                 {text}

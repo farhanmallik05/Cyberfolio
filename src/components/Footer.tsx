@@ -19,34 +19,37 @@ const footerLinks = [
 
 export function Footer() {
     return (
-        <footer className="relative z-10 border-t border-white/5 bg-cyber-base/80 backdrop-blur-sm mt-auto">
+        <footer className="relative z-10 border-t border-mech-silver/10 bg-mech-base/80 backdrop-blur-md mt-auto">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 
                     {/* Brand */}
-                    <div className="space-y-4">
+                    <div className="space-y-4 flex flex-col items-start">
                         <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-md bg-cyber-panel border border-neon-blue/30 flex items-center justify-center">
-                                <Cpu className="w-4 h-4 text-neon-blue" />
+                            <div className="relative">
+                                <div className="w-9 h-9 rounded-sm bg-mech-panel border border-mech-cyan/30 flex items-center justify-center">
+                                    <Cpu className="w-5 h-5 text-mech-cyan" />
+                                </div>
+                                <div className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-mech-blue rounded-full shadow-[0_0_8px_rgba(0,174,239,0.8)]" />
                             </div>
-                            <span className="font-orbitron font-bold text-sm tracking-[0.15em] text-white/80">
-                                NEURAL<span className="text-neon-blue">.</span>ARCH
+                            <span className="font-orbitron font-bold text-sm tracking-[0.15em] text-mech-white/90">
+                                NEURAL<span className="text-mech-cyan">.</span>ARCH
                             </span>
                         </div>
-                        <p className="font-inter text-sm text-white/40 max-w-xs leading-relaxed">
-                            Engineering intelligent systems and automation frameworks. Built with precision.
+                        <p className="font-inter text-sm text-mech-silver/60 max-w-xs leading-relaxed">
+                            Engineering intelligent systems and automation frameworks. Built with mechanical precision.
                         </p>
                     </div>
 
                     {/* Quick Links */}
                     <div>
-                        <h4 className="font-orbitron text-xs uppercase tracking-widest text-white/30 mb-4">Navigation</h4>
+                        <h4 className="font-orbitron text-xs uppercase tracking-widest text-mech-silver/40 mb-4">Navigation</h4>
                         <div className="grid grid-cols-2 gap-2">
                             {footerLinks.map((link) => (
                                 <Link
                                     key={link.href}
                                     href={link.href}
-                                    className="font-inter text-sm text-white/50 hover:text-neon-blue transition-colors flex items-center gap-1 group"
+                                    className="font-inter text-sm text-mech-silver/70 hover:text-mech-cyan transition-colors flex items-center gap-1 group"
                                 >
                                     {link.label}
                                     <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -57,7 +60,7 @@ export function Footer() {
 
                     {/* Social Links */}
                     <div>
-                        <h4 className="font-orbitron text-xs uppercase tracking-widest text-white/30 mb-4">Connect</h4>
+                        <h4 className="font-orbitron text-xs uppercase tracking-widest text-mech-silver/40 mb-4">Connect</h4>
                         <div className="flex gap-3">
                             {socialLinks.map((social) => (
                                 <a
@@ -65,7 +68,7 @@ export function Footer() {
                                     href={social.href}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="w-9 h-9 rounded-md bg-cyber-panel border border-white/10 flex items-center justify-center text-white/40 hover:text-neon-blue hover:border-neon-blue/30 hover:shadow-[0_0_10px_rgba(0,240,255,0.2)] transition-all duration-300"
+                                    className="w-9 h-9 rounded-sm bg-mech-panel border border-mech-silver/10 flex items-center justify-center text-mech-silver/60 hover:text-mech-cyan hover:border-mech-cyan/30 hover:shadow-[0_0_10px_rgba(15,211,255,0.2)] transition-all duration-300"
                                     aria-label={social.label}
                                 >
                                     <social.icon className="w-4 h-4" />
@@ -77,14 +80,14 @@ export function Footer() {
                 </div>
 
                 {/* Bottom bar */}
-                <div className="mt-10 pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <p className="font-inter text-xs text-white/20">
+                <div className="mt-10 pt-6 border-t border-mech-silver/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <p className="font-inter text-xs text-mech-silver/40">
                         &copy; {new Date().getFullYear()} Farhan Mallik. All systems reserved.
                     </p>
                     <div className="flex items-center gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full bg-neon-green animate-pulse" />
-                        <span className="font-orbitron text-[10px] text-white/20 tracking-widest">
-                            ALL SYSTEMS OPERATIONAL
+                        <div className="w-1.5 h-1.5 bg-mech-blue shadow-[0_0_5px_rgba(0,174,239,0.8)] rounded-none rotate-45 animate-pulse" />
+                        <span className="font-orbitron text-[10px] text-mech-cyan/60 tracking-widest">
+                            SYSTEM IDENTIFIER
                         </span>
                     </div>
                 </div>

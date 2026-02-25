@@ -32,25 +32,27 @@ const projects = [
 
 export default function Projects() {
     return (
-        <div className="min-h-screen pt-32 pb-16 px-4 max-w-7xl mx-auto relative z-10">
+        <div className="min-h-screen pt-32 pb-16 px-4 max-w-7xl mx-auto relative z-10 w-full">
             <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
+                className="w-full"
             >
-                <div className="flex flex-col items-center mb-16">
-                    <div className="px-4 py-1 border border-neon-magenta/30 bg-neon-magenta/10 rounded-full mb-4">
-                        <span className="text-xs font-orbitron font-bold text-neon-magenta tracking-widest uppercase">CLASSIFIED DATA</span>
+                <div className="flex flex-col items-center mb-16 w-full">
+                    <div className="px-4 py-1 border border-mech-cyan/30 bg-mech-cyan/10 rounded-sm mb-4">
+                        <span className="text-xs font-orbitron font-bold text-mech-cyan tracking-widest uppercase">CLASSIFIED DATA</span>
                     </div>
-                    <h1 className="text-3xl md:text-5xl font-orbitron font-bold text-center tracking-widest uppercase">
-                        Project <span className="text-neon-magenta">Archive</span>
+                    <h1 className="text-3xl md:text-5xl font-orbitron font-bold text-center tracking-widest uppercase text-mech-white">
+                        Project <span className="text-mech-blue">Deployments</span>
                     </h1>
-                    <p className="text-center font-inter text-foreground/60 mt-4 max-w-2xl">
+                    <p className="text-center font-inter text-mech-silver mt-4 max-w-2xl">
                         System modules and intelligence operations deployed into production environments.
                     </p>
+                    <div className="h-px bg-gradient-to-r from-transparent via-mech-cyan/30 to-transparent w-full max-w-md mx-auto mt-6" />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 w-full">
                     {projects.map((project, idx) => (
                         <motion.div
                             key={project.title}
@@ -58,6 +60,7 @@ export default function Projects() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: idx * 0.1, duration: 0.5 }}
+                            className="h-full"
                         >
                             <ProjectCard {...project} />
                         </motion.div>

@@ -5,6 +5,9 @@ import { BootSequence } from "@/components/BootSequence";
 import { Navbar } from "@/components/Navbar";
 import { PageLoadingBar } from "@/components/PageLoadingBar";
 import { Footer } from "@/components/Footer";
+import { BackgroundSystem } from "@/components/BackgroundSystem";
+import { Cursor } from "@/components/ui/Cursor";
+import { ScrollProgress } from "@/components/ui/ScrollProgress";
 
 const orbitron = Orbitron({
   subsets: ["latin"],
@@ -46,8 +49,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${orbitron.variable} ${inter.variable} antialiased bg-cyber-base text-foreground min-h-screen`}
+        className={`${orbitron.variable} ${inter.variable} antialiased bg-mech-base text-foreground min-h-screen`}
       >
+        <Cursor />
+        <ScrollProgress />
+        <BackgroundSystem />
         <BootSequence>
           <PageLoadingBar />
           <Navbar />

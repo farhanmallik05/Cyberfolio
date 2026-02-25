@@ -7,6 +7,11 @@
   --foreground: #ededed;
 }
 
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
@@ -14,13 +19,52 @@ body {
   overflow-x: hidden;
 }
 
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #070B14;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #00F0FF, #6A00FF);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #00F0FF, #FF2CFB);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #00F0FF #070B14;
+}
+
+/* Selection color */
+::selection {
+  background: rgba(0, 240, 255, 0.3);
+  color: #fff;
+}
+
+::-moz-selection {
+  background: rgba(0, 240, 255, 0.3);
+  color: #fff;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
-  
+
   .glass-panel {
-    @apply bg-cyber-panel/40 backdrop-blur-md border border-white/5 shadow-[0_0_15px_rgba(0,0,0,0.5)];
+    background-color: rgba(13, 17, 28, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
   }
 
   .neon-text-blue {
@@ -30,5 +74,52 @@ body {
   .neon-border-blue {
     box-shadow: 0 0 5px #00F0FF, inset 0 0 5px #00F0FF;
     border-color: #00F0FF;
+  }
+
+  .neon-text-magenta {
+    text-shadow: 0 0 10px #FF2CFB, 0 0 20px #FF2CFB, 0 0 30px #FF2CFB;
+  }
+
+  .neon-border-magenta {
+    box-shadow: 0 0 5px #FF2CFB, inset 0 0 5px #FF2CFB;
+    border-color: #FF2CFB;
+  }
+}
+
+/* Glitch keyframes */
+@keyframes glitch-shift {
+
+  0%,
+  100% {
+    transform: translate(0);
+  }
+
+  20% {
+    transform: translate(-2px, 2px);
+  }
+
+  40% {
+    transform: translate(2px, -2px);
+  }
+
+  60% {
+    transform: translate(-1px, -1px);
+  }
+
+  80% {
+    transform: translate(1px, 1px);
+  }
+}
+
+/* Subtle background grid animation */
+@keyframes grid-pulse {
+
+  0%,
+  100% {
+    opacity: 0.03;
+  }
+
+  50% {
+    opacity: 0.08;
   }
 }

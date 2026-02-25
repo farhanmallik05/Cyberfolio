@@ -1,10 +1,17 @@
 "use client";
 
-import { NeuralGrid } from "@/components/NeuralGrid";
+import dynamic from "next/dynamic";
 import { GlitchText } from "@/components/ui/GlitchText";
 import { NeonButton } from "@/components/ui/NeonButton";
 import { Code, Terminal, Cpu } from "lucide-react";
 import { motion } from "framer-motion";
+import Link from "next/link";
+
+// Lazy load Three.js heavy component
+const NeuralGrid = dynamic(() => import("@/components/NeuralGrid").then(mod => ({ default: mod.NeuralGrid })), {
+  ssr: false,
+  loading: () => <div className="absolute inset-0 bg-cyber-base" />,
+});
 
 export default function Home() {
   return (
@@ -85,12 +92,12 @@ export default function Home() {
           </p>
 
           <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 mt-4">
-            <NeonButton variant="blue" onClick={() => window.location.href = '/projects'}>
-              View Projects
-            </NeonButton>
-            <NeonButton variant="magenta" onClick={() => window.location.href = '/services'}>
-              Deploy Collaboration
-            </NeonButton>
+            <Link href="/projects">
+              <NeonButton variant="blue">View Projects</NeonButton>
+            </Link>
+            <Link href="/contact">
+              <NeonButton variant="magenta">Deploy Collaboration</NeonButton>
+            </Link>
           </div>
         </motion.div>
 

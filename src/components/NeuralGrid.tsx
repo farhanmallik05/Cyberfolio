@@ -4,7 +4,6 @@ import { useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Points, PointMaterial } from "@react-three/drei";
 import * as THREE from "three";
-import { motion } from "framer-motion-3d"; // Though we just animate normally here, good to have
 
 function Particles() {
     const ref = useRef<THREE.Points>(null);

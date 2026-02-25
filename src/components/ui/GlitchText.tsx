@@ -1,6 +1,6 @@
 "use client";
 
-import { HTMLAttributes, useEffect, useState } from "react";
+import { HTMLAttributes, useState } from "react";
 import { cn } from "@/lib/utils";
 
 interface GlitchTextProps extends HTMLAttributes<HTMLHeadingElement> {

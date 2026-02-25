@@ -5,6 +5,8 @@ import { MechButton } from "@/components/ui/MechButton";
 import { motion } from "framer-motion";
 import { ShieldAlert, Send, Terminal, AlertTriangle } from "lucide-react";
 import { useState } from "react";
+import { db } from "@/lib/firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 export default function Contact() {
     const [formData, setFormData] = useState({
@@ -20,19 +22,14 @@ export default function Contact() {
         setStatus("sending");
 
         try {
-            const res = await fetch("/api/contact", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData)
+            await addDoc(collection(db, "contactSubmissions"), {
+                ...formData,
+                createdAt: serverTimestamp(),
             });
-
-            if (res.ok) {
-                setStatus("success");
-                setFormData({ name: "", email: "", projectType: "", message: "" });
-            } else {
-                setStatus("error");
-            }
-        } catch {
+            setStatus("success");
+            setFormData({ name: "", email: "", projectType: "", message: "" });
+        } catch (err) {
+            console.error("Firebase submission error:", err);
             setStatus("error");
         }
     };
@@ -47,7 +44,7 @@ export default function Contact() {
                 className="w-full"
             >
                 <div className="flex flex-col items-center mb-12 w-full">
-                    <ShieldAlert className="w-12 h-12 text-mech-cyan mb-4 animate-[pulse_2s_ease-in-out_Infinity]" />
+                    <ShieldAlert className="w-12 h-12 text-mech-cyan mb-4 animate-pulse" />
                     <h1 className="text-3xl md:text-5xl font-orbitron font-bold text-center tracking-widest uppercase mb-4 text-mech-white">
                         Secure <span className="text-mech-cyan">Transmission</span>
                     </h1>
@@ -114,10 +111,13 @@ export default function Contact() {
                                     onChange={e => setFormData({ ...formData, projectType: e.target.value })}
                                 >
                                     <option value="" disabled className="text-mech-silver/50">Select Protocol</option>
-                                    <option value="web-dev">Web Development System</option>
-                                    <option value="automation">Automation Infrastructure</option>
-                                    <option value="ai-integration">AI Integration Module</option>
-                                    <option value="consulting">Architectural Consulting</option>
+                                    <option value="general-inquiry">General Inquiry</option>
+                                    <option value="technical-support">Technical Support</option>
+                                    <option value="sales-pricing">Sales / Pricing</option>
+                                    <option value="collaboration">Collaboration</option>
+                                    <option value="feedback">Feedback</option>
+                                    <option value="report-bug">Report a Bug</option>
+                                    <option value="others">Others</option>
                                 </select>
                             </div>
 
@@ -136,7 +136,7 @@ export default function Contact() {
                             {status === "error" && (
                                 <div className="flex items-center gap-2 text-red-500 font-orbitron text-sm bg-red-500/10 p-3 border border-red-500/20 rounded-sm">
                                     <AlertTriangle className="w-4 h-4" />
-                                    SYSTEM FAILURE: UNABLE TO ROUTE PACKET.
+                                    SYSTEM FAILURE: UNABLE TO ROUTE PACKET. Please try again.
                                 </div>
                             )}
 

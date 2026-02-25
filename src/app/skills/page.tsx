@@ -17,38 +17,38 @@ const skillCategories: SkillCategory[] = [
         skills: [
             { name: "Python Systems", level: 90 },
             { name: "TypeScript / JS Engine", level: 85 },
-            { name: "React / Next.js Frameworks", level: 88 },
-            { name: "UI Architecture (Tailwind)", level: 95 },
+            { name: "React / Next.js Frameworks", level: 48 },
+            { name: "UI Architecture (Tailwind)", level: 75 },
         ]
     },
     {
         title: "AI Integration",
         icon: Cpu,
         skills: [
-            { name: "LLM Orchestration", level: 80 },
-            { name: "n8n Automation Workflows", level: 92 },
-            { name: "Prompt Architecture", level: 85 },
-            { name: "Containerization (Docker)", level: 75 },
+            { name: "LLM Orchestration", level: 20 },
+            { name: "n8n Automation Workflows", level: 45 },
+            { name: "Prompt Architecture", level: 95 },
+            { name: "Containerization (Docker)", level: 65 },
         ]
     },
     {
         title: "Infrastructure",
         icon: Wrench,
         skills: [
-            { name: "Linux OS / Bash Scripts", level: 85 },
-            { name: "Version Control (Git)", level: 90 },
-            { name: "Cloud Databases (Supabase)", level: 75 },
-            { name: "Vercel / Edge Deployments", level: 88 },
+            { name: "Linux OS / Bash Scripts", level: 45 },
+            { name: "Version Control (Git)", level: 70 },
+            { name: "Cloud Databases (Supabase)", level: 85 },
+            { name: "Vercel / Edge Deployments", level: 65 },
         ]
     },
     {
         title: "Interface Design",
         icon: Layers,
         skills: [
-            { name: "Figma Component Libs", level: 80 },
+            { name: "Figma Component Libs", level: 90 },
             { name: "UX Wireframing", level: 85 },
-            { name: "Mechanical Motion Design", level: 70 },
-            { name: "Asset Composition", level: 90 },
+            { name: "Mechanical Motion Design", level: 65 },
+            { name: "Asset Composition", level: 70 },
         ]
     }
 ];

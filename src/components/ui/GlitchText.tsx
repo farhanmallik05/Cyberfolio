@@ -14,7 +14,7 @@ export function GlitchText({ text, as: Component = "h1", className, ...props }: 
     return (
         <Component
             className={cn(
-                "relative inline-block font-orbitron font-bold text-white",
+                "relative inline-block font-orbitron font-bold text-white overflow-hidden",
                 className
             )}
             onMouseEnter={() => setIsHovered(true)}
@@ -22,16 +22,16 @@ export function GlitchText({ text, as: Component = "h1", className, ...props }: 
             {...props}
         >
             <span className={cn(
-                "absolute top-0 left-0 -ml-1 text-mech-blue opacity-70",
+                "absolute inset-0 -ml-[2px] text-mech-blue opacity-70 pointer-events-none",
                 isHovered ? "animate-pulse" : ""
-            )} style={{ clipPath: "polygon(0 0, 100% 0, 100% 45%, 0 45%)" }}>
+            )} style={{ clipPath: "inset(0 0 55% 0)" }} aria-hidden="true">
                 {text}
             </span>
             <span className="relative z-10">{text}</span>
             <span className={cn(
-                "absolute top-0 left-0 ml-1 text-mech-cyan opacity-70",
+                "absolute inset-0 ml-[2px] text-mech-cyan opacity-70 pointer-events-none",
                 isHovered ? "animate-pulse" : ""
-            )} style={{ clipPath: "polygon(0 55%, 100% 55%, 100% 100%, 0 100%)" }}>
+            )} style={{ clipPath: "inset(55% 0 0 0)" }} aria-hidden="true">
                 {text}
             </span>
         </Component>

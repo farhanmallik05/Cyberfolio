@@ -16,23 +16,23 @@ const AICore = dynamic(() => import("@/components/AICore").then(mod => ({ defaul
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen flex items-center justify-center overflow-hidden w-full pt-20 pb-10">
+    <main className="relative min-h-screen flex items-center justify-center overflow-hidden w-full pt-20 pb-10 px-4">
 
       {/* Mech Control Console Split Layout */}
-      <div className="container mx-auto px-4 z-10 w-full max-w-7xl flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8 relative">
+      <div className="container mx-auto z-10 w-full max-w-7xl flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-8 relative">
 
         {/* Left Panel: 3D Mech AI Core Dashboard */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, delay: 0.2 }}
-          className="flex-1 w-full flex justify-center lg:justify-center relative"
+          className="w-full lg:flex-1 flex justify-center relative"
         >
-          <div className="relative w-72 h-72 md:w-96 md:h-96 lg:w-[450px] lg:h-[450px]">
+          <div className="relative w-56 h-56 sm:w-72 sm:h-72 md:w-96 md:h-96 lg:w-[450px] lg:h-[450px]">
             {/* Mech blueprint measuring circles */}
             <div className="absolute inset-0 border border-mech-cyan/10 rounded-full flex items-center justify-center">
               <div className="absolute inset-4 border border-mech-silver/10 rounded-full border-dashed" />
-              <div className="absolute inset-12 border border-mech-cyan/20 rounded-full" />
+              <div className="absolute inset-8 sm:inset-12 border border-mech-cyan/20 rounded-full" />
             </div>
 
             {/* Rotating Rings */}
@@ -49,7 +49,7 @@ export default function Home() {
             <motion.div
               animate={{ rotate: -360 }}
               transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-              className="absolute inset-8"
+              className="absolute inset-4 sm:inset-8"
             >
               <div className="w-full h-full rounded-full border-b flex justify-center items-end border-mech-blue/40">
                 <div className="w-3 h-3 bg-mech-blue rounded-full mb-[-6px]" />
@@ -65,8 +65,8 @@ export default function Home() {
               transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
               className="absolute inset-0 origin-center"
             >
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-mech-panel p-2.5 rounded-sm border border-mech-blue shadow-[0_0_10px_rgba(0,174,239,0.3)] transform -rotate-[360deg] animate-[spin_20s_linear_infinite_reverse]">
-                <Code className="w-5 h-5 text-mech-blue" />
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-mech-panel p-1.5 sm:p-2.5 rounded-sm border border-mech-blue shadow-[0_0_10px_rgba(0,174,239,0.3)] transform -rotate-[360deg] animate-[spin_20s_linear_infinite_reverse]">
+                <Code className="w-4 h-4 sm:w-5 sm:h-5 text-mech-blue" />
               </div>
             </motion.div>
 
@@ -75,8 +75,8 @@ export default function Home() {
               transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
               className="absolute inset-4 origin-center"
             >
-              <div className="absolute top-1/2 -right-2 -translate-y-1/2 bg-mech-panel p-2.5 rounded-sm border border-mech-cyan shadow-[0_0_10px_rgba(15,211,255,0.3)] transform rotate-[360deg] animate-[spin_25s_linear_infinite]">
-                <Terminal className="w-5 h-5 text-mech-cyan" />
+              <div className="absolute top-1/2 -right-2 -translate-y-1/2 bg-mech-panel p-1.5 sm:p-2.5 rounded-sm border border-mech-cyan shadow-[0_0_10px_rgba(15,211,255,0.3)] transform rotate-[360deg] animate-[spin_25s_linear_infinite]">
+                <Terminal className="w-4 h-4 sm:w-5 sm:h-5 text-mech-cyan" />
               </div>
             </motion.div>
           </div>
@@ -87,34 +87,34 @@ export default function Home() {
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, delay: 0.4 }}
-          className="flex-1 w-full text-center lg:text-left flex flex-col gap-6"
+          className="w-full lg:flex-1 text-center lg:text-left flex flex-col gap-4 sm:gap-6"
         >
           <div className="space-y-3">
-            <div className="flex items-center justify-center lg:justify-start gap-3 mb-2">
-              <div className="w-8 h-px bg-mech-cyan" />
-              <h2 className="text-mech-cyan font-orbitron tracking-[0.2em] text-xs md:text-sm uppercase font-medium">
+            <div className="flex items-center justify-center lg:justify-start gap-2 sm:gap-3 mb-2 flex-wrap">
+              <div className="w-6 sm:w-8 h-px bg-mech-cyan" />
+              <h2 className="text-mech-cyan font-orbitron tracking-[0.15em] sm:tracking-[0.2em] text-[10px] sm:text-xs md:text-sm uppercase font-medium">
                 Systems Engineer • AI Automation Architect
               </h2>
-              <div className="w-8 h-px bg-mech-cyan hidden sm:block" />
+              <div className="w-6 sm:w-8 h-px bg-mech-cyan hidden sm:block" />
             </div>
 
-            <div className="relative inline-block">
+            <div className="relative inline-block max-w-full">
               <GlitchText
                 text="FARHAN MALLIK"
-                className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight font-orbitron text-white"
+                className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black tracking-tight font-orbitron text-white whitespace-nowrap"
               />
-              <div className="absolute -bottom-2 -right-4 w-12 h-12 border-b border-r border-mech-cyan/30" />
-              <div className="absolute -top-2 -left-4 w-12 h-12 border-t border-l border-mech-cyan/30" />
+              <div className="absolute -bottom-2 -right-2 sm:-right-4 w-8 sm:w-12 h-8 sm:h-12 border-b border-r border-mech-cyan/30" />
+              <div className="absolute -top-2 -left-2 sm:-left-4 w-8 sm:w-12 h-8 sm:h-12 border-t border-l border-mech-cyan/30" />
             </div>
           </div>
 
-          <MechPanel className="p-6 mt-4 lg:mr-12" border glowHover={false}>
-            <p className="text-mech-silver md:text-md text-sm font-inter leading-relaxed text-left">
+          <MechPanel className="p-4 sm:p-6 mt-2 sm:mt-4 lg:mr-12" border glowHover={false}>
+            <p className="text-mech-silver text-xs sm:text-sm md:text-base font-inter leading-relaxed text-left">
               Architecting the future one protocol at a time. Engineering intelligent systems, advanced automation frameworks, and high-performance digital solutions constructed for the next era of the web.
             </p>
           </MechPanel>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mt-6">
+          <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 mt-4 sm:mt-6">
             <Link href="/projects" className="w-full sm:w-auto">
               <MechButton variant="primary" className="w-full" icon={<FolderGit2 className="w-4 h-4" />}>
                 Initialize Projects

@@ -16,6 +16,10 @@ import {
     Menu,
     X,
     Cpu,
+    Share2,
+    Activity,
+    Zap,
+    Award
 } from "lucide-react";
 
 const navItems = [
@@ -23,6 +27,10 @@ const navItems = [
     { href: "/about", label: "About", icon: User },
     { href: "/skills", label: "Skills", icon: BarChart3 },
     { href: "/projects", label: "Projects", icon: FolderGit2 },
+    { href: "/certificates", label: "Certificates", icon: Award },
+    { href: "/social", label: "Social", icon: Share2 },
+    { href: "/now", label: "Now", icon: Activity },
+    { href: "/uses", label: "Uses", icon: Zap },
     { href: "/services", label: "Services", icon: Briefcase },
     { href: "/marketplace", label: "Market", icon: ShoppingCart },
     { href: "/blog", label: "Blog", icon: BookOpen },

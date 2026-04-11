@@ -22,16 +22,16 @@ export function GlitchText({ text, as: Component = "h1", className, ...props }: 
             {...props}
         >
             <span className={cn(
-                "absolute inset-0 -ml-[2px] text-mech-blue opacity-70 pointer-events-none",
+                "absolute inset-0 -ml-[2px] text-mech-blue opacity-70 pointer-events-none glitch-clip-top",
                 isHovered ? "animate-pulse" : ""
-            )} style={{ clipPath: "inset(0 0 55% 0)" }} aria-hidden="true">
+            )} aria-hidden="true">
                 {text}
             </span>
             <span className="relative z-10">{text}</span>
             <span className={cn(
-                "absolute inset-0 ml-[2px] text-mech-cyan opacity-70 pointer-events-none",
+                "absolute inset-0 ml-[2px] text-mech-cyan opacity-70 pointer-events-none glitch-clip-bottom",
                 isHovered ? "animate-pulse" : ""
-            )} style={{ clipPath: "inset(55% 0 0 0)" }} aria-hidden="true">
+            )} aria-hidden="true">
                 {text}
             </span>
         </Component>

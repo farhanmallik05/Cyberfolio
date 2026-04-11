@@ -2,26 +2,8 @@
 
 import { MechPanel } from "@/components/ui/MechPanel";
 import { motion } from "framer-motion";
-import { 
-    ExternalLink, 
-    Share2, 
-    Github, 
-    Linkedin, 
-    Twitter, 
-    Youtube, 
-    Instagram, 
-    MessageSquare, 
-    Heart, 
-    Coffee, 
-    Globe, 
-    Link as LinkIcon,
-    Mail,
-    Codepen,
-    FileText,
-    Pin,
-    HelpCircle,
-    LayoutGrid
-} from "lucide-react";
+import { Share2, ExternalLink, Coffee } from "lucide-react";
+import { getIconForPlatform } from "@/lib/icons";
 import { useEffect, useState } from "react";
 import aboutData from "@/data/about.json";
 
@@ -31,27 +13,6 @@ interface SocialLink {
     icon: any;
     category: "primary" | "support";
 }
-
-const getIconForPlatform = (title: string) => {
-    const t = title.toLowerCase();
-    if (t.includes("github")) return Github;
-    if (t.includes("linkedin")) return Linkedin;
-    if (t.includes("twitter") || t.includes("x.com")) return Twitter;
-    if (t.includes("youtube")) return Youtube;
-    if (t.includes("instagram")) return Instagram;
-    if (t.includes("discord")) return MessageSquare;
-    if (t.includes("coffee") || t.includes("buymeacoffee")) return Coffee;
-    if (t.includes("patreon") || t.includes("donate") || t.includes("ko-fi")) return Heart;
-    if (t.includes("globe") || t.includes("portfolio") || t.includes("website")) return Globe;
-    if (t.includes("mail") || t.includes("@")) return Mail;
-    if (t.includes("behance")) return LayoutGrid;
-    if (t.includes("medium")) return FileText;
-    if (t.includes("pinterest")) return Pin;
-    if (t.includes("quora")) return HelpCircle;
-    if (t.includes("codepen")) return Codepen;
-    if (t.includes("mastodon")) return Share2;
-    return LinkIcon;
-};
 
 export default function SocialHub() {
     const [links, setLinks] = useState<SocialLink[]>([]);

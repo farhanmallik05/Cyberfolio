@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ExternalLink, Award, Calendar, Hash, ShieldCheck, Trophy, GraduationCap, Code2, LucideIcon } from "lucide-react";
+import { ExternalLink, Award, Calendar, Hash, ShieldCheck, Trophy, GraduationCap, Code2, LucideIcon, RotateCw, X } from "lucide-react";
 import { useState } from "react";
 import { MechPanel } from "./MechPanel";
 
@@ -30,20 +30,16 @@ export const CertificateCard = ({ cert }: { cert: Certificate }) => {
   
   const Icon = ICON_MAP[cert.icon] || Award;
 
+  const handleFlip = (e?: React.MouseEvent | React.KeyboardEvent) => {
+    e?.stopPropagation();
+    setIsFlipped(!isFlipped);
+  };
+
   return (
     <div 
-      className="relative w-full h-80 perspective-1000 cursor-pointer group"
-      onClick={() => setIsFlipped(!isFlipped)}
+      className="relative w-full h-80 perspective-1000 group"
       onMouseEnter={() => setIsFlipped(true)}
       onMouseLeave={() => setIsFlipped(false)}
-      role="button"
-      tabIndex={0}
-      aria-label={`Certificate for ${cert.title}. Click to reveal details.`}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          setIsFlipped(!isFlipped);
-        }
-      }}
     >
       <motion.div
         className="w-full h-full relative preserve-3d transition-transform duration-700"
@@ -53,6 +49,14 @@ export const CertificateCard = ({ cert }: { cert: Certificate }) => {
         {/* FRONT FACE */}
         <div className="absolute inset-0 backface-hidden">
           <MechPanel border glowHover className="h-full flex flex-col items-center justify-center p-6 text-center bg-mech-base/80">
+            <button
+              onClick={handleFlip}
+              className="absolute top-4 right-4 p-2 rounded-sm bg-mech-cyan/5 border border-mech-cyan/20 text-mech-cyan/40 hover:text-mech-cyan hover:border-mech-cyan/50 transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 focus:outline-none focus:ring-1 focus:ring-mech-cyan"
+              aria-label="View verification details"
+            >
+              <RotateCw className="w-4 h-4" />
+            </button>
+
             <div className="w-16 h-16 rounded-full bg-mech-cyan/10 border border-mech-cyan/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
                 <Icon className="w-8 h-8 text-mech-cyan" />
             </div>
@@ -69,7 +73,7 @@ export const CertificateCard = ({ cert }: { cert: Certificate }) => {
                 {cert.category}
             </div>
 
-            <div className="absolute right-4 bottom-4 opacity-20 group-hover:opacity-100 transition-opacity">
+            <div className="absolute right-4 bottom-4 opacity-20 pointer-events-none">
                 <motion.div
                    animate={{ x: [0, 5, 0] }}
                    transition={{ duration: 1.5, repeat: Infinity }}
@@ -83,8 +87,16 @@ export const CertificateCard = ({ cert }: { cert: Certificate }) => {
         {/* BACK FACE */}
         <div className="absolute inset-0 backface-hidden rotate-y-180">
           <MechPanel border className="h-full flex flex-col p-6 bg-mech-panel">
+            <button
+              onClick={handleFlip}
+              className="absolute top-4 right-4 p-2 rounded-sm bg-mech-silver/5 border border-mech-silver/10 text-mech-silver/40 hover:text-white hover:border-white/30 transition-all focus:outline-none focus:ring-1 focus:ring-mech-cyan"
+              aria-label="Return to front"
+            >
+              <X className="w-4 h-4" />
+            </button>
+
             <div className="flex-1 space-y-4">
-              <div className="flex items-start justify-between border-b border-mech-cyan/20 pb-4">
+              <div className="flex items-start justify-between border-b border-mech-cyan/20 pb-4 pr-8">
                 <div className="flex items-center gap-2">
                     <Icon className="w-4 h-4 text-mech-cyan" />
                     <span className="font-orbitron text-[10px] text-mech-silver uppercase tracking-widest">Verification Dossier</span>
@@ -124,7 +136,6 @@ export const CertificateCard = ({ cert }: { cert: Certificate }) => {
               href={cert.verifyUrl}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
               className="mt-4 w-full py-2 bg-mech-cyan/10 hover:bg-mech-cyan/20 border border-mech-cyan/20 hover:border-mech-cyan/50 text-mech-cyan font-orbitron text-[10px] tracking-[0.2em] flex items-center justify-center gap-2 transition-all uppercase rounded group/btn"
             >
               Uplink to Source

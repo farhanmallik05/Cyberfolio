@@ -3,55 +3,20 @@
 import { MechPanel } from "@/components/ui/MechPanel";
 import { motion } from "framer-motion";
 import { Code2, Cpu, Wrench, Layers, type LucideIcon } from "lucide-react";
+import styles from "./skills.module.css";
+import skillData from "@/data/skills.json";
 
-type SkillCategory = {
-    title: string;
-    icon: LucideIcon;
-    skills: { name: string; level: number }[];
+const iconMap: Record<string, LucideIcon> = {
+    "neural-core": Code2,
+    "agentic-systems": Cpu,
+    "operations-control": Wrench,
+    "interface-matrix": Layers,
 };
 
-const skillCategories: SkillCategory[] = [
-    {
-        title: "Core Mechanics",
-        icon: Code2,
-        skills: [
-            { name: "Python Systems", level: 90 },
-            { name: "TypeScript / JS Engine", level: 85 },
-            { name: "React / Next.js Frameworks", level: 48 },
-            { name: "UI Architecture (Tailwind)", level: 75 },
-        ]
-    },
-    {
-        title: "AI Integration",
-        icon: Cpu,
-        skills: [
-            { name: "LLM Orchestration", level: 20 },
-            { name: "n8n Automation Workflows", level: 45 },
-            { name: "Prompt Architecture", level: 95 },
-            { name: "Containerization (Docker)", level: 65 },
-        ]
-    },
-    {
-        title: "Infrastructure",
-        icon: Wrench,
-        skills: [
-            { name: "Linux OS / Bash Scripts", level: 45 },
-            { name: "Version Control (Git)", level: 70 },
-            { name: "Cloud Databases (Supabase)", level: 85 },
-            { name: "Vercel / Edge Deployments", level: 65 },
-        ]
-    },
-    {
-        title: "Interface Design",
-        icon: Layers,
-        skills: [
-            { name: "Figma Component Libs", level: 90 },
-            { name: "UX Wireframing", level: 85 },
-            { name: "Mechanical Motion Design", level: 65 },
-            { name: "Asset Composition", level: 70 },
-        ]
-    }
-];
+const skillCategories = skillData.categories.map(cat => ({
+    ...cat,
+    icon: iconMap[cat.id] || Code2
+}));
 
 export default function Skills() {
     return (
@@ -59,10 +24,7 @@ export default function Skills() {
 
             {/* Background grid */}
             <div className="fixed inset-0 pointer-events-none z-[-1] opacity-30">
-                <div className="absolute inset-0" style={{
-                    backgroundImage: `linear-gradient(rgba(15, 211, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(15, 211, 255, 0.05) 1px, transparent 1px)`,
-                    backgroundSize: '40px 40px'
-                }} />
+                <div className={styles.backgroundGrid} />
             </div>
 
             <motion.div

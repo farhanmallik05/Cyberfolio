@@ -1,0 +1,7 @@
+.backgroundGrid {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(15, 211, 255, 0.05) 1px, transparent 1px), 
+                    linear-gradient(90deg, rgba(15, 211, 255, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}

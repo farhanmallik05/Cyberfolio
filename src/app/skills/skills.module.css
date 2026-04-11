@@ -1,0 +1,34 @@
+.backgroundGrid {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(15, 211, 255, 0.05) 1px, transparent 1px), 
+                    linear-gradient(90deg, rgba(15, 211, 255, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.rolePanelHighlight {
+  border-color: rgba(15, 211, 255, 0.26) !important; /* Fallback */
+  box-shadow: 0 0 20px rgba(15, 211, 255, 0.06) !important; /* Fallback */
+}
+
+@supports (color: color-mix(in srgb, red, blue)) {
+  .rolePanelHighlight {
+    border-color: color-mix(in srgb, var(--role-accent, #00F5FF) 26%, transparent) !important;
+    box-shadow: 0 0 20px color-mix(in srgb, var(--role-accent, #00F5FF) 6%, transparent) !important;
+  }
+}
+
+/* Dynamic Role Accent Color Definitions */
+.pageContainer[data-active-role="frontend"] { --role-accent: #00F5FF; }
+.pageContainer[data-active-role="automation"] { --role-accent: #BF5FFF; }
+.pageContainer[data-active-role="ai"] { --role-accent: #00F5FF; }
+.pageContainer[data-active-role="all"] { --role-accent: #5A7A9A; }
+
+.highlightedText {
+  color: var(--role-accent, #0FD3FF) !important;
+}
+
+.dynamicProgress {
+  background-color: var(--role-accent, #0FD3FF) !important;
+  box-shadow: 0 0 12px var(--role-accent, #0FD3FF) !important;
+}

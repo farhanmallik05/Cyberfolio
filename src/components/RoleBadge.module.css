@@ -1,0 +1,62 @@
+.popover {
+  border-color: rgba(15, 211, 255, 0.33) !important; /* Fallback */
+}
+
+@supports (color: color-mix(in srgb, red, blue)) {
+  .popover {
+    border-color: color-mix(in srgb, var(--role-color, #0FD3FF) 33%, transparent) !important;
+  }
+}
+
+/* Dynamic Role Color Definitions */
+.badgeContainer[data-active-role="frontend"] { --role-color: #00F5FF; }
+.badgeContainer[data-active-role="automation"] { --role-color: #BF5FFF; }
+.badgeContainer[data-active-role="ai"] { --role-color: #00F5FF; }
+.badgeContainer[data-active-role="all"] { --role-color: #5A7A9A; }
+
+/* Item-specific overrides for the popover list */
+.roleItem[data-item-role="frontend"] { --role-color: #00F5FF; }
+.roleItem[data-item-role="automation"] { --role-color: #BF5FFF; }
+.roleItem[data-item-role="ai"] { --role-color: #00F5FF; }
+.roleItem[data-item-role="all"] { --role-color: #5A7A9A; }
+
+.roleItemActive {
+  background-color: rgba(15, 211, 255, 0.08) !important; /* Fallback */
+  border-color: rgba(15, 211, 255, 0.2) !important; /* Fallback */
+}
+
+@supports (color: color-mix(in srgb, red, blue)) {
+  .roleItemActive {
+    background-color: color-mix(in srgb, var(--role-color, #0FD3FF) 8%, transparent) !important;
+    border-color: color-mix(in srgb, var(--role-color, #0FD3FF) 20%, transparent) !important;
+  }
+}
+
+.roleSymbol {
+  color: var(--role-color, #0FD3FF) !important;
+}
+
+.activeIndicator {
+  background-color: var(--role-color, #0FD3FF) !important;
+}
+
+.triggerButton {
+  border-color: rgba(15, 211, 255, 0.26) !important; /* Fallback */
+  box-shadow: 0 0 15px rgba(15, 211, 255, 0.2) !important; /* Fallback */
+}
+
+@supports (color: color-mix(in srgb, red, blue)) {
+  .triggerButton {
+    border-color: color-mix(in srgb, var(--role-color, #0FD3FF) 26%, transparent) !important;
+    box-shadow: 0 0 15px color-mix(in srgb, var(--role-color, #0FD3FF) 20%, transparent) !important;
+  }
+}
+
+.triggerButtonOpen {
+  border-color: var(--role-color, #0FD3FF) !important;
+}
+
+.statusIndicator {
+  background-color: var(--role-color, #0FD3FF) !important;
+  box-shadow: 0 0 8px var(--role-color, #0FD3FF) !important;
+}

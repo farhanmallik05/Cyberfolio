@@ -1,0 +1,15 @@
+.featuredPanel {
+  border-color: rgba(15, 211, 255, 0.4) !important; /* Fallback */
+  box-shadow: 0 0 20px rgba(15, 211, 255, 0.06) !important; /* Fallback */
+}
+
+@supports (color: color-mix(in srgb, red, blue)) {
+  .featuredPanel {
+    border-color: color-mix(in srgb, var(--featured-color, #0FD3FF) 40%, transparent) !important;
+    box-shadow: 0 0 20px color-mix(in srgb, var(--featured-color, #0FD3FF) 6%, transparent) !important;
+  }
+}
+
+.matchedRibbon {
+  background-color: var(--featured-color, #0FD3FF) !important;
+}

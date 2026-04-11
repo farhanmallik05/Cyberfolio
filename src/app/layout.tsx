@@ -41,6 +41,9 @@ export const metadata: Metadata = {
   },
 };
 
+import { RoleProvider } from "@/context/RoleContext";
+import { RoleBadge } from "@/components/RoleBadge";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -51,15 +54,18 @@ export default function RootLayout({
       <body
         className={`${orbitron.variable} ${inter.variable} antialiased bg-mech-base text-foreground min-h-screen`}
       >
-        <Cursor />
-        <ScrollProgress />
-        <BackgroundSystem />
-        <BootSequence>
-          <PageLoadingBar />
-          <Navbar />
-          {children}
-          <Footer />
-        </BootSequence>
+        <RoleProvider>
+          <Cursor />
+          <ScrollProgress />
+          <BackgroundSystem />
+          <BootSequence>
+            <PageLoadingBar />
+            <Navbar />
+            {children}
+            <Footer />
+          </BootSequence>
+          <RoleBadge />
+        </RoleProvider>
       </body>
     </html>
   );

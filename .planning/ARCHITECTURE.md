@@ -94,6 +94,19 @@ Slow:      1.2s cubic-bezier(0.16,1,0.3,1)
 Elastic:   elastic.out(1, 0.5) — GSAP
 ```
 
+### ⚡ Animation Ownership Matrix
+- **GSAP**: Use for multi-element timelines, complex scroll-triggered effects, layout reordering (Flip), and WebGL/Three.js coordination.
+- **Framer Motion**: Use for component-level entry animations, hover states, micro-interactions, modal transitions, and multi-step forms.
+- **Rule**: If an animation spans more than 3 distinct components or relies on scroll position, it belongs in GSAP.
+
+### 🚀 Performance & Accessibility Budget
+- **Lighthouse Target**: Core Web Vitals ≥ 90 on all pages (75+ for Phase 11b WebGL home).
+- **Reduced Motion**: All animations MUST check `window.matchMedia('(prefers-reduced-motion: reduce)')` to disable heavy movements/parallax.
+- **Hydration**: Prioritize server components; interactive elements must use `Suspense` with neon-skeleton fallback.
+- **Breakpoint Freeze**: Mobile v2 is finalized; all new features prioritize Desktop (1024px+) with responsive fluid down-scaling.
+
+---
+
 ---
 
 ```
@@ -302,6 +315,9 @@ POST PAGE (/blog/[slug]):
 PRODUCT PAGE (/store/[slug]):
 ├── Mockup carousel, video walkthrough
 ├── Razorpay/Stripe checkout
+├── **Idempotency Logic**: Supabase `.upsert` with `onConflict: 'razorpay_payment_id'`.
+├── **Shipping Trigger**: Resend delivery email fires ONLY if the upsert response indicates a newly created row (created_at == updated_at).
+├── **Pricing Source of Truth**: Database stores prices in **INR**; USD is calculated monthly via edge function for global display.
 ├── Supabase purchase recording
 ├── Resend delivery email (time-limited signed URL)
 └── /store/success?product=[slug] thank you page
@@ -367,6 +383,9 @@ Each item: icon + name + "Why I use this" + link + affiliate label
 Responds AS Farhan (first person)
 Knowledge base: resume, projects, blog posts, services, FAQ, availability
 Tech: Claude/Gemini API + RAG + Supabase pgvector + streaming responses
+├── **Sync Pipeline**: Weekly Cron job pulls latest blog posts & GitHub commits → embeds via OpenAI → upserts to pgvector.
+├── **Confidence Fallback**: If RAG similarity score < 0.75, display: "I'm still learning that — please ask me directly via [Contact Form]."
+└── **Suggested Prompts**: 2x3 grid of quick-start buttons (e.g. "What's his tech stack?", "Is he available?").
 Sample: "What does he charge for a landing page?" → direct answer + book a call CTA
 ```
 
@@ -381,6 +400,8 @@ Sample: "What does he charge for a landing page?" → direct answer + book a cal
 └── /tools/tech-stack-picker
 
 Each: clean UI, usage counter, share result, "Built by Farhan" → back to portfolio
+├── **Viral Loops**: "Share Result" button generates custom OG image with user's tool results + "Try this tool at [brand-url]".
+├── **Rate Limiting**: Hybrid approach. FingerprintJS (free users) + IP fallback; Auth required for 10+ uses/day.
 SEO: each tool ranks for specific developer searches
 ```
 
@@ -444,7 +465,13 @@ Protected by Supabase Auth (admin role only)
 /sitemap.xml    /robots.txt    /rss.xml    /feed.json
 /manifest.json  /og            /404        /500
 /offline        /terms         /privacy    /refunds
+/changelog      /backups       /api/og
 ```
+
+### 🛠️ Infrastructure Standard
+- **GitHub API**: Cache responses in Vercel Edge KV for 1 hour to prevent rate-limiting in production.
+- **Database Backup**: Daily GitHub Action triggers pg_dump export to Supabase Storage bucket `/backups/db/`.
+- **SEO Utilities**: Shared `generateMetadata` wrapper with JSON-LD Breadcrumb generation on all Platform Layer pages.
 
 ---
 

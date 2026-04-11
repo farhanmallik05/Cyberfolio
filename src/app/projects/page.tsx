@@ -4,8 +4,12 @@ import { motion } from "framer-motion";
 import { ProjectCard } from "@/components/ui/ProjectCard";
 import { useEffect, useState } from "react";
 import { fetchGithubProjects, Project } from "@/lib/github-api";
+import { useRole, ROLE_META } from "@/context/RoleContext";
+import { getProjectRoleScore } from "@/utils/detectProjectRole";
 
 export default function Projects() {
+    const { activeRole } = useRole();
+    const roleMeta = ROLE_META[activeRole];
     const [projects, setProjects] = useState<Project[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -22,6 +26,13 @@ export default function Projects() {
         }
         loadProjects();
     }, []);
+
+    const processedProjects = [...projects].sort((a, b) => {
+        if (activeRole === 'all') return 0;
+        const scoreA = getProjectRoleScore(a.topics, activeRole);
+        const scoreB = getProjectRoleScore(b.topics, activeRole);
+        return scoreB - scoreA;
+    });
 
     return (
         <div className="min-h-screen pt-32 pb-16 px-4 max-w-7xl mx-auto relative z-10 w-full">
@@ -51,19 +62,28 @@ export default function Projects() {
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 w-full">
-                        {projects.length > 0 ? (
-                            projects.map((project, idx) => (
+                        {processedProjects.length > 0 ? (
+                            processedProjects.map((project, idx) => {
+                                const score = getProjectRoleScore(project.topics, activeRole);
+                                const isFeatured = activeRole !== 'all' && score >= 2;
+                                
+                                return (
                                 <motion.div
                                     key={project.title}
+                                    layout
                                     initial={{ opacity: 0, y: 20 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ delay: idx * 0.1, duration: 0.5 }}
                                     className="h-full"
                                 >
-                                    <ProjectCard {...project} />
+                                    <ProjectCard 
+                                        {...project} 
+                                        isFeatured={isFeatured}
+                                        featuredColor={roleMeta.color}
+                                    />
                                 </motion.div>
-                            ))
+                            )})
                         ) : (
                             <div className="col-span-full py-20 text-center border border-dashed border-mech-silver/20 rounded-lg">
                                 <p className="font-orbitron text-mech-silver uppercase tracking-widest">No Active Deployments Found</p>

@@ -3,6 +3,7 @@
 import { motion, useMotionTemplate, useMotionValue, useTransform } from "framer-motion";
 import { MechPanel } from "./MechPanel";
 import { Github, ExternalLink, Box } from "lucide-react";
+import styles from "./ProjectCard.module.css";
 
 interface ProjectCardProps {
     title: string;
@@ -11,9 +12,11 @@ interface ProjectCardProps {
     githubUrl?: string;
     liveUrl?: string;
     imagePath?: string;
+    isFeatured?: boolean;
+    featuredColor?: string;
 }
 
-export function ProjectCard({ title, description, techStack, githubUrl, liveUrl, imagePath }: ProjectCardProps) {
+export function ProjectCard({ title, description, techStack, githubUrl, liveUrl, imagePath, isFeatured, featuredColor }: ProjectCardProps) {
     const mouseX = useMotionValue(200);
     const mouseY = useMotionValue(200);
 
@@ -51,7 +54,19 @@ export function ProjectCard({ title, description, techStack, githubUrl, liveUrl,
                     style={{ background }}
                 />
 
-                <MechPanel className="h-full flex flex-col overflow-hidden relative" border glowHover={false}>
+                <MechPanel 
+                    className={`h-full flex flex-col overflow-hidden relative transition-all duration-500 ${
+                        isFeatured ? `border-2 ${styles.featuredPanel}` : ''
+                    }`} 
+                    border 
+                    style={{ '--featured-color': featuredColor } as React.CSSProperties}
+                    glowHover={false}
+                >
+                    {isFeatured && (
+                        <div className={`absolute -right-12 top-6 rotate-45 py-1 px-12 z-30 shadow-[0_0_15px_rgba(0,245,255,0.5)] border-y border-white/20 ${styles.matchedRibbon}`}>
+                            <span className="text-[10px] font-orbitron font-black text-mech-base tracking-widest uppercase">MATCHED</span>
+                        </div>
+                    )}
 
                     {/* Scanning Line overlay */}
                     <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -85,12 +100,24 @@ export function ProjectCard({ title, description, techStack, githubUrl, liveUrl,
                         {/* Action buttons */}
                         <div className="absolute top-4 right-4 flex gap-2 z-20">
                             {githubUrl && (
-                                <a href={githubUrl} target="_blank" rel="noreferrer" className="p-2 bg-mech-base/80 backdrop-blur-md border border-mech-silver/20 hover:border-mech-cyan hover:bg-mech-cyan/10 transition-colors">
+                                <a 
+                                    href={githubUrl} 
+                                    target="_blank" 
+                                    rel="noreferrer" 
+                                    className="p-2 bg-mech-base/80 backdrop-blur-md border border-mech-silver/20 hover:border-mech-cyan hover:bg-mech-cyan/10 transition-colors"
+                                    aria-label="View Source on GitHub"
+                                >
                                     <Github className="w-4 h-4 text-mech-silver group-hover:text-mech-white" />
                                 </a>
                             )}
                             {liveUrl && (
-                                <a href={liveUrl} target="_blank" rel="noreferrer" className="p-2 bg-mech-base/80 backdrop-blur-md border border-mech-silver/20 hover:border-mech-blue hover:bg-mech-blue/10 transition-colors">
+                                <a 
+                                    href={liveUrl} 
+                                    target="_blank" 
+                                    rel="noreferrer" 
+                                    className="p-2 bg-mech-base/80 backdrop-blur-md border border-mech-silver/20 hover:border-mech-blue hover:bg-mech-blue/10 transition-colors"
+                                    aria-label="Launch Live Demo"
+                                >
                                     <ExternalLink className="w-4 h-4 text-mech-silver group-hover:text-mech-white" />
                                 </a>
                             )}

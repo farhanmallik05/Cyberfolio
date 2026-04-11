@@ -5,3 +5,17 @@
                     linear-gradient(90deg, rgba(15, 211, 255, 0.05) 1px, transparent 1px);
   background-size: 40px 40px;
 }
+
+.rolePanelHighlight {
+  border-color: color-mix(in srgb, var(--role-accent, #0FD3FF) 26%, transparent) !important;
+  box-shadow: 0 0 20px color-mix(in srgb, var(--role-accent, #0FD3FF) 6%, transparent) !important;
+}
+
+.highlightedText {
+  color: var(--role-accent, #0FD3FF) !important;
+}
+
+.dynamicProgress {
+  background-color: var(--role-accent, #0FD3FF) !important;
+  box-shadow: 0 0 12px var(--role-accent, #0FD3FF) !important;
+}

@@ -21,7 +21,7 @@ Computer Science Engineer and Neural Architect focused on the intersection of Ar
 - **GitHub**: https://github.com/farhanmallik05
 - **LinkedIn**: https://linkedin.com/in/farhanmallik
 - **Twitter**: https://twitter.com/farhanmallik
-- **Email**: farhan@example.com
+- **Email**: farhanmallick2005@gmail.com
 
 ## Design System
 - **Base Environment**: #05070D (Deep Space Black)

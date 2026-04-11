@@ -8,6 +8,13 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { MechPanel } from "@/components/ui/MechPanel";
 import { TerminalCLI } from "@/components/ui/TerminalCLI";
+import { useEffect, useRef } from "react";
+import { useRole, ROLE_META } from "@/context/RoleContext";
+import { SECTION_WEIGHTS } from "@/data/section-weights";
+import gsap from "gsap";
+import { Flip } from "gsap/dist/Flip";
+     
+gsap.registerPlugin(Flip);
 
 // Lazy load Three.js heavy component for the AI Core Sphere
 const AICore = dynamic(() => import("@/components/AICore").then(mod => ({ default: mod.AICore })), {
@@ -16,12 +23,48 @@ const AICore = dynamic(() => import("@/components/AICore").then(mod => ({ defaul
 });
 
 export default function Home() {
+  const { activeRole } = useRole();
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const weights = SECTION_WEIGHTS[activeRole];
+    // We only reorder the root children of the container
+    const sections = Array.from(containerRef.current.children) as HTMLElement[];
+    
+    // Capture state
+    const state = Flip.getState(sections);
+
+    // Apply new order
+    weights.forEach((sectionId, index) => {
+      const el = containerRef.current?.querySelector(`[data-section="${sectionId}"]`) as HTMLElement;
+      if (el) {
+        el.style.order = String(index);
+      }
+    });
+
+    // Animate
+    Flip.from(state, {
+      duration: 0.8,
+      ease: "power2.inOut",
+      stagger: 0.05,
+      scale: true,
+      onComplete: () => {
+        // Clear any inline styles that might interfere with layout if needed
+      }
+    });
+  }, [activeRole]);
+
   return (
-    <main className="relative min-h-screen flex items-center justify-center overflow-hidden w-full pt-20 pb-10 px-4">
+    <main className="relative min-h-screen flex flex-col items-center overflow-x-hidden w-full pt-20 pb-10 px-4">
 
       {/* Mech Control Console Split Layout */}
-      <div className="container mx-auto z-10 w-full max-w-7xl flex flex-col gap-16 relative">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-8 w-full">
+      <div 
+        ref={containerRef}
+        className="container mx-auto z-10 w-full max-w-7xl flex flex-col gap-24 relative"
+      >
+        <section data-section="hero" className="w-full">
           {/* Left Panel: 3D Mech AI Core Dashboard */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -86,9 +129,14 @@ export default function Home() {
             </div>
 
             <MechPanel className="p-4 sm:p-6 mt-2 sm:mt-4 lg:mr-12" border glowHover={false}>
-              <p className="text-mech-silver text-xs sm:text-sm md:text-base font-inter leading-relaxed text-left">
-                Building at the intersection of software development, UI/UX design, automation, and digital product creation. Engineering intelligent systems and high-performance solutions — always learning, always building, always improving.
-              </p>
+              <motion.p 
+                key={activeRole}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-mech-silver text-xs sm:text-sm md:text-base font-inter leading-relaxed text-left"
+              >
+                {ROLE_META[activeRole].bio}
+              </motion.p>
             </MechPanel>
 
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 mt-4 sm:mt-6">
@@ -104,14 +152,46 @@ export default function Home() {
               </Link>
             </div>
           </motion.div>
-        </div>
+        </section>
+
+        {/* Dynamic Section: Projects Preview */}
+        <section 
+          data-section="projects" 
+          className="w-full py-12 border-t border-mech-cyan/5"
+        >
+          <div className="flex items-center gap-4 mb-8">
+            <FolderGit2 className="text-mech-cyan w-5 h-5" />
+            <h3 className="font-orbitron text-sm tracking-[0.2em] text-mech-silver uppercase">Primary project_deployments</h3>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 opacity-60">
+             <div className="h-32 border border-dashed border-mech-silver/20 rounded-lg flex items-center justify-center font-orbitron text-[10px] text-mech-silver/40 uppercase tracking-widest">
+               [ Role_Match_Buffer_Initializing ]
+             </div>
+             <div className="h-32 border border-dashed border-mech-silver/20 rounded-lg flex items-center justify-center font-orbitron text-[10px] text-mech-silver/40 uppercase tracking-widest">
+               [ Role_Match_Buffer_Initializing ]
+             </div>
+          </div>
+        </section>
+
+        {/* Dynamic Section: Skills Preview */}
+        <section 
+          data-section="skills" 
+          className="w-full py-12 border-t border-mech-cyan/5"
+        >
+          <div className="flex items-center gap-4 mb-8">
+            <Cpu className="text-mech-cyan w-5 h-5" />
+            <h3 className="font-orbitron text-sm tracking-[0.2em] text-mech-silver uppercase">Neural_Core diagnostics</h3>
+          </div>
+          <div className="flex flex-wrap gap-3 opacity-50">
+            {['REACT', 'NEXT.JS', 'TYPESCRIPT', 'PYTHON', 'AI_AGENTRY', 'AUTOMATION'].map(s => (
+              <span key={s} className="px-3 py-1 border border-mech-silver/20 text-[10px] font-orbitron text-mech-silver tracking-widest uppercase">{s}</span>
+            ))}
+          </div>
+        </section>
 
         {/* Terminal Interaction Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+        <section 
+          data-section="contact" 
           className="w-full"
         >
           <div className="flex items-center gap-4 mb-6 border-b border-mech-cyan/10 pb-2">
@@ -119,7 +199,7 @@ export default function Home() {
             <h3 className="font-orbitron text-sm tracking-[0.2em] text-mech-silver uppercase">Interactive Terminal Access</h3>
           </div>
           <TerminalCLI />
-        </motion.div>
+        </section>
 
       </div>
     </main>

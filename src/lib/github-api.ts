@@ -17,6 +17,7 @@ export interface Project {
   githubUrl?: string;
   liveUrl?: string;
   stars: number;
+  topics: string[]; // Added for role-based scoring
 }
 
 const GITHUB_USERNAME = "farhanmallik05";
@@ -47,7 +48,8 @@ export async function fetchGithubProjects(): Promise<Project[]> {
       techStack: repo.language ? [repo.language, ...repo.topics.slice(0, 2)] : repo.topics.slice(0, 3) || ["System"],
       githubUrl: repo.html_url,
       liveUrl: repo.homepage || undefined,
-      stars: repo.stargazers_count
+      stars: repo.stargazers_count,
+      topics: repo.topics || []
     }));
   } catch (error) {
     console.error("Error fetching projects from GitHub:", error);

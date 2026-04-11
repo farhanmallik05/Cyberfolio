@@ -1,0 +1,8 @@
+.featuredPanel {
+  border-color: color-mix(in srgb, var(--featured-color, #0FD3FF) 40%, transparent) !important;
+  box-shadow: 0 0 20px color-mix(in srgb, var(--featured-color, #0FD3FF) 6%, transparent) !important;
+}
+
+.matchedRibbon {
+  background-color: var(--featured-color, #0FD3FF) !important;
+}

@@ -1,0 +1,129 @@
+{
+  "subject": {
+    "name": "Farhan Mallik",
+    "role": "AI Engineer & Fullstack Builder",
+    "tagline": "AI engineer building practical, human-centered systems",
+    "location": "Greater Noida, India",
+    "identification": "FM_OS :: SUBJECT_ALPHA"
+  },
+  "bio": "A Computer Science student and systems builder focused on the intersection of Artificial Intelligence and practical user interfaces. I specialize in crafting autonomous agents and high-performance web applications that bridge the gap between complex backend logic and seamless human interaction.",
+  "specializations": [
+    {
+      "title": "AI & Automation",
+      "description": "Developing agentic workflows and LLM-integrated systems for autonomous problem solving."
+    },
+    {
+      "title": "Fullstack Architecture",
+      "description": "Designing scalable React/Next.js applications with robust PostgreSQL/Supabase backends."
+    },
+    {
+      "title": "Systems Security",
+      "description": "Hardening digital infrastructure and ensuring data integrity through secure coding practices."
+    }
+  ],
+  "experience": [
+    {
+      "role": "Open Source Contributor",
+      "organization": "Hacktoberfest / GitHub",
+      "period": "2023 - Present",
+      "details": "Contributing to large-scale AI modules and high-performance frontend frameworks."
+    },
+    {
+      "role": "Fullstack Developer",
+      "organization": "Independent Builder",
+      "period": "2022 - Present",
+      "details": "Architecting and deploying autonomous fintech and portfolio systems."
+    }
+  ],
+  "academicRecord": [
+    {
+      "degree": "B.Tech in Computer Science",
+      "institution": "KCC Institute of Technology and Management",
+      "period": "2024 - 2028",
+      "status": "In Progress"
+    }
+  ],
+  "interests": [
+    "Agentic AI",
+    "Cyber-Aesthetics",
+    "High-Velocity Development",
+    "Systems Design"
+  ],
+  "socials": [
+    {
+      "platform": "GitHub",
+      "url": "https://github.com/farhanmallik05",
+      "category": "primary"
+    },
+    {
+      "platform": "LinkedIn",
+      "url": "https://linkedin.com/in/farhanmallik",
+      "category": "primary"
+    },
+    {
+      "platform": "Twitter",
+      "url": "https://x.com/_farhanmallik_",
+      "category": "primary"
+    },
+    {
+      "platform": "Instagram",
+      "url": "https://instagram.com/_farhanmallik_",
+      "category": "primary"
+    },
+    {
+      "platform": "Email",
+      "url": "mailto:farhanmallick2005@gmail.com",
+      "category": "primary"
+    },
+    {
+      "platform": "Behance",
+      "url": "https://behance.net/farhanmallik",
+      "category": "primary"
+    },
+    {
+      "platform": "Discord",
+      "url": "https://discord.gg/_farhan_05",
+      "category": "primary"
+    },
+    {
+      "platform": "Medium",
+      "url": "https://medium.com/@Farhanmallik",
+      "category": "primary"
+    },
+    {
+      "platform": "Pinterest",
+      "url": "https://pinterest.com/farhanmalick05",
+      "category": "primary"
+    },
+    {
+      "platform": "Quora",
+      "url": "https://quora.com/profile/Farhan-Mallick-29",
+      "category": "primary"
+    },
+    {
+      "platform": "Buy Me A Coffee",
+      "url": "https://buymeacoffee.com/farhanmallik",
+      "category": "support"
+    },
+    {
+      "platform": "Patreon",
+      "url": "https://patreon.com/FarhanMallik",
+      "category": "support"
+    },
+    {
+      "platform": "Ko-fi",
+      "url": "https://ko-fi.com/farhanmallik",
+      "category": "support"
+    },
+    {
+      "platform": "Codepen",
+      "url": "https://codepen.io/Farhanmallik",
+      "category": "primary"
+    },
+    {
+      "platform": "Mastodon",
+      "url": "https://mastodon.social/@farhanmallik",
+      "category": "primary"
+    }
+  ]
+}

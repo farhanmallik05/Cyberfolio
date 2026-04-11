@@ -1,0 +1,46 @@
+[
+  {
+    "id": "hacktoberfest-2023",
+    "title": "Hacktoberfest 2023",
+    "issuer": "DigitalOcean / Holopin",
+    "date": "Oct 2023",
+    "category": "Achievement",
+    "credentialId": "FM-HTB-23",
+    "verifyUrl": "https://holopin.io/@farhanmallik05",
+    "icon": "Holopin",
+    "description": "Completed 4 quality pull requests to open-source repositories."
+  },
+  {
+    "id": "hacktoon-2024",
+    "title": "HackToon Winner",
+    "issuer": "Social Media / Community",
+    "date": "Jan 2024",
+    "category": "Competition",
+    "credentialId": "HT-24-WIN",
+    "verifyUrl": "https://github.com/farhanmallik05",
+    "icon": "Trophy",
+    "description": "Secured top position in the community hackathon focusing on comic-tech."
+  },
+  {
+    "id": "btech-cs",
+    "title": "B.Tech Computer Science",
+    "issuer": "KCC ITM",
+    "date": "2024 - 2028",
+    "category": "Education",
+    "credentialId": "KCC-CS-721",
+    "verifyUrl": "https://kccitm.edu.in",
+    "icon": "GraduationCap",
+    "description": "Active degree program focusing on AI, Data Structures, and Systems Architecture."
+  },
+  {
+    "id": "fullstack-mastery",
+    "title": "Fullstack Foundation",
+    "issuer": "Independent",
+    "date": "2023",
+    "category": "Development",
+    "credentialId": "DEV-FS-001",
+    "verifyUrl": "https://github.com/farhanmallik05",
+    "icon": "Code2",
+    "description": "Mastery of React, Next.js, and Node.js for professional scale deployments."
+  }
+]

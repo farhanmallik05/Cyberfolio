@@ -1,0 +1,46 @@
+{
+  "lastUpdated": "April 11, 2026",
+  "timezone": "IST (UTC+5:30)",
+  "working": [
+    { 
+      "title": "Neural Architect Portfolio", 
+      "description": "Architecting a high-performance, cinematic portfolio system with Next.js 16 and Supabase integration.", 
+      "link": "/" 
+    },
+    {
+      "title": "AI Agent Orchestration",
+      "description": "Designing autonomous agentic loops for content sync and infrastructure management."
+    }
+  ],
+  "learning": [
+    { 
+      "title": "WebGL Shaders (GLSL)", 
+      "description": "Deep dive into fragment shaders for advanced visual glitch effects and particle fields." 
+    },
+    {
+      "title": "Supabase pgvector",
+      "description": "Implementing semantic search and RAG capabilities for project discovery."
+    }
+  ],
+  "reading": [
+    { 
+      "title": "The Pragmatic Programmer", 
+      "author": "Hunt & Thomas" 
+    },
+    {
+      "title": "Building a Second Brain",
+      "author": "Tiago Forte"
+    }
+  ],
+  "listening": [
+    { 
+      "title": "Syntax.fm", 
+      "type": "podcast",
+      "description": "Exploring the latest in the Web Ecosystem."
+    },
+    {
+      "title": "Cyberpunk 2077: Radio Vexelstrom",
+      "type": "music"
+    }
+  ]
+}

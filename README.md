@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌌 Neural Architect — Professional Portfolio
 
-## Getting Started
+> **Building the bridge between logic and human interaction.**
 
-First, run the development server:
+Welcome to the central repository of **Farhan Mallick**, a Computer Science Engineer and AI Architect. This portfolio is a high-fidelity, interactive experience designed to showcase the intersection of **AI Agents**, **Immersive UX**, and **Data-Driven Architecture**.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## 🛠️ The Tech Stack
+
+This project is hardened for production and optimized for cinematic performance:
+
+*   **Core Logic**: [Next.js 16](https://nextjs.org) (App Router) + [Turbopack](https://nextjs.org/docs/app/api-reference/turbopack)
+*   **Intelligence Layer**: [Supabase](https://supabase.com/) (PostgreSQL, Auth, Edge Functions, pgvector)
+*   **Cinematics**: [GSAP](https://gsap.com/) (Scroll-driven animations) + [Three.js](https://threejs.org/) (3D canvas)
+*   **Hardened Styling**: Vanilla CSS + **CSS Modules** (Isolated scopes, Zero inline styles)
+*   **Typography**: *Orbitron* (Headings), *Rajdhani* (Body), *Share Tech Mono* (UI)
+
+---
+
+## 🚀 Key Features
+
+### 💻 Neural Terminal CLI
+A custom-built interactive terminal component allowing users to explore my professional history through a classic command-line interface. 
+- Try running: `help`, `whoa`, or `projects`.
+
+### 🔗 LinkedIn Professional Sync
+All professional history, education, and achievements are synchronized via a unified **JSON Content Ledger**.
+- `src/data/about.json`: Synthesized bio and synthesized role.
+- `src/data/skills.json`: 70+ categorized skills across Neural, Agentic, Interface, and Ops quadrants.
+- `src/data/certificates.json`: 15+ industry-verified credentials.
+
+### 🏆 Achievement Matrix
+An interactive 3D Wall of achievements featuring filtered categories and keyboard-accessible flip interactions for credential verification.
+
+### 🛰️ Real-time GitHub Integration
+Live project indexing directly from the GitHub API, showcasing star counts, fork activity, and primary languages.
+
+---
+
+## 🏗️ Project Structure
+
+```text
+.
+├── .planning/          # Full SDD Documentation (State, Roadmap, Requirements)
+├── src/
+│   ├── app/            # Next.js App Router (Hardened architecture)
+│   ├── components/     # High-fidelity UI components
+│   ├── data/           # The Source of Truth (JSON Ledgers)
+│   ├── lib/            # Shared utilities and centralized icon mapping
+│   └── styles/         # Global design system tokens
+└── public/             # Optimized 3D assets and static media
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ⚡ Deployment & Maintenance
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Built with **Vercel** for globally distributed performance. 
 
-## Learn More
+To run the architect environment locally:
+```bash
+npm install
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+*“Working code is the baseline. Optimized, accessible, and cinematic code is the goal.”*

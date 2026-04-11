@@ -39,8 +39,8 @@ export default function Skills() {
 
     return (
         <div 
-            className="min-h-screen pt-32 pb-16 px-4 max-w-7xl mx-auto relative z-10 w-full"
-            style={{ "--role-accent": activeRole !== 'all' ? roleMeta.color : undefined } as React.CSSProperties}
+            className={`min-h-screen pt-32 pb-16 px-4 max-w-7xl mx-auto relative z-10 w-full ${styles.pageContainer}`}
+            data-active-role={activeRole}
         >
 
             {/* Background grid */}

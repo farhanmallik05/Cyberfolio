@@ -25,9 +25,9 @@ export function RoleBadge() {
 
   return (
     <div 
-      className="fixed bottom-6 right-6 z-[100]" 
+      className={`fixed bottom-6 right-6 z-[100] ${styles.badgeContainer}`}
       ref={containerRef}
-      style={{ '--role-color': meta.color } as React.CSSProperties}
+      data-active-role={activeRole}
     >
       <AnimatePresence>
         {isOpen && (
@@ -60,8 +60,8 @@ export function RoleBadge() {
                     activeRole === role 
                     ? `bg-mech-cyan/10 border border-mech-cyan/20 ${styles.roleItemActive}` 
                     : 'hover:bg-mech-white/5 border border-transparent'
-                  }`}
-                  style={{ '--role-color': roleMeta.color } as React.CSSProperties}
+                  } ${styles.roleItem}`}
+                  data-item-role={role}
                 >
                   <span className={`font-orbitron text-lg group-hover:scale-110 transition-transform ${styles.roleSymbol}`}>
                     {roleMeta.symbol}

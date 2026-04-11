@@ -42,5 +42,159 @@
     "verifyUrl": "https://github.com/farhanmallik05",
     "icon": "Code2",
     "description": "Mastery of React, Next.js, and Node.js for professional scale deployments."
+  },
+  {
+    "id": "oscg-2026",
+    "title": "Open Source Connect Global",
+    "issuer": "NexFellow",
+    "date": "Apr 2026",
+    "category": "Professional",
+    "credentialId": "OSCG-2026-FM",
+    "verifyUrl": "https://linkedin.com/in/farhanmallik",
+    "icon": "Globe",
+    "description": "Participation in global open-source ecosystems and research-driven development."
+  },
+  {
+    "id": "hackfest-2026",
+    "title": "Hack Fest 2026",
+    "issuer": "TRAE",
+    "date": "Apr 2026",
+    "category": "Competition",
+    "credentialId": "69d28cafa0a1d",
+    "verifyUrl": "https://app.truscholar.io/profile?credId=69d28cafa0a1d70eaf58b299",
+    "icon": "Zap",
+    "description": "Collaborative problem solving and rapid prototyping in a competitive environment."
+  },
+  {
+    "id": "apertre-3",
+    "title": "APERTRE 3.0",
+    "issuer": "Resourceio Community",
+    "date": "Apr 2026",
+    "category": "Open Source",
+    "credentialId": "389db0e8-f322",
+    "verifyUrl": "https://certificate.givemycertificate.com/c/389db0e8-f322-46a4-aa32-79bb19d094ad",
+    "icon": "Code2",
+    "description": "Contribution to major codebases involving iterative peer-review and feature deployment."
+  },
+  {
+    "id": "yuva-ai",
+    "title": "YUVA AI For All",
+    "issuer": "IndiaAI / TCS iON",
+    "date": "Feb 2026",
+    "category": "Achievement",
+    "credentialId": "64622881-4989",
+    "verifyUrl": "https://g09.tcsion.com//LX/ecertificate/verification?id=64622881-4989-51949-8",
+    "icon": "Cpu",
+    "description": "Deep dive into Artificial Intelligence fundamentals and social impact."
+  },
+  {
+    "id": "uipath-ai",
+    "title": "Scalable AI Agents",
+    "issuer": "GFG / UiPath",
+    "date": "Feb 2026",
+    "category": "Training",
+    "credentialId": "GFG-UI-2026",
+    "verifyUrl": "https://linkedin.com/in/farhanmallik",
+    "icon": "Bot",
+    "description": "Workshop on building smarter, scalable agentic workflows with UiPath and GFG."
+  },
+  {
+    "id": "paranox-2",
+    "title": "Paranox 2.0 Winner",
+    "issuer": "TechXNinjas",
+    "date": "Dec 2025",
+    "category": "Hackathon",
+    "credentialId": "693e4af4a7f2",
+    "verifyUrl": "https://app.truscholar.io/profile?credId=693e4af4a7f26c822b20d887",
+    "icon": "Trophy",
+    "description": "National-level innovation hackathon focused on impactful technical solutions."
+  },
+  {
+    "id": "genai-prompting",
+    "title": "GenAI & Prompting",
+    "issuer": "NSDC / LetsUpgrade",
+    "date": "Jul 2025",
+    "category": "Specialization",
+    "credentialId": "LUEPMTJUL125742",
+    "verifyUrl": "https://letsupgrade.in/verify",
+    "icon": "Terminal",
+    "description": "Professional training in large language models and advanced prompt architecture."
+  },
+  {
+    "id": "figma-bootcamp",
+    "title": "Figma Bootcamp",
+    "issuer": "NSDC / LetsUpgrade",
+    "date": "Jul 2025",
+    "category": "Design",
+    "credentialId": "LUEFGJUL125670",
+    "verifyUrl": "https://letsupgrade.in/verify",
+    "icon": "Layout",
+    "description": "Mastery of modern UI design tools and design component systems."
+  },
+  {
+    "id": "agentic-ai-workflows",
+    "title": "Agentic AI Workflows",
+    "issuer": "AnalytixLabs",
+    "date": "May 2025",
+    "category": "AI/ML",
+    "credentialId": "AXMST-CLS-25322544",
+    "verifyUrl": "https://linkedin.com/in/farhanmallik",
+    "icon": "Cpu",
+    "description": "Excellence in building autonomous intelligence loops and workflow automation."
+  },
+  {
+    "id": "dsa-fundamentals",
+    "title": "DSA Fundamentals",
+    "issuer": "AnalytixLabs",
+    "date": "May 2025",
+    "category": "Engineering",
+    "credentialId": "AXMST-CLS-25324113",
+    "verifyUrl": "https://linkedin.com/in/farhanmallik",
+    "icon": "Binary",
+    "description": "Demonstrated excellence in data structures and algorithmic problem solving."
+  },
+  {
+    "id": "github-workshop",
+    "title": "Git in the Game",
+    "issuer": "IEEE MAIT",
+    "date": "May 2025",
+    "category": "DevOps",
+    "credentialId": "IEEE-GIT-25",
+    "verifyUrl": "https://linkedin.com/in/farhanmallik",
+    "icon": "Github",
+    "description": "Advanced workshop on Git workflows and GitHub-based collaboration."
+  },
+  {
+    "id": "ml-foundations",
+    "title": "ML Foundations",
+    "issuer": "AnalytixLabs",
+    "date": "Apr 2025",
+    "category": "AI/ML",
+    "credentialId": "AXMST-CLS-2532079",
+    "verifyUrl": "https://linkedin.com/in/farhanmallik",
+    "icon": "Database",
+    "description": "Mastery of fundamental machine learning concepts and mathematical models."
+  },
+  {
+    "id": "cloud-foundations",
+    "title": "Cloud Computing",
+    "issuer": "Unstop",
+    "date": "Dec 2024",
+    "category": "Infrastructure",
+    "credentialId": "8b1deaef-3509",
+    "verifyUrl": "https://unstop.com/certificate-preview/8b1deaef",
+    "icon": "Cloud",
+    "description": "Foundational knowledge of cloud ecosystem, architectures, and deployment models."
+  },
+  {
+    "id": "ideathon-2024",
+    "title": "Ideathon Finalist",
+    "issuer": "Unstop",
+    "date": "Dec 2024",
+    "category": "Competition",
+    "credentialId": "49d8e1d7-6817",
+    "verifyUrl": "https://unstop.com/certificate-preview/49d8e1d7",
+    "icon": "Lightbulb",
+    "description": "Recognition for innovative solution design and participation in national Ideathon."
   }
 ]

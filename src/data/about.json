@@ -2,11 +2,11 @@
   "subject": {
     "name": "Farhan Mallik",
     "role": "AI Engineer & Fullstack Builder",
-    "tagline": "AI engineer building practical, human-centered systems",
+    "tagline": "Neural architect building the bridge between logic and human interaction",
     "location": "Greater Noida, India",
     "identification": "FM_OS :: SUBJECT_ALPHA"
   },
-  "bio": "A Computer Science student and systems builder focused on the intersection of Artificial Intelligence and practical user interfaces. I specialize in crafting autonomous agents and high-performance web applications that bridge the gap between complex backend logic and seamless human interaction.",
+  "bio": "Computer Science Engineer and Neural Architect focused on the intersection of Artificial Intelligence and high-performance systems. I specialize in crafting autonomous agents and immersive digital experiences that bridge the gap between complex backend logic and seamless human interaction. Driven by a passion for continuous learning and consistent open-source contribution, I aim to build impactful solutions that define the future of technology.",
   "specializations": [
     {
       "title": "AI & Automation",
@@ -22,6 +22,24 @@
     }
   ],
   "experience": [
+    {
+      "role": "Campus Lead",
+      "organization": "Open Source Community Group (OSCG)",
+      "period": "Feb 2026 - Present",
+      "details": "Driving the research-oriented open-source community on campus, organizing technical workshops and enabling peer contributions."
+    },
+    {
+      "role": "Open Source Developer",
+      "organization": "Open Source Connect (NexFellow)",
+      "period": "Jan 2026 - Mar 2026",
+      "details": "Contributing to global open-source projects, improving community-driven software through international collaboration."
+    },
+    {
+      "role": "Mentee",
+      "organization": "Apertre",
+      "period": "Jan 2026 - Mar 2026",
+      "details": "Engaging in iterative review cycles for complex Python/TypeScript codebases within a collaborative ecosystem."
+    },
     {
       "role": "Open Source Contributor",
       "organization": "Hacktoberfest / GitHub",
@@ -41,6 +59,12 @@
       "institution": "KCC Institute of Technology and Management",
       "period": "2024 - 2028",
       "status": "In Progress"
+    },
+    {
+      "degree": "Post Metric",
+      "institution": "DAV Schools Network",
+      "period": "2023",
+      "status": "Completed"
     }
   ],
   "interests": [

@@ -3,23 +3,27 @@
   "timezone": "IST (UTC+5:30)",
   "working": [
     { 
-      "title": "Neural Architect Portfolio", 
-      "description": "Architecting a high-performance, cinematic portfolio system with Next.js 16 and Supabase integration.", 
-      "link": "/" 
+      "title": "OSCG Campus Lead", 
+      "description": "Building and guiding the Open Source Community Group on campus, fostering a culture of contribution.", 
+      "link": "https://linkedin.com/in/farhanmallik" 
     },
     {
-      "title": "AI Agent Orchestration",
-      "description": "Designing autonomous agentic loops for content sync and infrastructure management."
+      "title": "Open Source Connect",
+      "description": "Contributing to global repositories and exploring real-world development beyond tutorials."
+    },
+    {
+      "title": "Neural Architect Portfolio",
+      "description": "Finalizing this high-performance, data-driven cinematic portfolio system."
     }
   ],
   "learning": [
     { 
-      "title": "WebGL Shaders (GLSL)", 
-      "description": "Deep dive into fragment shaders for advanced visual glitch effects and particle fields." 
+      "title": "Agentic AI Workflows", 
+      "description": "Mastering autonomous agent loops, RAG architectures, and LLM-integrated systems." 
     },
     {
-      "title": "Supabase pgvector",
-      "description": "Implementing semantic search and RAG capabilities for project discovery."
+      "title": "Fullstack Scalability",
+      "description": "Revisiting Computer Science fundamentals (OS, Networks, DSA) for production-grade engineering."
     }
   ],
   "reading": [

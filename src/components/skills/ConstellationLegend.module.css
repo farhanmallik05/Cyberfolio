@@ -1,0 +1,38 @@
+.legendContainer {
+  /* Dynamic values will be handled via CSS variables passed in style attribute */
+}
+
+.categoryDot {
+  width: 0.75rem; /* w-3 */
+  height: 0.75rem; /* h-3 */
+  border-radius: 9999px;
+  background-color: var(--category-color, var(--neon));
+  color: var(--category-color, var(--neon));
+  box-shadow: 0 0 10px currentColor;
+  transition: transform 0.2s ease-in-out;
+}
+
+.categoryDot[data-category="frontend"] { --category-color: var(--neon); }
+.categoryDot[data-category="backend"] { --category-color: var(--neon2); }
+.categoryDot[data-category="automation"] { --category-color: var(--neon); }
+.categoryDot[data-category="ai"] { --category-color: var(--neon2); }
+.categoryDot[data-category="design"] { --category-color: var(--neon); }
+.categoryDot[data-category="devops"] { --category-color: var(--neon2); }
+
+.categoryGroup:hover .categoryDot {
+  transform: scale(1.25);
+}
+
+.categoryLabel {
+  font-family: var(--font-orbitron), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--dim); /* Fallback */
+  color: color-mix(in srgb, var(--text) 40%, transparent);
+  transition: color 0.2s ease-in-out;
+}
+
+.categoryGroup:hover .categoryLabel {
+  color: var(--text);
+}

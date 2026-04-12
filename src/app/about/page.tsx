@@ -1,142 +1,263 @@
 "use client";
 
-import { GlassPanel } from "@/components/ui/GlassPanel";
-import { motion } from "framer-motion";
-import { Search, ShieldAlert, Database, GraduationCap, Briefcase } from "lucide-react";
+import { MechPanel } from "@/components/ui/MechPanel";
+import { motion, AnimatePresence } from "framer-motion";
+import { 
+    Search, 
+    ShieldAlert, 
+    Database, 
+    GraduationCap, 
+    Briefcase, 
+    Terminal, 
+    Target, 
+    ChevronDown, 
+    ChevronUp,
+    Fingerprint,
+    Cpu,
+    Globe
+} from "lucide-react";
+import { useEffect, useState } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import { fetchGithubReadme } from "@/lib/github-api";
+import aboutData from "@/data/about.json";
 
 export default function About() {
+    const [readme, setReadme] = useState<string>("");
+    const [isLoading, setIsLoading] = useState(true);
+    const [showSupplemental, setShowSupplemental] = useState(false);
+
+    useEffect(() => {
+        async function loadData() {
+            try {
+                const content = await fetchGithubReadme();
+                setReadme(content);
+            } catch (error) {
+                console.error("Failed to load supplemental dossier:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+        loadData();
+    }, []);
+
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: { 
+            opacity: 1,
+            transition: { staggerChildren: 0.1 }
+        }
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: { opacity: 1, y: 0 }
+    };
+
     return (
-        <div className="min-h-screen pt-32 pb-16 px-4 max-w-6xl mx-auto relative z-10">
-
-            {/* Background purely for styling */}
-            <div className="fixed inset-0 pointer-events-none z-[-1]">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,240,255,0.05)_0%,transparent_50%)]" />
-            </div>
-
+        <div className="min-h-screen pt-32 pb-24 px-4 max-w-6xl mx-auto relative z-10 w-full">
             <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="flex flex-col gap-8"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                className="flex flex-col gap-12 w-full"
             >
-                <div className="flex items-center gap-4 border-b border-neon-blue/30 pb-4">
-                    <ShieldAlert className="w-8 h-8 text-neon-blue animate-pulse" />
-                    <h1 className="text-3xl font-orbitron font-bold text-white tracking-widest uppercase">
-                        Encrypted Dossier <span className="text-neon-blue">::</span> Profile Data
-                    </h1>
+                {/* 1. Header: Mission Manifest */}
+                <div className="flex flex-col md:flex-row items-center md:items-end justify-between gap-6 border-b border-mech-cyan/30 pb-8">
+                    <div className="space-y-4 text-center md:text-left">
+                        <div className="flex items-center justify-center md:justify-start gap-4">
+                            <ShieldAlert className="w-8 h-8 text-mech-cyan animate-pulse" />
+                            <h1 className="text-3xl md:text-4xl font-orbitron font-bold text-white tracking-widest uppercase">
+                                Mission Briefing <span className="text-mech-cyan">::</span> Subject_Dossier
+                            </h1>
+                        </div>
+                        <p className="font-mono text-sm text-mech-cyan tracking-[0.2em] font-bold">
+                            {aboutData.subject.tagline.toUpperCase()}
+                        </p>
+                    </div>
+                    <div className="font-mono text-[10px] text-mech-silver/40 tracking-[0.3em] uppercase hidden md:block text-right">
+                        <div>REF_ID: {aboutData.subject.identification}</div>
+                        <div>LOC_SIGNAL: {aboutData.subject.location}</div>
+                    </div>
                 </div>
 
-                {/* Scanning line animation overlay */}
-                <div className="relative overflow-hidden w-full h-[1px]">
-                    <motion.div
-                        initial={{ x: "-100%" }}
-                        animate={{ x: "100%" }}
-                        transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                        className="w-full h-full bg-gradient-to-r from-transparent via-neon-magenta to-transparent"
-                    />
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-4">
-
-                    {/* Left panel - User Info overview */}
-                    <GlassPanel neonBorder className="p-6 md:col-span-1 h-fit flex flex-col gap-6">
-                        <div className="relative w-full aspect-square bg-cyber-surface border border-neon-blue/20 rounded overflow-hidden group">
-                            {/* Image Placeholder */}
-                            <div className="absolute inset-0 bg-cyber-base flex items-center justify-center">
-                                <Search className="w-12 h-12 text-neon-blue/50" />
-                                <div className="absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(0,240,255,0.1)_50%)] bg-[length:100%_4px]" />
+                {/* 2. Primary Dossier Layout */}
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 w-full">
+                    
+                    {/* Identification Panel */}
+                    <div className="lg:col-span-4 space-y-8">
+                        <MechPanel border className="p-1 group overflow-hidden bg-mech-base">
+                            <div className="relative aspect-[4/5] overflow-hidden">
+                                <motion.img 
+                                    src="https://github.com/farhanmallik05.png" 
+                                    alt="Subject FM"
+                                    className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-mech-base via-transparent to-transparent opacity-60" />
+                                <div className="absolute inset-0 bg-[linear-gradient(rgba(15,211,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(15,211,255,0.05)_1px,transparent_1px)] bg-[size:10px_10px]" />
+                                
+                                <motion.div
+                                    className="absolute left-0 right-0 h-0.5 bg-neon shadow-glow"
+                                    initial={{ top: "-10%" }}
+                                    animate={{ top: "110%" }}
+                                    transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                                />
                             </div>
-                            <motion.div
-                                className="absolute inset-0 bg-neon-blue/20"
-                                initial={{ y: "-100%" }}
-                                animate={{ y: "100%" }}
-                                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                            />
-                        </div>
-
-                        <div className="space-y-4 font-orbitron text-sm">
-                            <div className="flex justify-between border-b border-white/10 pb-2">
-                                <span className="text-white/50">SUBJECT</span>
-                                <span className="text-neon-blue">FARHAN MALLIK</span>
-                            </div>
-                            <div className="flex justify-between border-b border-white/10 pb-2">
-                                <span className="text-white/50">CLASSSIFICATION</span>
-                                <span className="text-neon-magenta">ARCHITECT</span>
-                            </div>
-                            <div className="flex justify-between border-b border-white/10 pb-2">
-                                <span className="text-white/50">FOCUS</span>
-                                <span className="text-neon-green">AI & AUTOMATION</span>
-                            </div>
-                        </div>
-                    </GlassPanel>
-
-                    {/* Right panel - Timeline Data / Positioning */}
-                    <div className="md:col-span-2 flex flex-col gap-8">
-                        <GlassPanel className="p-8 border-l-4 border-l-neon-purple shadow-[inset_0_0_20px_rgba(106,0,255,0.1)]">
-                            <h3 className="font-orbitron text-xl mb-4 text-neon-purple flex items-center gap-2">
-                                <Database className="w-5 h-5" />
-                                EXECUTIVE SUMMARY
-                            </h3>
-                            <p className="font-inter text-foreground/80 leading-relaxed">
-                                An emerging AI automation architect designing intelligent digital systems. Focused on building highly efficient automation workflows, secure web architectures, and scalable AI integrations. Operates outside of generic templates, engineering bespoke, high-performance environments.
-                            </p>
-                        </GlassPanel>
-
-                        {/* Timeline */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-
-                            {/* Experience */}
-                            <div className="space-y-6">
-                                <h3 className="font-orbitron font-bold text-lg text-white flex items-center gap-3">
-                                    <Briefcase className="w-5 h-5 text-neon-magenta" />
-                                    EXPERIENCE LOG
-                                </h3>
-                                <div className="relative pl-6 border-l border-neon-magenta/30 space-y-8">
-
-                                    <div className="relative">
-                                        <div className="absolute w-3 h-3 bg-neon-magenta rounded-full -left-[30px] top-1 shadow-[0_0_10px_#FF2CFB]" />
-                                        <h4 className="font-bold text-white mb-1">Hacktoberfest Open Source Contributor</h4>
-                                        <span className="text-xs font-orbitron text-neon-magenta/70 block mb-2">2023 - 2024</span>
-                                        <p className="text-sm text-foreground/70">Engineered core modules and optimized codebase for open-source AI projects.</p>
+                            <div className="p-4 bg-mech-panel/50 border-t border-mech-cyan/20">
+                                <div className="flex items-center gap-3 mb-4">
+                                    <Fingerprint className="w-5 h-5 text-mech-cyan" />
+                                    <h3 className="font-orbitron text-xs tracking-widest text-mech-silver uppercase">Biometric Metadata</h3>
+                                </div>
+                                <div className="space-y-3 font-mono text-[10px] text-mech-silver/60 uppercase tracking-widest">
+                                    <div className="flex justify-between border-b border-mech-silver/10 pb-1">
+                                        <span>Identity</span>
+                                        <span className="text-white">{aboutData.subject.name}</span>
                                     </div>
-
-                                    <div className="relative">
-                                        <div className="absolute w-3 h-3 bg-neon-magenta rounded-full -left-[30px] top-1 shadow-[0_0_10px_#FF2CFB]" />
-                                        <h4 className="font-bold text-white mb-1">Hackathon Finalist</h4>
-                                        <span className="text-xs font-orbitron text-neon-magenta/70 block mb-2">MULTIPLE EVENTS</span>
-                                        <p className="text-sm text-foreground/70">Developed and pitched production-grade web systems under strict deadlines.</p>
+                                    <div className="flex justify-between border-b border-mech-silver/10 pb-1">
+                                        <span>Class</span>
+                                        <span className="text-mech-blue">{aboutData.subject.role}</span>
                                     </div>
-
+                                    <div className="flex justify-between border-b border-mech-silver/10 pb-1">
+                                        <span>Status</span>
+                                        <span className="text-mech-cyan animate-pulse">Available</span>
+                                    </div>
                                 </div>
                             </div>
+                        </MechPanel>
 
-                            {/* Education */}
-                            <div className="space-y-6">
-                                <h3 className="font-orbitron font-bold text-lg text-white flex items-center gap-3">
-                                    <GraduationCap className="w-5 h-5 text-neon-blue" />
-                                    ACADEMIC RECORD
-                                </h3>
-                                <div className="relative pl-6 border-l border-neon-blue/30 space-y-8">
-
-                                    <div className="relative">
-                                        <div className="absolute w-3 h-3 bg-neon-blue rounded-full -left-[30px] top-1 shadow-[0_0_10px_#00F0FF]" />
-                                        <h4 className="font-bold text-white mb-1">B.Tech Computer Science</h4>
-                                        <span className="text-xs font-orbitron text-neon-blue/70 block mb-2">GRADUATING 2028</span>
-                                        <p className="text-sm text-foreground/70">Focusing on Algorithms, Systems Architecture, and Artificial Intelligence.</p>
-                                    </div>
-
-                                    <div className="relative">
-                                        <div className="absolute w-3 h-3 bg-neon-blue rounded-full -left-[30px] top-1 shadow-[0_0_10px_#00F0FF]" />
-                                        <h4 className="font-bold text-white mb-1">High School (10th & 12th)</h4>
-                                        <span className="text-xs font-orbitron text-neon-blue/70 block mb-2">COMPLETED</span>
-                                        <p className="text-sm text-foreground/70">Foundational sciences and mathematics core.</p>
-                                    </div>
-
-                                </div>
-                            </div>
-
+                        <div className="flex flex-col gap-4">
+                            <h3 className="font-orbitron text-[10px] tracking-[0.4em] text-mech-silver/40 uppercase mb-2 px-1">Specializations</h3>
+                            {aboutData.specializations.map((spec, idx) => (
+                                <MechPanel key={idx} border className="p-4 bg-mech-cyan/5 border-mech-cyan/10 hover:border-mech-cyan/30 transition-all">
+                                    <h4 className="font-orbitron text-xs text-mech-cyan tracking-widest uppercase mb-1">{spec.title}</h4>
+                                    <p className="font-inter text-[11px] text-mech-silver/70 leading-relaxed">{spec.description}</p>
+                                </MechPanel>
+                            ))}
                         </div>
                     </div>
 
+                    {/* Mission Core Panel */}
+                    <div className="lg:col-span-8 flex flex-col gap-8">
+                        <MechPanel className="p-8 border-l-4 border-l-mech-cyan relative overflow-hidden">
+                            <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
+                                <Target className="w-32 h-32 text-mech-cyan" />
+                            </div>
+                            <h3 className="font-orbitron text-xl mb-8 text-mech-white flex items-center gap-3 uppercase tracking-widest">
+                                <Terminal className="w-5 h-5 text-mech-cyan" />
+                                Subject_Narrative
+                            </h3>
+                            <div className="font-inter text-mech-silver/80 leading-relaxed space-y-6">
+                                <p className="text-lg first-letter:text-4xl first-letter:font-orbitron first-letter:mr-2 first-letter:text-mech-cyan first-letter:float-left">
+                                    {aboutData.bio}
+                                </p>
+                            </div>
+                        </MechPanel>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            {/* Academic History */}
+                            <div className="space-y-6">
+                                <h3 className="font-orbitron text-sm text-white flex items-center gap-3 tracking-[0.2em] uppercase">
+                                    <GraduationCap className="w-5 h-5 text-mech-blue" />
+                                    Academic_Logs
+                                </h3>
+                                <div className="space-y-4">
+                                    {aboutData.academicRecord.map((edu, idx) => (
+                                        <div key={idx} className="relative pl-6 border-l border-mech-blue/30 py-2">
+                                            <div className="absolute w-2 h-2 bg-mech-blue rounded-full -left-[5px] top-4 shadow-[0_0_8px_rgba(0,174,239,0.8)]" />
+                                            <h4 className="font-orbitron text-xs text-mech-white uppercase tracking-widest">{edu.degree}</h4>
+                                            <p className="text-[10px] text-mech-silver/60 font-mono mt-1">{edu.institution} • {edu.period}</p>
+                                            <span className="inline-block mt-2 px-2 py-0.5 bg-mech-blue/10 border border-mech-blue/20 rounded text-[8px] font-mono text-mech-blue">{edu.status.toUpperCase()}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Professional Experience */}
+                            <div className="space-y-6">
+                                <h3 className="font-orbitron text-sm text-white flex items-center gap-3 tracking-[0.2em] uppercase">
+                                    <Briefcase className="w-5 h-5 text-mech-cyan" />
+                                    Expertise_Pulse
+                                </h3>
+                                <div className="space-y-4">
+                                    {aboutData.experience.map((exp, idx) => (
+                                        <div key={idx} className="relative pl-6 border-l border-mech-cyan/30 py-2">
+                                            <div className="absolute w-2 h-2 bg-mech-cyan rounded-full -left-[5px] top-4 shadow-[0_0_8px_rgba(15,211,255,0.8)]" />
+                                            <h4 className="font-orbitron text-xs text-mech-white uppercase tracking-widest">{exp.role}</h4>
+                                            <p className="text-[10px] text-mech-silver/60 font-mono mt-1">{exp.organization} • {exp.period}</p>
+                                            <p className="text-[10px] text-mech-silver/40 mt-2 font-inter italic">{exp.details}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Core Interests Bar */}
+                        <MechPanel border className="p-4 bg-mech-panel/30 border-dashed border-mech-silver/10">
+                            <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+                                <h3 className="font-orbitron text-[10px] tracking-[0.3em] text-mech-silver/40 uppercase">Interest_Index ::</h3>
+                                {aboutData.interests.map((interest, idx) => (
+                                    <span key={idx} className="flex items-center gap-2 font-mono text-[10px] text-mech-silver/60 uppercase">
+                                        <Cpu className="w-3 h-3 text-mech-cyan/30" />
+                                        {interest}
+                                    </span>
+                                ))}
+                            </div>
+                        </MechPanel>
+                    </div>
+                </div>
+
+                {/* 3. Supplemental Intel (README sync) */}
+                <div className="mt-12 space-y-4">
+                    <button 
+                        onClick={() => setShowSupplemental(!showSupplemental)}
+                        className="w-full group flex items-center justify-between p-4 border border-mech-silver/10 hover:border-mech-cyan/30 transition-all bg-mech-base/30 rounded-lg group"
+                    >
+                        <div className="flex items-center gap-4">
+                            <Database className="w-5 h-5 text-mech-silver group-hover:text-mech-cyan transition-colors" />
+                            <span className="font-orbitron text-xs tracking-[0.2em] text-mech-silver group-hover:text-mech-white uppercase transition-colors"> Access Supplemental Intelligence (GitHub_README) </span>
+                        </div>
+                        {showSupplemental ? <ChevronUp className="w-4 h-4 text-mech-cyan" /> : <ChevronDown className="w-4 h-4 text-mech-silver" />}
+                    </button>
+
+                    <AnimatePresence>
+                        {showSupplemental && (
+                            <motion.div
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: "auto", opacity: 1 }}
+                                exit={{ height: 0, opacity: 0 }}
+                                className="overflow-hidden"
+                            >
+                                <MechPanel className="p-8 border-t-0 rounded-t-none bg-black/20" glowHover={false}>
+                                    {isLoading ? (
+                                        <div className="space-y-4 py-8">
+                                            <div className="h-4 bg-mech-cyan/10 animate-pulse w-3/4" />
+                                            <div className="h-4 bg-mech-cyan/10 animate-pulse w-full" />
+                                            <div className="h-4 bg-mech-cyan/10 animate-pulse w-5/6" />
+                                        </div>
+                                    ) : (
+                                        <div className="prose prose-invert prose-mech max-w-none font-inter text-mech-silver/60 leading-relaxed
+                                            prose-headings:font-orbitron prose-headings:text-mech-white/80 prose-headings:uppercase prose-headings:tracking-widest prose-headings:text-sm
+                                            prose-a:text-mech-cyan/60 prose-a:no-underline hover:prose-a:underline
+                                            prose-code:text-mech-blue/60 prose-code:bg-mech-blue/5 prose-code:px-1 prose-code:rounded
+                                            prose-strong:text-mech-silver">
+                                            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                                                {readme || "No supplemental data found."}
+                                            </ReactMarkdown>
+                                        </div>
+                                    )}
+                                </MechPanel>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
+
+                {/* Footer Decorator */}
+                <div className="pt-12 border-t border-mech-silver/10 flex justify-between items-center text-[10px] font-mono text-mech-silver/30 tracking-widest uppercase">
+                    <div className="flex items-center gap-2">
+                        <Globe className="w-3 h-3" />
+                        <span>NEURAL_NODE_721-FM</span>
+                    </div>
+                    <span>© 2026 FM_OS :: DOSSIER_V2.0</span>
                 </div>
             </motion.div>
         </div>

@@ -9,25 +9,26 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-        neon: {
-          blue: "#00F0FF",
-          magenta: "#FF2CFB",
-          purple: "#6A00FF",
-          green: "#39FF14",
-          amber: "#FFB800",
-        },
-        cyber: {
-          base: "#070B14",
-          panel: "#0D111C",
-          surface: "#121826",
+        background: "#05070D",
+        foreground: "#F0F6FC",
+        mech: {
+          base: "#05070D",     // Deep Space Black
+          panel: "#0D1117",    // Graphite Black
+          navy: "#0B1320",     // Dark Navy
+          blue: "#00AEEF",     // Electric Blue
+          cyan: "#0FD3FF",     // Cyan Steel
+          silver: "#C9D1D9",   // Silver
+          gray: "#8B949E",     // Metallic Gray
+          white: "#F0F6FC",    // Soft White
         }
       },
       fontFamily: {
         orbitron: ["var(--font-orbitron)", "sans-serif"],
         inter: ["var(--font-inter)", "sans-serif"],
       },
+      backgroundImage: {
+        'metallic-gradient': 'linear-gradient(135deg, #0D1117 0%, #161b22 100%)',
+      }
     },
   },
   plugins: [],

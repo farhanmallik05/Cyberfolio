@@ -1,0 +1,153 @@
+{
+  "subject": {
+    "name": "Farhan Mallik",
+    "role": "AI Engineer & Fullstack Builder",
+    "tagline": "Neural architect building the bridge between logic and human interaction",
+    "location": "Greater Noida, India",
+    "identification": "FM_OS :: SUBJECT_ALPHA"
+  },
+  "bio": "Computer Science Engineer and Neural Architect focused on the intersection of Artificial Intelligence and high-performance systems. I specialize in crafting autonomous agents and immersive digital experiences that bridge the gap between complex backend logic and seamless human interaction. Driven by a passion for continuous learning and consistent open-source contribution, I aim to build impactful solutions that define the future of technology.",
+  "specializations": [
+    {
+      "title": "AI & Automation",
+      "description": "Developing agentic workflows and LLM-integrated systems for autonomous problem solving."
+    },
+    {
+      "title": "Fullstack Architecture",
+      "description": "Designing scalable React/Next.js applications with robust PostgreSQL/Supabase backends."
+    },
+    {
+      "title": "Systems Security",
+      "description": "Hardening digital infrastructure and ensuring data integrity through secure coding practices."
+    }
+  ],
+  "experience": [
+    {
+      "role": "Campus Lead",
+      "organization": "Open Source Community Group (OSCG)",
+      "period": "Feb 2026 - Present",
+      "details": "Driving the research-oriented open-source community on campus, organizing technical workshops and enabling peer contributions."
+    },
+    {
+      "role": "Open Source Developer",
+      "organization": "Open Source Connect (NexFellow)",
+      "period": "Jan 2026 - Mar 2026",
+      "details": "Contributing to global open-source projects, improving community-driven software through international collaboration."
+    },
+    {
+      "role": "Mentee",
+      "organization": "Apertre",
+      "period": "Jan 2026 - Mar 2026",
+      "details": "Engaging in iterative review cycles for complex Python/TypeScript codebases within a collaborative ecosystem."
+    },
+    {
+      "role": "Open Source Contributor",
+      "organization": "Hacktoberfest / GitHub",
+      "period": "2023 - Present",
+      "details": "Contributing to large-scale AI modules and high-performance frontend frameworks."
+    },
+    {
+      "role": "Fullstack Developer",
+      "organization": "Independent Builder",
+      "period": "2022 - Present",
+      "details": "Architecting and deploying autonomous fintech and portfolio systems."
+    }
+  ],
+  "academicRecord": [
+    {
+      "degree": "B.Tech in Computer Science",
+      "institution": "KCC Institute of Technology and Management",
+      "period": "2024 - 2028",
+      "status": "In Progress"
+    },
+    {
+      "degree": "Post Metric",
+      "institution": "DAV Schools Network",
+      "period": "2023",
+      "status": "Completed"
+    }
+  ],
+  "interests": [
+    "Agentic AI",
+    "Cyber-Aesthetics",
+    "High-Velocity Development",
+    "Systems Design"
+  ],
+  "socials": [
+    {
+      "platform": "GitHub",
+      "url": "https://github.com/farhanmallik05",
+      "category": "primary"
+    },
+    {
+      "platform": "LinkedIn",
+      "url": "https://linkedin.com/in/farhanmallik",
+      "category": "primary"
+    },
+    {
+      "platform": "Twitter",
+      "url": "https://x.com/_farhanmallik_",
+      "category": "primary"
+    },
+    {
+      "platform": "Instagram",
+      "url": "https://instagram.com/_farhanmallik_",
+      "category": "primary"
+    },
+    {
+      "platform": "Email",
+      "url": "mailto:farhanmallick2005@gmail.com",
+      "category": "primary"
+    },
+    {
+      "platform": "Behance",
+      "url": "https://behance.net/farhanmallik",
+      "category": "primary"
+    },
+    {
+      "platform": "Discord",
+      "url": "https://discord.gg/_farhan_05",
+      "category": "primary"
+    },
+    {
+      "platform": "Medium",
+      "url": "https://medium.com/@Farhanmallik",
+      "category": "primary"
+    },
+    {
+      "platform": "Pinterest",
+      "url": "https://pinterest.com/farhanmalick05",
+      "category": "primary"
+    },
+    {
+      "platform": "Quora",
+      "url": "https://quora.com/profile/Farhan-Mallick-29",
+      "category": "primary"
+    },
+    {
+      "platform": "Buy Me A Coffee",
+      "url": "https://buymeacoffee.com/farhanmallik",
+      "category": "support"
+    },
+    {
+      "platform": "Patreon",
+      "url": "https://patreon.com/FarhanMallik",
+      "category": "support"
+    },
+    {
+      "platform": "Ko-fi",
+      "url": "https://ko-fi.com/farhanmallik",
+      "category": "support"
+    },
+    {
+      "platform": "Codepen",
+      "url": "https://codepen.io/Farhanmallik",
+      "category": "primary"
+    },
+    {
+      "platform": "Mastodon",
+      "url": "https://mastodon.social/@farhanmallik",
+      "category": "primary"
+    }
+  ]
+}

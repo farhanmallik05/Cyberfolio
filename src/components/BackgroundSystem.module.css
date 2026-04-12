@@ -1,0 +1,9 @@
+.gridOverlay {
+  position: absolute;
+  inset: 0;
+  opacity: 0.1;
+  background-image: 
+    linear-gradient(to right, var(--neon) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--neon) 1px, transparent 1px);
+  background-size: 40px 40px;
+}

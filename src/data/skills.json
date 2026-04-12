@@ -1,0 +1,160 @@
+{
+  "categories": [
+    {
+      "id": "neural-core",
+      "title": "Neural Core",
+      "subtitle": "Foundational Logic & Architecture",
+      "skills": [
+        {
+          "name": "Data Structures & Algorithms",
+          "level": 42
+        },
+        {
+          "name": "Problem Solving",
+          "level": 65
+        },
+        {
+          "name": "Analytical Skills",
+          "level": 68
+        },
+        {
+          "name": "Operating Systems",
+          "level": 85
+        },
+        {
+          "name": "Computer Networks",
+          "level": 42
+        },
+        {
+          "name": "C/C++",
+          "level": 65
+        },
+        {
+          "name": "Mathematics",
+          "level": 70
+        },
+        {
+          "name": "Critical Thinking",
+          "level": 80
+        }
+      ]
+    },
+    {
+      "id": "agentic-systems",
+      "title": "Agentic Systems",
+      "subtitle": "AI Intelligence & Autonomy",
+      "skills": [
+        {
+          "name": "AI Agents",
+          "level": 44
+        },
+        {
+          "name": "Prompt Engineering",
+          "level": 86
+        },
+        {
+          "name": "Generative AI Tools",
+          "level": 95
+        },
+        {
+          "name": "Machine Learning",
+          "level": 75
+        },
+        {
+          "name": "n8n Automation",
+          "level": 68
+        },
+        {
+          "name": "UiPath AI RPA",
+          "level": 32
+        },
+        {
+          "name": "Python",
+          "level": 60
+        },
+        {
+          "name": "Workflow Management",
+          "level": 88
+        }
+      ]
+    },
+    {
+      "id": "interface-matrix",
+      "title": "Interface Matrix",
+      "subtitle": "Fullstack & UI Frameworks",
+      "skills": [
+        {
+          "name": "TypeScript",
+          "level": 52
+        },
+        {
+          "name": "React / Next.js",
+          "level": 45
+        },
+        {
+          "name": "Web Development",
+          "level": 34
+        },
+        {
+          "name": "Figma (Design/UX)",
+          "level": 78
+        },
+        {
+          "name": "User Interaction",
+          "level": 60
+        },
+        {
+          "name": "Tailwind CSS",
+          "level": 45
+        },
+        {
+          "name": "HTML5 / CSS3",
+          "level": 72
+        },
+        {
+          "name": "Vibe Coding",
+          "level": 79
+        }
+      ]
+    },
+    {
+      "id": "operations-control",
+      "title": "Operations Control",
+      "subtitle": "Deployment & Data Security",
+      "skills": [
+        {
+          "name": "Git / GitHub",
+          "level": 64
+        },
+        {
+          "name": "Data Privacy",
+          "level": 75
+        },
+        {
+          "name": "Linux & Bash",
+          "level": 38
+        },
+        {
+          "name": "Cloud Computing (AWS)",
+          "level": 65
+        },
+        {
+          "name": "SEO & Performance",
+          "level": 92
+        },
+        {
+          "name": "Code Review",
+          "level": 48
+        },
+        {
+          "name": "Debugging",
+          "level": 30
+        },
+        {
+          "name": "Leadership / Mentoring",
+          "level": 75
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,131 @@
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 8rem 2rem 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  max-width: 800px;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.line {
+  height: 1px;
+  width: 40px;
+  background: var(--neon);
+}
+
+.labelText {
+  font-family: var(--font-orbitron);
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  color: var(--neon);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.title {
+  font-family: var(--font-orbitron);
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  font-weight: 900;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
+  opacity: 0;
+  transform: translateY(30px);
+  /* Hardened cinematic shadow stack */
+  text-shadow: 
+    0 0 1px rgba(7, 12, 26, 1),
+    0 0 2px rgba(7, 12, 26, 1),
+    0 0 5px rgba(7, 12, 26, 0.8),
+    0 0 15px color-mix(in srgb, var(--neon) 20%, transparent),
+    0 0 30px color-mix(in srgb, var(--neon) 10%, transparent);
+}
+
+.tagline {
+  font-family: var(--font-inter);
+  font-size: 1.1rem;
+  color: var(--dim);
+  max-width: 500px;
+  margin: 0 auto 3rem;
+  line-height: 1.6;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.background {
+  position: absolute;
+  inset: 0;
+  z-index: 1; /* Keeping it at 1 but content is 10 */
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* Stats specific styles */
+.statsStrip {
+  margin-top: 5rem;
+  display: flex;
+  gap: 4rem;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.statItem {
+  text-align: center;
+}
+
+.statValue {
+  display: block;
+  font-family: var(--font-orbitron);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.statLabel {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--dim);
+}
+
+@media (max-width: 768px) {
+  .actions {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .statsStrip {
+    flex-direction: column;
+    gap: 2rem;
+  }
+}

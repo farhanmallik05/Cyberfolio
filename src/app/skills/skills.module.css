@@ -13,22 +13,22 @@
 
 @supports (color: color-mix(in srgb, red, blue)) {
   .rolePanelHighlight {
-    border-color: color-mix(in srgb, var(--role-accent, #00F5FF) 26%, transparent) !important;
-    box-shadow: 0 0 20px color-mix(in srgb, var(--role-accent, #00F5FF) 6%, transparent) !important;
+    border-color: color-mix(in srgb, var(--role-accent, var(--neon)) 26%, transparent) !important;
+    box-shadow: 0 0 20px color-mix(in srgb, var(--role-accent, var(--neon)) 6%, transparent) !important;
   }
 }
 
 /* Dynamic Role Accent Color Definitions */
-.pageContainer[data-active-role="frontend"] { --role-accent: #00F5FF; }
-.pageContainer[data-active-role="automation"] { --role-accent: #BF5FFF; }
-.pageContainer[data-active-role="ai"] { --role-accent: #00F5FF; }
+.pageContainer[data-active-role="frontend"] { --role-accent: var(--neon); }
+.pageContainer[data-active-role="automation"] { --role-accent: var(--neon2); }
+.pageContainer[data-active-role="ai"] { --role-accent: var(--neon); }
 .pageContainer[data-active-role="all"] { --role-accent: #5A7A9A; }
 
 .highlightedText {
-  color: var(--role-accent, #0FD3FF) !important;
+  color: var(--role-accent, var(--neon)) !important;
 }
 
 .dynamicProgress {
-  background-color: var(--role-accent, #0FD3FF) !important;
-  box-shadow: 0 0 12px var(--role-accent, #0FD3FF) !important;
+  background-color: var(--neon2) !important;
+  box-shadow: 0 0 12px color-mix(in srgb, var(--neon2) 40%, transparent) !important;
 }

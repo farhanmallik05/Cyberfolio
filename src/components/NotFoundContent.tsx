@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { NeonButton } from "@/components/ui/NeonButton";
 import { AlertTriangle, Terminal, ArrowLeft, RefreshCw } from "lucide-react";
 import { useEffect, useState } from "react";
+import styles from "./NotFoundContent.module.css";
 
 const glitchChars = "!@#$%^&*()_+-=[]{}|;':\",./<>?ABCDEF0123456789";
 
@@ -48,28 +49,21 @@ export function NotFoundContent() {
         <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-cyber-base">
             {/* Animated scan lines background */}
             <div className="absolute inset-0 pointer-events-none">
-                <div
-                    className="absolute inset-0 opacity-10"
-                    style={{
-                        backgroundImage: `linear-gradient(transparent 50%, rgba(0, 240, 255, 0.05) 50%)`,
-                        backgroundSize: "100% 4px",
-                    }}
-                />
-                <div
-                    className="absolute left-0 right-0 h-[2px] bg-neon-magenta/30 blur-sm transition-all"
-                    style={{ top: `${scanLine}%` }}
+                <div className={`absolute inset-0 opacity-10 ${styles.scanLinesBg}`} />
+                <motion.div
+                    className="absolute left-0 right-0 h-[2px] bg-neon-magenta/30 blur-sm"
+                    animate={{ top: `${scanLine}%` }}
+                    transition={{ type: "tween", ease: "linear", duration: 0.03 }}
                 />
             </div>
 
             {/* Static noise overlay */}
             <div className="absolute inset-0 pointer-events-none opacity-5 mix-blend-overlay">
-                <div className="w-full h-full" style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-                }} />
+                <div className={`w-full h-full ${styles.noiseBg}`} />
             </div>
 
             {/* Radial glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-neon-magenta/5 rounded-full blur-[100px]" />
+            <div className={styles.radialGlow} />
 
             <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -89,8 +83,8 @@ export function NotFoundContent() {
                 {/* Error Code */}
                 <h1 className="font-orbitron text-8xl md:text-[10rem] font-black text-white leading-none mb-4 select-none">
                     <span className="relative">
-                        <span className="absolute -top-1 -left-1 text-neon-magenta/50 blur-[1px]">{errorCode}</span>
-                        <span className="absolute top-1 left-1 text-neon-blue/50 blur-[1px]">{errorCode}</span>
+                        <span className={`absolute -top-1 -left-1 ${styles.errorGlowMagenta}`}>{errorCode}</span>
+                        <span className={`absolute top-1 left-1 ${styles.errorGlowBlue}`}>{errorCode}</span>
                         <span className="relative">{errorCode}</span>
                     </span>
                 </h1>

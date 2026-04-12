@@ -1,0 +1,64 @@
+.container {
+    width: 100%;
+    margin: 2rem 0;
+}
+
+.viewport {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.btn {
+    background: var(--glass);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn:hover {
+    border-color: var(--neon);
+    color: var(--neon);
+    box-shadow: 0 0 10px var(--neon);
+}
+
+.dots {
+    display: flex;
+    gap: 1rem;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.dot.active {
+    background: var(--neon);
+    box-shadow: 0 0 8px var(--neon);
+    transform: scale(1.2);
+}

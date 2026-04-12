@@ -1,0 +1,133 @@
+[
+  {
+    "slug": "neural-architect-portfolio",
+    "title": "Neural Architect Portfolio",
+    "tagline": "Cinematic Cyberpunk Portfolio with GSAP & Three.js",
+    "description": "A high-fidelity developer portfolio built with Next.js 16, featuring a multi-theme design system, custom GSAP animations, and Three.js background systems. Designed to mimic a military-grade neural interface.",
+    "tech": ["Next.js", "GSAP", "Three.js", "Supabase", "Tailwind"],
+    "category": "Web Dev",
+    "year": 2026,
+    "status": "live",
+    "featured": true,
+    "icon": "Cpu",
+    "thumbnail": "/projects/portfolio-thumb.png",
+    "liveUrl": "https://farhanmallik.dev",
+    "githubUrl": "https://github.com/farhanmallik05/portfolio",
+    "caseStudy": true,
+    "overview": {
+      "problem": "Generic portfolios fail to capture the complexity and aesthetic depth of advanced agentic development. The goal was to build an 'experience' that feels like a real-time operating system.",
+      "role": "Lead Architect & Designer",
+      "outcomes": [
+        "98+ Lighthouse Performance Score",
+        "Sub-200ms route transitions using GSAP",
+        "Custom mechanical UI library (MechUI)"
+      ]
+    },
+    "process": [
+      {
+        "phase": "Conceptualization",
+        "description": "Designing the 'Neural Architect' brand identity and cinematic UI metaphors.",
+        "tools": ["Figma", "Reference: Ghost in the Shell"]
+      },
+      {
+        "phase": "Core Architecture",
+        "description": "Implementing the multi-layer background system and theme engine.",
+        "tools": ["Next.js", "CSS Variables"]
+      },
+      {
+        "phase": "Animation Suite",
+        "description": "Crafting the BootSequence and page transitions using GSAP ScrollTrigger.",
+        "tools": ["GSAP"]
+      },
+      {
+        "phase": "Hardening",
+        "description": "Optimizing WebGL performance and ensuring binary-level responsiveness.",
+        "tools": ["Three.js", "Browser Profiling"]
+      }
+    ]
+  },
+  {
+    "slug": "codeforge-ai",
+    "title": "CodeForge AI",
+    "tagline": "Autonomous DevOps Architect Agent",
+    "description": "An advanced AI operative that lives in your repository, analyzing tech stacks and generating production-hardened deployment configurations automatically. It bridges the gap between local development and cloud-scale production.",
+    "tech": ["Node.js", "LangChain", "Docker", "Terraform", "CI/CD"],
+    "category": "Automation",
+    "year": 2026,
+    "status": "live",
+    "featured": true,
+    "icon": "Bot",
+    "githubUrl": "https://github.com/farhanmallik05/CodeForge-AI-DevOps-Architect",
+    "caseStudy": true,
+    "overview": {
+      "problem": "Small teams struggle to maintain consistent, hardened DevOps practices while moving fast. Manual configuration of Docker, CI/CD, and Monitoring is error-prone and time-consuming.",
+      "role": "Lead Intelligent Systems Architect",
+      "outcomes": [
+        "Autonomous generation of multi-environment Dockerfiles",
+        "Automated Terraforming of AWS/GCP infrastructure",
+        "Zero-config CI/CD pipeline implementation"
+      ]
+    },
+    "process": [
+      {
+        "phase": "Intelligence Layer",
+        "description": "Implementing the repository scanning engine using LangChain and custom AST parsers.",
+        "tools": ["Typescript", "LangChain"]
+      },
+      {
+        "phase": "Template Synthesis",
+        "description": "Curating hardened Docker and Terraform modules for various tech stacks.",
+        "tools": ["HCL", "Docker"]
+      }
+    ]
+  },
+  {
+    "slug": "track-financially",
+    "title": "Track Financially",
+    "tagline": "Autonomous Financial Intelligence Engine",
+    "description": "A sophisticated finance management platform that uses AI to categorize transactions and provide real-time investment insights. Integrated with bank APIs for seamless tracking.",
+    "tech": ["Next.js", "Supabase", "AI", "PostgreSQL"],
+    "category": "Automation",
+    "year": 2025,
+    "status": "in-progress",
+    "featured": true,
+    "githubUrl": "https://github.com/farhanmallik05/track-financially",
+    "caseStudy": false
+  },
+  {
+    "slug": "dev-tools",
+    "title": "Developer Tool Suite",
+    "tagline": "175+ Professional Utilities for Developers",
+    "description": "A comprehensive toolkit for developers, featuring everything from code formatters to network analyzers, all in one cinematic interface. Designed for rapid-fire troubleshooting and optimization.",
+    "tech": ["Next.js", "TypeScript", "GSAP", "Radix UI"],
+    "category": "Utility",
+    "year": 2026,
+    "status": "live",
+    "featured": false,
+    "icon": "Wrench",
+    "githubUrl": "https://github.com/farhanmallik05/dev-tools",
+    "caseStudy": false
+  },
+  {
+    "slug": "portfolio-terminal-cli",
+    "title": "Portfolio Terminal CLI",
+    "tagline": "Full-stack terminal emulator for portfolio interaction.",
+    "description": "A dedicated interactive terminal that allows users to interact with my portfolio using custom CLI commands. Built with a custom command registry system.",
+    "tech": ["Typescript", "React", "GSAP"],
+    "category": "Web Dev",
+    "year": 2025,
+    "status": "live",
+    "featured": false,
+    "githubUrl": "https://github.com/farhanmallik05/portfolio",
+    "caseStudy": true,
+    "overview": {
+      "problem": "Users often find traditional navbars boring. I wanted to provide a 'power user' way to explore my work.",
+      "role": "Solo Developer",
+      "outcomes": ["Implemented 15+ custom commands", "Keyboard navigation support"]
+    },
+    "process": [
+      { "phase": "Command Engine", "description": "Built a custom regex-based parser for terminal inputs.", "tools": ["Typescript"] },
+      { "phase": "UI Design", "description": "Authentic CRT-glow effect and font implementation.", "tools": ["CSS Glow"] }
+    ]
+  }
+]

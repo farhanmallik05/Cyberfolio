@@ -1,0 +1,113 @@
+.marqueeSection {
+  width: 100%;
+  padding: 6rem 0;
+  background: linear-gradient(to bottom, transparent, var(--bg2), transparent);
+  overflow: hidden;
+  position: relative;
+}
+
+.sectionTitle {
+  font-family: var(--font-orbitron);
+  font-size: 0.75rem;
+  letter-spacing: 0.5em;
+  text-align: center;
+  color: var(--dim);
+  text-transform: uppercase;
+  margin-bottom: 3rem;
+}
+
+.marqueeWrapper {
+  display: flex;
+  overflow: hidden;
+  pointer-events: none; /* Allow interaction with children only */
+}
+
+.marqueeContent {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  pointer-events: auto;
+}
+
+.testimonialCard {
+  flex: 0 0 400px;
+  background: var(--glass2);
+  border: 1px solid var(--border);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  padding: 2rem;
+  border-radius: 0.25rem;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.testimonialCard:hover {
+  border-color: var(--neon);
+  box-shadow: 0 0 30px rgba(0, 245, 255, 0.15);
+  transform: translateY(-5px);
+}
+
+.categoryTag {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--neon);
+  border: 1px solid var(--neon);
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.quote {
+  font-family: var(--font-rajdhani);
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: var(--text);
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.quote::before {
+  content: '"';
+  position: absolute;
+  top: -1rem;
+  left: -1rem;
+  font-size: 3rem;
+  color: var(--neon);
+  opacity: 0.2;
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-top: 1px solid var(--border);
+  padding-top: 1.5rem;
+}
+
+.authorInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  font-family: var(--font-orbitron);
+  font-size: 0.85rem;
+  color: var(--text);
+  letter-spacing: 0.05em;
+}
+
+.role {
+  font-family: var(--font-rajdhani);
+  font-size: 0.75rem;
+  color: var(--dim);
+}
+
+@media (max-width: 768px) {
+  .testimonialCard {
+    flex: 0 0 300px;
+    padding: 1.5rem;
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "lastUpdated": "April 11, 2026",
+  "timezone": "IST (UTC+5:30)",
+  "working": [
+    { 
+      "title": "OSCG Campus Lead", 
+      "description": "Building and guiding the Open Source Community Group on campus, fostering a culture of contribution.", 
+      "link": "https://linkedin.com/in/farhanmallik" 
+    },
+    {
+      "title": "Open Source Connect",
+      "description": "Contributing to global repositories and exploring real-world development beyond tutorials."
+    },
+    {
+      "title": "Neural Architect Portfolio",
+      "description": "Finalizing this high-performance, data-driven cinematic portfolio system."
+    }
+  ],
+  "learning": [
+    { 
+      "title": "Agentic AI Workflows", 
+      "description": "Mastering autonomous agent loops, RAG architectures, and LLM-integrated systems." 
+    },
+    {
+      "title": "Fullstack Scalability",
+      "description": "Revisiting Computer Science fundamentals (OS, Networks, DSA) for production-grade engineering."
+    }
+  ],
+  "reading": [
+    { 
+      "title": "The Pragmatic Programmer", 
+      "author": "Hunt & Thomas" 
+    },
+    {
+      "title": "Building a Second Brain",
+      "author": "Tiago Forte"
+    }
+  ],
+  "listening": [
+    { 
+      "title": "Syntax.fm", 
+      "type": "podcast",
+      "description": "Exploring the latest in the Web Ecosystem."
+    },
+    {
+      "title": "Cyberpunk 2077: Radio Vexelstrom",
+      "type": "music"
+    }
+  ]
+}

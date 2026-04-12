@@ -1,0 +1,122 @@
+.section {
+  padding: 10rem 2rem;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.wizardContainer {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.progressHeader {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stepIndicator {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--dim);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+
+.progressBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: var(--neon);
+  box-shadow: 0 0 10px var(--neon);
+  transition: width 0.5s ease;
+  width: var(--progress, 0%);
+}
+
+.content {
+  flex: 1;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.stepTitle {
+  font-family: var(--font-orbitron);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+
+.stepDesc {
+  font-family: var(--font-inter);
+  font-size: 1rem;
+  color: var(--dim);
+  margin-bottom: 3rem;
+}
+
+.optionsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.optionCard {
+  background: var(--bg-mech);
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.optionCardSelected {
+  border-color: var(--neon);
+  background: var(--neon-dim);
+  box-shadow: 0 0 15px var(--neon-dim);
+}
+
+.optionTitle {
+  font-family: var(--font-orbitron);
+  font-size: 0.8rem;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.footer {
+  padding: 1.5rem 2rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+}
+
+.inputField {
+  width: 100%;
+  background: var(--bg-mech);
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  color: var(--neon);
+  outline: none;
+  min-height: 15rem;
+}
+
+.inputField:focus {
+  border-color: var(--neon);
+}
+
+@media (max-width: 600px) {
+  .optionsGrid {
+    grid-template-columns: 1fr;
+  }
+}

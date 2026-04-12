@@ -5,6 +5,9 @@ import { BootSequence } from "@/components/BootSequence";
 import { Navbar } from "@/components/Navbar";
 import { PageLoadingBar } from "@/components/PageLoadingBar";
 import { Footer } from "@/components/Footer";
+import { BackgroundSystem } from "@/components/BackgroundSystem";
+import { Cursor } from "@/components/ui/Cursor";
+import { ScrollProgress } from "@/components/ui/ScrollProgress";
 
 const orbitron = Orbitron({
   subsets: ["latin"],
@@ -38,22 +41,53 @@ export const metadata: Metadata = {
   },
 };
 
+import { RoleProvider } from "@/context/RoleContext";
+import { ThemeProvider } from "@/context/ThemeContext";
+import { RoleBadge } from "@/components/RoleBadge";
+import { ThemeHUD } from "@/components/ThemeHUD";
+
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body
-        className={`${orbitron.variable} ${inter.variable} antialiased bg-cyber-base text-foreground min-h-screen`}
-      >
-        <BootSequence>
-          <PageLoadingBar />
-          <Navbar />
-          {children}
-          <Footer />
-        </BootSequence>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  const stored = localStorage.getItem('na-theme');
+                  if (stored && stored !== 'cyber') {
+                    document.documentElement.setAttribute('data-theme', stored);
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
+      <body>
+        <ThemeProvider>
+          <RoleProvider>
+            <div className={`${orbitron.variable} ${inter.variable} antialiased text-foreground min-h-screen relative`}>
+              <Cursor />
+              <ScrollProgress />
+              <BackgroundSystem />
+              <BootSequence>
+                <PageLoadingBar />
+                <Navbar />
+                <main>{children}</main>
+                <Footer />
+              </BootSequence>
+              <RoleBadge />
+              <ThemeHUD />
+            </div>
+          </RoleProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

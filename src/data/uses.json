@@ -1,0 +1,84 @@
+{
+  "lastUpdated": "April 12, 2026",
+  "categories": [
+    {
+      "name": "Mission Control :: Hardware",
+      "id": "hardware",
+      "items": [
+        {
+          "name": "Custom RIG // Ryzen 7",
+          "description": "5740X, 32GB DDR5, RTX 3070. The primary compute unit for heavy AI local orchestration.",
+          "link": "https://amzn.to/3vzXXXX"
+        },
+        {
+          "name": "Lenovo LOQ Essentials",
+          "description": "Intel Core i7, RTX 4050. A solid powerhouse for gaming and development.",
+          "link": "https://www.lenovo.com"
+        },
+        {
+          "name": "Razer BlackWidow V4",
+          "description": "Mechanical tactile feedback for precision syntax entry.",
+          "link": "https://razer.com"
+        }
+      ]
+    },
+    {
+      "name": "Neural Interface :: Development",
+      "id": "development",
+      "items": [
+        {
+          "name": "VS Code",
+          "description": "Primary IDE. Using 'Cyberpunk 2077' theme for maximum aesthetic alignment.",
+          "link": "https://code.visualstudio.com"
+        },
+        {
+          "name": "Warp Terminal",
+          "description": "The AI-integrated terminal built for modern developers.",
+          "link": "https://warp.dev"
+        },
+        {
+          "name": "Arc Browser",
+          "description": "High-efficiency browsing with vertical tab management.",
+          "link": "https://arc.net"
+        }
+      ]
+    },
+    {
+      "name": "Core Subsystems :: Software & Stack",
+      "id": "stack",
+      "items": [
+        {
+          "name": "Next.js / TypeScript",
+          "description": "The standard for high-performance React applications.",
+          "link": "https://nextjs.org"
+        },
+        {
+          "name": "Supabase",
+          "description": "Backend infrastructure, Auth, and pgvector storage.",
+          "link": "https://supabase.com"
+        },
+        {
+          "name": "n8n",
+          "description": "Workflow automation and multi-agent orchestration.",
+          "link": "https://n8n.io"
+        }
+      ]
+    },
+    {
+      "name": "Neural Design :: Graphics",
+      "id": "design",
+      "items": [
+        {
+          "name": "Figma",
+          "description": "Where all neural UI blueprints are architected.",
+          "link": "https://figma.com"
+        },
+        {
+          "name": "Spline",
+          "description": "Tool for 3D web design and interactive experiences.",
+          "link": "https://spline.design"
+        }
+      ]
+    }
+  ]
+}

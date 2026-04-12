@@ -1,0 +1,250 @@
+.hero {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    padding: 8rem 2rem 4rem;
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+}
+
+.heroContent {
+    max-width: 900px;
+    z-index: 10;
+}
+
+.meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.year {
+    font-family: var(--font-orbitron);
+    font-size: 0.8rem;
+    color: var(--dim);
+}
+
+.line {
+    width: 20px;
+    height: 1px;
+    background: var(--border);
+}
+
+.category {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--neon);
+}
+
+.title {
+    font-family: var(--font-orbitron);
+    font-size: clamp(2.5rem, 8vw, 6rem);
+    font-weight: 900;
+    line-height: 0.9;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    color: var(--text);
+}
+
+.tagline {
+    font-family: var(--font-inter);
+    font-size: 1.25rem;
+    color: var(--dim);
+    margin-bottom: 3rem;
+}
+
+.actions {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+.primaryBtn, .secondaryBtn {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 2rem;
+    font-family: var(--font-orbitron);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    transition: all 0.3s;
+}
+
+.primaryBtn {
+    background: var(--neon);
+    color: var(--bg);
+}
+
+.secondaryBtn {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    color: var(--text);
+}
+
+.primaryBtn:hover {
+    box-shadow: 0 0 20px var(--neon);
+    transform: translateY(-2px);
+}
+
+.secondaryBtn:hover {
+    border-color: var(--neon);
+    transform: translateY(-2px);
+}
+
+.statusFloat {
+    position: absolute;
+    bottom: 2rem;
+    right: 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.statusValue {
+    font-family: var(--font-orbitron);
+    color: var(--text);
+    font-weight: 900;
+    font-size: 1.2rem;
+}
+
+.section {
+    padding: 8rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.grid {
+    display: grid;
+    grid-template-cols: 1.5fr 1fr;
+    gap: 6rem;
+}
+
+.sectionTitle {
+    font-family: var(--font-orbitron);
+    font-size: 1rem;
+    color: var(--neon);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+}
+
+.sectionTitleCenter {
+    composes: sectionTitle;
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.description {
+    font-family: var(--font-inter);
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: var(--silver);
+    margin-bottom: 3rem;
+}
+
+.roleBox {
+    background: var(--bg2);
+    padding: 2rem;
+    border: 1px solid var(--border);
+    display: inline-block;
+}
+
+.outcomeList {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.outcomeItem {
+    display: flex;
+    gap: 1rem;
+    font-family: var(--font-inter);
+    color: var(--text);
+    line-height: 1.4;
+}
+
+.techSection {
+    background: var(--bg2);
+    margin-top: 4rem;
+}
+
+.techGrid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.techCard {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 1rem 2rem;
+    transition: all 0.3s;
+}
+
+.techCard:hover {
+    border-color: var(--neon);
+    transform: scale(1.05);
+}
+
+.techName {
+    font-family: var(--font-orbitron);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.footerCTA {
+    padding: 8rem 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.ctaCard {
+    background: linear-gradient(135deg, var(--bg2) 0%, var(--bg) 100%);
+    border: 1px solid var(--neon);
+    padding: 4rem;
+    text-align: center;
+    max-width: 800px;
+    width: 100%;
+}
+
+.ctaTitle {
+    font-family: var(--font-orbitron);
+    font-size: 2rem;
+    font-weight: 900;
+    margin-bottom: 1rem;
+}
+
+.ctaDesc {
+    font-family: var(--font-inter);
+    color: var(--dim);
+    margin-bottom: 3rem;
+}
+
+.primaryBtnLarge {
+    composes: primaryBtn;
+    display: inline-flex;
+    padding: 1.5rem 3rem;
+}
+
+@media (max-width: 992px) {
+    .grid {
+        grid-template-cols: 1fr;
+        gap: 4rem;
+    }
+    
+    .statusFloat {
+        position: static;
+        margin-top: 3rem;
+        align-items: center;
+    }
+}

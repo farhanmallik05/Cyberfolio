@@ -6,14 +6,14 @@
       "id": "hardware",
       "items": [
         {
-          "name": "Custom RIG // Ryzen 9",
-          "description": "7950X, 64GB DDR5, RTX 4080. The primary compute unit for heavy AI local orchestration.",
+          "name": "Custom RIG // Ryzen 7",
+          "description": "5740X, 32GB DDR5, RTX 3070. The primary compute unit for heavy AI local orchestration.",
           "link": "https://amzn.to/3vzXXXX"
         },
         {
-          "name": "MacBook Pro M3 Max",
-          "description": "16-inch, 128GB RAM. The mobile command center for portable development.",
-          "link": "https://apple.com"
+          "name": "Lenovo LOQ Essentials",
+          "description": "Intel Core i7, RTX 4050. A solid powerhouse for gaming and development.",
+          "link": "https://www.lenovo.com"
         },
         {
           "name": "Razer BlackWidow V4",

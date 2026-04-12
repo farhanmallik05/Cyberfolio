@@ -5,30 +5,34 @@ import { createContext, useContext, useEffect, useState, useCallback } from 'rea
 
 export type Role = 'all' | 'frontend' | 'automation' | 'ai'
 
-export const ROLE_META: Record<Role, { label: string; color: string; symbol: string; bio: string }> = {
+export const ROLE_META: Record<Role, { label: string; color: string; symbol: string; bio: string; resumeUrl: string }> = {
   all: { 
     label: 'All', 
-    color: '#5A7A9A', 
+    color: 'var(--text-dim)', 
     symbol: '◈',
-    bio: "Building at the intersection of software development, UI/UX design, automation, and digital product creation. Engineering intelligent systems and high-performance solutions — always learning, always building, always improving."
+    bio: "Building at the intersection of software development, UI/UX design, automation, and digital product creation. Engineering intelligent systems and high-performance solutions — always learning, always building, always improving.",
+    resumeUrl: '/resume.pdf'
   },
   frontend: { 
     label: 'Frontend', 
-    color: '#00F5FF', 
+    color: 'var(--neon)', 
     symbol: '⬡',
-    bio: "Focused on architecting pixel-perfect, high-performance interfaces and immersive user experiences. Specializing in advanced React patterns, GSAP animations, and modern frontend ecosystems."
+    bio: "Focused on architecting pixel-perfect, high-performance interfaces and immersive user experiences. Specializing in advanced React patterns, GSAP animations, and modern frontend ecosystems.",
+    resumeUrl: '/resume.pdf'
   },
   automation: { 
     label: 'Automation', 
-    color: '#BF5FFF', 
+    color: 'var(--neon2)', 
     symbol: '⟳',
-    bio: "Streamlining complex operations through autonomous workflow engineering. Expert in n8n, Python-driven automation, and building self-healing system protocols to eliminate manual overhead."
+    bio: "Streamlining complex operations through autonomous workflow engineering. Expert in n8n, Python-driven automation, and building self-healing system protocols to eliminate manual overhead.",
+    resumeUrl: '/resume.pdf'
   },
   ai: { 
     label: 'AI', 
-    color: '#00FF8F', 
+    color: 'var(--accent-glow)', 
     symbol: '◎',
-    bio: "Engineering the next generation of intelligent systems using GenAI and Agentic architectures. Proficient in RAG, prompt engineering, and deploying autonomous AI agents to solve high-value problems."
+    bio: "Engineering the next generation of intelligent systems using GenAI and Agentic architectures. Proficient in RAG, prompt engineering, and deploying autonomous AI agents to solve high-value problems.",
+    resumeUrl: '/resume.pdf'
   },
 }
 

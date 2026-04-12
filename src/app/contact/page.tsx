@@ -5,8 +5,6 @@ import { MechButton } from "@/components/ui/MechButton";
 import { motion } from "framer-motion";
 import { ShieldAlert, Send, Terminal, AlertTriangle } from "lucide-react";
 import { useState } from "react";
-import { db } from "@/lib/firebase";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 export default function Contact() {
     const [formData, setFormData] = useState({
@@ -22,14 +20,23 @@ export default function Contact() {
         setStatus("sending");
 
         try {
-            await addDoc(collection(db, "contactSubmissions"), {
-                ...formData,
-                createdAt: serverTimestamp(),
+            const response = await fetch("/api/contact", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
             });
-            setStatus("success");
-            setFormData({ name: "", email: "", projectType: "", message: "" });
+
+            if (response.ok) {
+                setStatus("success");
+                setFormData({ name: "", email: "", projectType: "", message: "" });
+            } else {
+                console.error("Submission failed");
+                setStatus("error");
+            }
         } catch (err) {
-            console.error("Firebase submission error:", err);
+            console.error("API submission error:", err);
             setStatus("error");
         }
     };
@@ -102,14 +109,15 @@ export default function Contact() {
                                 </div>
                             </div>
 
-                            <div className="space-y-2 w-full">
-                                <label className="font-orbitron text-xs text-mech-cyan uppercase tracking-wider">Operation Protocol [Project Type]</label>
-                                <select
-                                    required
-                                    className="w-full bg-mech-base/80 border border-mech-silver/20 p-3 rounded-sm text-mech-white font-inter focus:outline-none focus:border-mech-cyan focus:shadow-[0_0_10px_rgba(15,211,255,0.2)] transition-all appearance-none uppercase text-sm tracking-wide"
-                                    value={formData.projectType}
-                                    onChange={e => setFormData({ ...formData, projectType: e.target.value })}
-                                >
+                             <div className="space-y-2 w-full">
+                                 <label htmlFor="project-type" className="font-orbitron text-xs text-mech-cyan uppercase tracking-wider">Operation Protocol [Project Type]</label>
+                                 <select
+                                     id="project-type"
+                                     required
+                                     className="w-full bg-mech-base/80 border border-mech-silver/20 p-3 rounded-sm text-mech-white font-inter focus:outline-none focus:border-mech-cyan focus:shadow-[0_0_10px_rgba(15,211,255,0.2)] transition-all appearance-none uppercase text-sm tracking-wide"
+                                     value={formData.projectType}
+                                     onChange={e => setFormData({ ...formData, projectType: e.target.value })}
+                                 >
                                     <option value="" disabled className="text-mech-silver/50">Select Protocol</option>
                                     <option value="general-inquiry">General Inquiry</option>
                                     <option value="technical-support">Technical Support</option>

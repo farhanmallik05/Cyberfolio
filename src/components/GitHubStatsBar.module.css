@@ -1,0 +1,66 @@
+.statsBar {
+  width: 100%;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 0.75rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.content {
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+}
+
+.statItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.label {
+  color: var(--dim);
+}
+
+.value {
+  color: var(--neon);
+  font-weight: bold;
+  text-shadow: 0 0 10px var(--neon);
+}
+
+.separator {
+  width: 2px;
+  height: 12px;
+  background: var(--border);
+  transform: rotate(20deg);
+}
+
+.langList {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.langTag {
+  padding: 2px 6px;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  font-size: 0.65rem;
+  color: var(--neon2);
+}
+
+@media (max-width: 768px) {
+  .content {
+    gap: 1rem;
+    padding: 0 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

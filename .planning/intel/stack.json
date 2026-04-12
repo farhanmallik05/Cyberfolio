@@ -1,0 +1,16 @@
+{
+  "tech_stack": {
+    "framework": "Next.js 14+ (App Router)",
+    "language": "TypeScript",
+    "styling": "Vanilla CSS / CSS Modules",
+    "animation": "GSAP / Framer Motion",
+    "database": "Supabase"
+  },
+  "hardening": {
+    "hydration": "suppressHydrationWarning enabled on root <html>",
+    "css_purity": "Attribute selectors scoped to local classes"
+  },
+  "_meta": {
+    "updated_at": "2026-04-12T05:19:00Z"
+  }
+}

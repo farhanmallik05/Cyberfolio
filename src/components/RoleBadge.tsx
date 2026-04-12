@@ -25,17 +25,17 @@ export function RoleBadge() {
 
   return (
     <div 
-      className={`fixed bottom-6 right-6 z-[100] ${styles.badgeContainer}`}
+      className={`fixed bottom-6 left-6 z-[100] ${styles.badgeContainer}`}
       ref={containerRef}
       data-active-role={activeRole}
     >
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 10, x: 10 }}
+            initial={{ opacity: 0, scale: 0.9, y: 10, x: -10 }}
             animate={{ opacity: 1, scale: 1, y: 0, x: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 10, x: 10 }}
-            className={`absolute bottom-16 right-0 mb-2 w-64 bg-mech-navy/90 backdrop-blur-xl border rounded-lg overflow-hidden shadow-[0_0_30px_rgba(0,0,0,0.5)] z-50 ${styles.popover}`}
+            exit={{ opacity: 0, scale: 0.9, y: 10, x: -10 }}
+            className={`absolute bottom-16 left-0 mb-2 w-64 bg-mech-navy/90 backdrop-blur-xl border rounded-lg overflow-hidden shadow-[0_0_30px_rgba(0,0,0,0.5)] z-50 ${styles.popover}`}
           >
             <div className="p-4 border-b border-mech-silver/10 bg-mech-base/50 flex justify-between items-center">
               <span className="font-orbitron text-xs font-bold tracking-widest text-mech-silver uppercase">Viewport Priority</span>

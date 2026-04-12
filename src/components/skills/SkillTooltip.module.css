@@ -1,0 +1,90 @@
+.tooltipWrapper {
+  position: absolute;
+  z-index: 100;
+  pointer-events: none;
+  /* x and y positioning remain inline as they are highly dynamic */
+}
+
+.tooltipContainer {
+  background-color: var(--glass2);
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+  border: 1px solid var(--border);
+  padding: 1rem;
+  border-radius: 0.25rem;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  min-width: 200px;
+  position: relative;
+}
+
+.tooltipContainer[data-category="frontend"] { --category-color: var(--neon); }
+.tooltipContainer[data-category="backend"] { --category-color: var(--neon2); }
+.tooltipContainer[data-category="automation"] { --category-color: var(--neon); }
+.tooltipContainer[data-category="ai"] { --category-color: var(--neon2); }
+.tooltipContainer[data-category="design"] { --category-color: var(--neon); }
+.tooltipContainer[data-category="devops"] { --category-color: var(--neon2); }
+
+.skillHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.skillName {
+  font-family: var(--font-orbitron), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.proficiency {
+  font-family: var(--font-orbitron), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 10px;
+  color: var(--category-color);
+}
+
+.divider {
+  height: 1px;
+  width: 100%;
+  background-color: var(--border);
+  margin-bottom: 0.75rem;
+}
+
+.detailItem {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: -0.05em;
+}
+
+.categoryLabel {
+  color: var(--dim);
+}
+
+.categoryValue {
+  color: var(--category-color);
+}
+
+.referenceLabel {
+  color: var(--dim);
+}
+
+.referenceValue {
+  color: var(--text);
+}
+
+.cornerDeco {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-top: 1px solid var(--border); /* Fallback */
+  border-left: 1px solid var(--border); /* Fallback */
+  border-top: 1px solid color-mix(in srgb, var(--neon) 30%, transparent);
+  border-left: 1px solid color-mix(in srgb, var(--neon) 30%, transparent);
+}

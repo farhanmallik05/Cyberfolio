@@ -12,7 +12,7 @@ const products = [
         description: "Complete life-management OS built in Notion with custom cyberpunk aesthetics and formula automations.",
         icon: FileText,
         color: "text-neon-magenta",
-        price: "$29",
+        price: "₹499",
         type: "Notion Template"
     },
     {
@@ -21,7 +21,7 @@ const products = [
         description: "Pre-configured n8n workflow for scraping RSS feeds and automatically generating and posting to Twitter via OpenAI.",
         icon: Settings,
         color: "text-neon-blue",
-        price: "$49",
+        price: "₹1499",
         type: "Automation Workflow"
     },
     {
@@ -30,7 +30,7 @@ const products = [
         description: "50+ animated, cyberpunk-styled React components built with Tailwind CSS and Framer Motion.",
         icon: Database,
         color: "text-neon-purple",
-        price: "$99",
+        price: "₹499",
         type: "Developer Asset"
     },
     {
@@ -39,7 +39,7 @@ const products = [
         description: "High-conversion, ATS-friendly developer resume template designed in Figma.",
         icon: Download,
         color: "text-neon-green",
-        price: "$15",
+        price: "₹99",
         type: "Figma File"
     }
 ];

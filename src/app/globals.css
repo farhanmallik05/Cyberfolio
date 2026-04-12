@@ -3,22 +3,100 @@
 @tailwind utilities;
 
 :root {
-  --background: #05070D;
-  --foreground: #F0F6FC;
+  /* BASE DESIGN LOCK - CYBER THEME */
+  --neon:          #00F5FF;
+  --neon2:         #BF5FFF;
+  --bg:            #070C1A;
+  --bg2:           #0D1425;
+  --glass:         rgba(0,245,255,0.04);
+  --glass2:        rgba(13,20,37,0.85);
+  --border:        rgba(0,245,255,0.15);
+  --text:          #C8D8E8;
+  --dim:           #5A7A9A;
+  
+  --background: var(--bg);
+  --foreground: var(--text);
+}
+
+/* THEME OVERRIDES */
+[data-theme="arctic"] {
+  --neon:   #E0F7FF;
+  --neon2:  #7DD8F5;
+  --bg:     #040D1A;
+  --bg2:    #081525;
+  --glass:  rgba(224,247,255,0.04);
+  --border: rgba(224,247,255,0.15);
+}
+
+[data-theme="inferno"] {
+  --neon:   #FF6B00;
+  --neon2:  #FF2200;
+  --bg:     #0F0500;
+  --bg2:    #1A0800;
+  --glass:  rgba(255,107,0,0.04);
+  --border: rgba(255,107,0,0.15);
+}
+
+[data-theme="ghost"] {
+  --neon:   #FFFFFF;
+  --neon2:  #C0C0C0;
+  --bg:     #0A0A0A;
+  --bg2:    #111111;
+  --glass:  rgba(255,255,255,0.04);
+  --border: rgba(255,255,255,0.15);
+}
+
+[data-theme="bioluminescent"] {
+  --neon:   #00FFB3;
+  --neon2:  #00D4FF;
+  --bg:     #020F12;
+  --bg2:    #041820;
+  --glass:  rgba(0,255,179,0.04);
+  --border: rgba(0,255,179,0.15);
+}
+
+[data-theme="void"] {
+  --neon:   #00F5FF;
+  --neon2:  #BF5FFF;
+  --bg:     #020204;
+  --bg2:    #050508;
+  --glass:  rgba(0,245,255,0.02);
+  --border: rgba(0,245,255,0.08);
+}
+
+/* THEME TRANSITIONS */
+*, *::before, *::after {
+  transition: 
+    background-color 500ms ease,
+    border-color 500ms ease,
+    box-shadow 500ms ease,
+    color 500ms ease;
+}
+
+@keyframes theme-glitch {
+  0%   { opacity: 1; filter: none; }
+  20%  { opacity: 0.8; filter: brightness(2) saturate(0); transform: translateX(2px); }
+  40%  { opacity: 0.6; filter: brightness(0.5) hue-rotate(90deg); transform: translateX(-2px); }
+  60%  { opacity: 0.9; filter: brightness(1.5) saturate(2); transform: translateX(1px); }
+  80%  { opacity: 0.7; filter: brightness(0.8); transform: translateX(-1px); }
+  100% { opacity: 1; filter: none; transform: none; }
+}
+
+.theme-glitch {
+  animation: theme-glitch 400ms ease forwards;
 }
 
 html {
   scroll-behavior: smooth;
-  /* Standard modern properties with feature detection to silence warnings */
   @supports (scrollbar-width: thin) {
     scrollbar-width: thin;
-    scrollbar-color: #0FD3FF #05070D;
+    scrollbar-color: var(--neon) var(--bg);
   }
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
+  color: var(--text);
+  background: var(--bg);
   font-family: var(--font-inter), sans-serif;
   overflow-x: hidden;
 }
@@ -29,26 +107,21 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #05070D;
+  background: var(--bg);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #00AEEF, #0FD3FF);
+  background: linear-gradient(180deg, var(--neon), var(--neon2));
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #0FD3FF, #C9D1D9);
+  background: var(--neon);
 }
-
 
 ::selection {
-  background: rgba(15, 211, 255, 0.3);
-  color: #fff;
-}
-::-moz-selection {
-  background: rgba(15, 211, 255, 0.3);
-  color: #fff;
+  background: color-mix(in srgb, var(--neon) 40%, transparent);
+  color: var(--text);
 }
 
 @layer utilities {
@@ -59,59 +132,49 @@ body {
   }
   
   .mech-panel {
-    background-color: rgba(13, 17, 23, 0.7);
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(201, 209, 217, 0.1);
-    box-shadow: inset 0 0 20px rgba(0, 174, 239, 0.05);
+    background-color: var(--glass2);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    box-shadow: inset 0 0 20px color-mix(in srgb, var(--neon) 5%, transparent);
   }
 
   .mech-text-glow {
-    text-shadow: 0 0 10px rgba(15, 211, 255, 0.5), 0 0 20px rgba(15, 211, 255, 0.3);
+    text-shadow: 0 0 10px var(--neon), 0 0 20px color-mix(in srgb, var(--neon) 30%, transparent);
   }
+/* Testimonial Marquee Animations */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+.pause-on-hover:hover {
+  animation-play-state: paused;
+}
 
   .mech-border-glow {
-    box-shadow: 0 0 5px rgba(0, 174, 239, 0.3), inset 0 0 5px rgba(0, 174, 239, 0.2);
-    border-color: #00AEEF;
+    box-shadow: 0 0 5px var(--neon), inset 0 0 5px color-mix(in srgb, var(--neon) 20%, transparent);
+    border-color: var(--neon);
   }
   
   .mech-button {
-    background: linear-gradient(135deg, rgba(13, 17, 23, 0.9) 0%, rgba(11, 19, 32, 0.9) 100%);
-    border: 1px solid rgba(0, 174, 239, 0.3);
-    box-shadow: 0 0 8px rgba(0, 174, 239, 0.2), inset 0 0 4px rgba(0, 174, 239, 0.1);
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    box-shadow: 0 0 8px color-mix(in srgb, var(--neon) 20%, transparent), inset 0 0 4px color-mix(in srgb, var(--neon) 10%, transparent);
   }
 
-  /* Scan-line background overlay (NotFoundContent) */
-  .scan-lines-bg {
-    background-image: linear-gradient(transparent 50%, rgba(0, 240, 255, 0.05) 50%);
-    background-size: 100% 4px;
-  }
-
-  /* Static noise overlay (NotFoundContent) */
-  .noise-bg {
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-
-  /* Glitch clip-path utilities (GlitchText) */
-  .glitch-clip-top {
-    clip-path: inset(0 0 55% 0);
-  }
-
-  .glitch-clip-bottom {
-    clip-path: inset(55% 0 0 0);
-  }
-
-  /* 3D Perspective & Flip Card Utilities */
-  .perspective-1000 {
-    perspective: 1000px;
-  }
-  
+  /* 3D TRANSFORM UTILITIES */
   .preserve-3d {
     transform-style: preserve-3d;
   }
   
   .backface-hidden {
     backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
   }
   
   .rotate-y-180 {
@@ -121,11 +184,10 @@ body {
 
 /* Subtle background grid animation */
 @keyframes grid-pulse {
-  0%,
-  100% {
+  0%, 100% {
     opacity: 0.03;
   }
   50% {
     opacity: 0.08;
   }
-}
+}

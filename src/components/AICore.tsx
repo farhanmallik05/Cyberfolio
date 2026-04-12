@@ -1,13 +1,19 @@
 "use client";
-
-import { useRef } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Icosahedron, MeshDistortMaterial, Sphere } from "@react-three/drei";
+import React, { useRef } from "react";
 import * as THREE from "three";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Sphere, MeshDistortMaterial, Icosahedron } from "@react-three/drei";
+import { THEMES } from "@/data/themes";
+import { useTheme } from "@/context/ThemeContext";
 
 function Core() {
+    const { theme } = useTheme();
     const sphereRef = useRef<THREE.Mesh>(null);
     const outerRef = useRef<THREE.Mesh>(null);
+
+    const themeData = THEMES.find(t => t.id === theme) || THEMES[0];
+    const accentColor = themeData.accentColor;
+    const accentColor2 = themeData.accentColor2;
 
     useFrame((state, delta) => {
         if (sphereRef.current) {
@@ -25,7 +31,7 @@ function Core() {
             {/* Inner pulsing core */}
             <Sphere ref={sphereRef} args={[1.2, 32, 32]}>
                 <MeshDistortMaterial
-                    color="#0FD3FF"
+                    color={accentColor}
                     envMapIntensity={1}
                     clearcoat={1}
                     clearcoatRoughness={0.1}
@@ -38,13 +44,13 @@ function Core() {
 
             {/* Outer wireframe shell */}
             <Icosahedron ref={outerRef} args={[1.6, 2]}>
-                <meshBasicMaterial color="#00AEEF" wireframe transparent opacity={0.3} />
+                <meshBasicMaterial color={accentColor2} wireframe transparent opacity={0.3} />
             </Icosahedron>
 
             {/* Ambient and point lights */}
             <ambientLight intensity={0.5} />
-            <pointLight position={[10, 10, 10]} intensity={1.5} color="#0FD3FF" />
-            <pointLight position={[-10, -10, -10]} intensity={1} color="#00AEEF" />
+            <pointLight position={[10, 10, 10]} intensity={1.5} color={accentColor} />
+            <pointLight position={[-10, -10, -10]} intensity={1} color={accentColor2} />
         </group>
     );
 }

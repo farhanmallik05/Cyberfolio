@@ -1,62 +1,84 @@
 .popover {
-  border-color: rgba(15, 211, 255, 0.33) !important; /* Fallback */
+  border-color: var(--border) !important; /* Fallback */
 }
 
 @supports (color: color-mix(in srgb, red, blue)) {
   .popover {
-    border-color: color-mix(in srgb, var(--role-color, #0FD3FF) 33%, transparent) !important;
+    border-color: color-mix(in srgb, var(--role-color, var(--neon)) 33%, transparent) !important;
   }
 }
 
-/* Dynamic Role Color Definitions */
-.badgeContainer[data-active-role="frontend"] { --role-color: #00F5FF; }
-.badgeContainer[data-active-role="automation"] { --role-color: #BF5FFF; }
-.badgeContainer[data-active-role="ai"] { --role-color: #00F5FF; }
-.badgeContainer[data-active-role="all"] { --role-color: #5A7A9A; }
+/* Dynamic Role Color Definitions mapped to Theme Variables */
+.badgeContainer[data-active-role="frontend"] { --role-color: var(--neon); }
+.badgeContainer[data-active-role="automation"] { --role-color: var(--neon2); }
+.badgeContainer[data-active-role="ai"] { --role-color: var(--neon); }
+.badgeContainer[data-active-role="all"] { --role-color: var(--dim); }
 
 /* Item-specific overrides for the popover list */
-.roleItem[data-item-role="frontend"] { --role-color: #00F5FF; }
-.roleItem[data-item-role="automation"] { --role-color: #BF5FFF; }
-.roleItem[data-item-role="ai"] { --role-color: #00F5FF; }
-.roleItem[data-item-role="all"] { --role-color: #5A7A9A; }
+.roleItem[data-item-role="frontend"] { --role-color: var(--neon); }
+.roleItem[data-item-role="automation"] { --role-color: var(--neon2); }
+.roleItem[data-item-role="ai"] { --role-color: var(--accent-glow); }
+.roleItem[data-item-role="all"] { --role-color: var(--text-dim); }
 
 .roleItemActive {
-  background-color: rgba(15, 211, 255, 0.08) !important; /* Fallback */
-  border-color: rgba(15, 211, 255, 0.2) !important; /* Fallback */
+  background-color: var(--glass) !important; /* Fallback */
+  border-color: var(--border) !important; /* Fallback */
 }
 
 @supports (color: color-mix(in srgb, red, blue)) {
-  .roleItemActive {
-    background-color: color-mix(in srgb, var(--role-color, #0FD3FF) 8%, transparent) !important;
-    border-color: color-mix(in srgb, var(--role-color, #0FD3FF) 20%, transparent) !important;
+  .roleSelector::before {
+    background-color: color-mix(in srgb, var(--role-color, var(--neon)) 8%, transparent) !important;
+    border-color: color-mix(in srgb, var(--role-color, var(--neon)) 20%, transparent) !important;
   }
-}
 
-.roleSymbol {
-  color: var(--role-color, #0FD3FF) !important;
-}
+  .roleLabel {
+    color: var(--role-color, var(--neon)) !important;
+  }
 
-.activeIndicator {
-  background-color: var(--role-color, #0FD3FF) !important;
+  .activeIndicator {
+    background-color: var(--role-color, var(--neon)) !important;
+  }
+
+  .roleItem {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .roleItem[data-active="true"] {
+      border-color: color-mix(in srgb, var(--role-color, var(--neon)) 26%, transparent) !important;
+      box-shadow: 0 0 15px color-mix(in srgb, var(--role-color, var(--neon)) 20%, transparent) !important;
+  }
+
+  .roleDot {
+    border-color: var(--role-color, var(--neon)) !important;
+  }
+
+  .roleDotInner {
+    background-color: var(--role-color, var(--neon)) !important;
+    box-shadow: 0 0 8px var(--role-color, var(--neon)) !important;
+  }
+
+  .roleItem[data-item-role="frontend"] { --role-color: var(--neon); }
+  .roleItem[data-item-role="automation"] { --role-color: var(--neon2); }
+  .roleItem[data-item-role="ai"] { --role-color: var(--neon); }
 }
 
 .triggerButton {
-  border-color: rgba(15, 211, 255, 0.26) !important; /* Fallback */
-  box-shadow: 0 0 15px rgba(15, 211, 255, 0.2) !important; /* Fallback */
+  border-color: var(--border) !important; /* Fallback */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3) !important; /* Fallback */
 }
 
 @supports (color: color-mix(in srgb, red, blue)) {
   .triggerButton {
-    border-color: color-mix(in srgb, var(--role-color, #0FD3FF) 26%, transparent) !important;
-    box-shadow: 0 0 15px color-mix(in srgb, var(--role-color, #0FD3FF) 20%, transparent) !important;
+    border-color: color-mix(in srgb, var(--role-color, var(--neon)) 26%, transparent) !important;
+    box-shadow: 0 0 15px color-mix(in srgb, var(--role-color, var(--neon)) 20%, transparent) !important;
   }
 }
 
 .triggerButtonOpen {
-  border-color: var(--role-color, #0FD3FF) !important;
+  border-color: var(--role-color, var(--neon)) !important;
 }
 
 .statusIndicator {
-  background-color: var(--role-color, #0FD3FF) !important;
-  box-shadow: 0 0 8px var(--role-color, #0FD3FF) !important;
+  background-color: var(--role-color, var(--neon)) !important;
+  box-shadow: 0 0 8px var(--role-color, var(--neon)) !important;
 }

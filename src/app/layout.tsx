@@ -42,7 +42,10 @@ export const metadata: Metadata = {
 };
 
 import { RoleProvider } from "@/context/RoleContext";
+import { ThemeProvider } from "@/context/ThemeContext";
 import { RoleBadge } from "@/components/RoleBadge";
+import { ThemeHUD } from "@/components/ThemeHUD";
+
 
 export default function RootLayout({
   children,
@@ -50,22 +53,41 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body
-        className={`${orbitron.variable} ${inter.variable} antialiased bg-mech-base text-foreground min-h-screen`}
-      >
-        <RoleProvider>
-          <Cursor />
-          <ScrollProgress />
-          <BackgroundSystem />
-          <BootSequence>
-            <PageLoadingBar />
-            <Navbar />
-            {children}
-            <Footer />
-          </BootSequence>
-          <RoleBadge />
-        </RoleProvider>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  const stored = localStorage.getItem('na-theme');
+                  if (stored && stored !== 'cyber') {
+                    document.documentElement.setAttribute('data-theme', stored);
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
+      <body>
+        <ThemeProvider>
+          <RoleProvider>
+            <div className={`${orbitron.variable} ${inter.variable} antialiased text-foreground min-h-screen relative`}>
+              <Cursor />
+              <ScrollProgress />
+              <BackgroundSystem />
+              <BootSequence>
+                <PageLoadingBar />
+                <Navbar />
+                <main>{children}</main>
+                <Footer />
+              </BootSequence>
+              <RoleBadge />
+              <ThemeHUD />
+            </div>
+          </RoleProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

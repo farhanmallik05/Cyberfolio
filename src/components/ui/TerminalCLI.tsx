@@ -2,6 +2,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Terminal, ChevronRight, X, Minus, Square } from "lucide-react";
 import { COMMANDS, CommandResponse } from "@/lib/terminal-commands";
@@ -17,6 +18,7 @@ export function TerminalCLI() {
   const [input, setInput] = useState("");
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [isMinimized, setIsMinimized] = useState(false);
+  const router = useRouter();
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -66,6 +68,13 @@ export function TerminalCLI() {
       id: Math.random().toString(36).substr(2, 9)
     }]);
     setInput("");
+
+    // Handle automated navigation if requested by command
+    if (response.redirect) {
+      setTimeout(() => {
+        router.push(response.redirect!);
+      }, 1000);
+    }
     
     // Ensure focus returns to input after async command
     setTimeout(() => {

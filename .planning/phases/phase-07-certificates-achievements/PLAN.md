@@ -20,10 +20,10 @@ Build a full-page grid of certificates, badges, and achievements with a 3D flip 
 ```json
 [
   {
-    "id": "hacktoberfest-2023",
-    "title": "Hacktoberfest 2023",
+    "id": "hacktoberfest-2025",
+    "title": "Hacktoberfest 2025",
     "issuer": "DigitalOcean",
-    "date": "October 2023",
+    "date": "October 2025",
     "category": "Achievement",
     "credentialId": "",
     "verifyUrl": "https://holopin.io/@farhanmallik05",

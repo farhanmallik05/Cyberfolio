@@ -1,0 +1,117 @@
+.hudContainer {
+  /* Position fixed handled in component class string for responsiveness */
+}
+
+.collapsedButton {
+  position: relative;
+  width: 3rem;
+  height: 3rem;
+  background-color: var(--glass2);
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  items-center: center;
+  justify-content: center;
+  gap: 2px;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.collapsedButton:hover {
+  border-color: var(--neon);
+  box-shadow: 0 0 15px rgba(0, 245, 255, 0.3); /* Fallback */
+  box-shadow: 0 0 15px color-mix(in srgb, var(--neon) 30%, transparent);
+}
+
+.cornerDeco {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  border-top: 2px solid var(--neon);
+  border-right: 2px solid var(--neon);
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--neon);
+  box-shadow: 0 0 10px var(--neon);
+}
+
+.label {
+  font-family: var(--font-orbitron), sans-serif;
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--neon);
+  letter-spacing: 0.1em;
+}
+
+.expandedPanel {
+  width: 20rem;
+  background-color: var(--glass2);
+  -webkit-backdrop-filter: blur(40px);
+  backdrop-filter: blur(40px);
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 245, 255, 0.05); /* Fallback */
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.8), 0 0 20px color-mix(in srgb, var(--neon) 5%, transparent);
+  overflow: hidden;
+}
+
+.activeThemeItem {
+  background-color: var(--glass) !important;
+  background-color: rgba(0, 245, 255, 0.08) !important; /* Fallback */
+  background-color: color-mix(in srgb, var(--neon) 8%, transparent) !important;
+  border: 2px solid var(--neon) !important;
+  box-shadow: 0 0 20px rgba(0, 245, 255, 0.15); /* Fallback */
+  box-shadow: 0 0 20px color-mix(in srgb, var(--neon) 15%, transparent);
+}
+
+.swatchContainer {
+    width: 2.5rem;
+    height: 1.5rem;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.swatchBg {
+    position: absolute;
+    inset: 0;
+    background-color: var(--swatch-bg);
+}
+
+.swatchAccent {
+    position: absolute;
+    bottom: -50%;
+    right: -20%;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    filter: blur(8px);
+    background-color: var(--swatch-accent);
+}
+
+.themeName {
+  font-family: var(--font-orbitron), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.themeList {
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}

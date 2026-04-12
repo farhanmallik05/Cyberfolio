@@ -1,11 +1,19 @@
 "use client";
-import { useRef } from "react";
+import React, { useRef } from "react";
+import * as THREE from "three";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Stars } from "@react-three/drei";
-import * as THREE from "three";
+import { THEMES } from "@/data/themes";
+import { useTheme } from "@/context/ThemeContext";
+
+import styles from './BackgroundSystem.module.css';
 
 function RotatingRings() {
+    const { theme } = useTheme();
     const ringsRef = useRef<THREE.Group>(null);
+
+    const themeData = THEMES.find(t => t.id === theme) || THEMES[0];
+    const accentColor = themeData.accentColor;
 
     useFrame((state, delta) => {
         if (ringsRef.current) {
@@ -18,37 +26,32 @@ function RotatingRings() {
         <group ref={ringsRef}>
             <mesh>
                 <torusGeometry args={[3, 0.02, 16, 64]} />
-                <meshBasicMaterial color="#00AEEF" wireframe transparent opacity={0.3} />
+                <meshBasicMaterial color={accentColor} wireframe transparent opacity={0.3} />
             </mesh>
             <mesh rotation={[Math.PI / 2, 0, 0]}>
                 <torusGeometry args={[4, 0.02, 16, 64]} />
-                <meshBasicMaterial color="#0FD3FF" wireframe transparent opacity={0.2} />
+                <meshBasicMaterial color={accentColor} wireframe transparent opacity={0.2} />
             </mesh>
             <mesh rotation={[0, Math.PI / 3, Math.PI / 4]}>
                 <torusGeometry args={[5, 0.01, 16, 64]} />
-                <meshBasicMaterial color="#C9D1D9" wireframe transparent opacity={0.1} />
+                <meshBasicMaterial color={theme === 'cyber' ? "#C9D1D9" : accentColor} wireframe transparent opacity={0.1} />
             </mesh>
         </group>
     );
 }
 
 export function BackgroundSystem() {
+    const { theme } = useTheme();
+    const themeData = THEMES.find(t => t.id === theme) || THEMES[0];
+    const accentColor = themeData.accentColor;
+
     return (
         <div className="fixed inset-0 z-[-1] pointer-events-none overflow-hidden bg-mech-base">
             {/* Layer 2: Galaxy Nebula Gradient (CSS) */}
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-mech-navy/50 via-mech-base to-mech-base opacity-70"></div>
 
             {/* Layer 3: Blueprint Grid Overlay */}
-            <div
-                className="absolute inset-0 opacity-10"
-                style={{
-                    backgroundImage: `
-            linear-gradient(to right, #00AEEF 1px, transparent 1px),
-            linear-gradient(to bottom, #00AEEF 1px, transparent 1px)
-          `,
-                    backgroundSize: '40px 40px'
-                }}
-            ></div>
+            <div className={styles.gridOverlay}></div>
 
             {/* Layer 1 & 4: Starfield and 3D Rings */}
             <div className="absolute inset-0">

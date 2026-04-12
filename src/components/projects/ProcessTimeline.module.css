@@ -1,0 +1,138 @@
+.container {
+    position: relative;
+    padding: 4rem 0;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.absLine {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--neon), var(--neon2));
+    transform: translateX(-50%);
+    box-shadow: 0 0 15px var(--neon);
+    z-index: 1;
+}
+
+.stepsWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 6rem;
+    position: relative;
+    z-index: 2;
+}
+
+.step {
+    display: flex;
+    width: 100%;
+    position: relative;
+}
+
+.left {
+    justify-content: flex-start;
+    padding-right: 50%;
+}
+
+.right {
+    justify-content: flex-end;
+    padding-left: 50%;
+}
+
+.dot {
+    position: absolute;
+    left: 50%;
+    top: 2rem;
+    width: 16px;
+    height: 16px;
+    background: var(--bg);
+    border: 3px solid var(--neon);
+    border-radius: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 0 10px var(--neon);
+    z-index: 3;
+}
+
+.content {
+    background: var(--glass);
+    border: 1px solid var(--border);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    padding: 2rem;
+    border-radius: 4px;
+    position: relative;
+    width: 90%;
+}
+
+.left .content {
+    margin-right: 3rem;
+    border-right: 4px solid var(--neon);
+}
+
+.right .content {
+    margin-left: 3rem;
+    border-left: 4px solid var(--neon2);
+}
+
+.phaseLabel {
+    font-family: var(--font-mono);
+    color: var(--neon);
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.stepTitle {
+    font-family: var(--font-orbitron);
+    color: var(--text);
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.stepDesc {
+    font-family: var(--font-inter);
+    color: var(--dim);
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+.tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+.toolBadge {
+    font-size: 0.6rem;
+    font-family: var(--font-orbitron);
+    padding: 0.2rem 0.6rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    color: var(--silver);
+}
+
+@media (max-width: 768px) {
+    .absLine {
+        left: 2rem;
+    }
+    
+    .dot {
+        left: 2rem;
+    }
+    
+    .left, .right {
+        padding-left: 4rem;
+        padding-right: 0;
+        justify-content: flex-start;
+    }
+    
+    .content {
+        width: 100%;
+        margin: 0 !important;
+    }
+}

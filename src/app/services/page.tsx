@@ -14,7 +14,7 @@ const services = [
         colorClass: "text-mech-cyan border-mech-cyan shadow-[0_0_15px_rgba(15,211,255,0.3)]",
         iconBg: "bg-mech-cyan/10",
         features: ["Responsive Architecture", "SEO Optimization", "API Integration", "Secure Authentication"],
-        price: "From $1,500"
+        price: "From ₹1,500"
     },
     {
         id: "SRV-02",
@@ -24,7 +24,7 @@ const services = [
         colorClass: "text-mech-blue border-mech-blue shadow-[0_0_15px_rgba(0,174,239,0.3)]",
         iconBg: "bg-mech-blue/10",
         features: ["Zapier/Make Alternative", "Self-Hosted Options", "Custom Webhooks", "CRM Sync"],
-        price: "From $800"
+        price: "From ₹800"
     },
     {
         id: "SRV-03",
@@ -44,7 +44,7 @@ const services = [
         colorClass: "text-mech-cyan border-mech-cyan shadow-[0_0_15px_rgba(15,211,255,0.3)]",
         iconBg: "bg-mech-cyan/10",
         features: ["Figma Prototypes", "Design Systems", "Wireframing", "User Journey Mapping"],
-        price: "From $1,000"
+        price: "From ₹1,000"
     }
 ];
 

@@ -4,6 +4,7 @@ import { fetchGithubProjects } from "./github-api";
 export interface CommandResponse {
   output: string;
   type: "info" | "success" | "warning" | "error" | "ascii";
+  redirect?: string;
 }
 
 export const COMMANDS: Record<string, (args: string[]) => Promise<CommandResponse>> = {
@@ -26,17 +27,20 @@ AVAILABLE COMMANDS:
 
   uses: async () => ({
     output: "AUDITING NEURAL ARMORY... MISSION CONFIG LOADED at /uses",
-    type: "success"
+    type: "success",
+    redirect: "/uses"
   }),
 
   now: async () => ({
     output: "SYNCING HEARTBEAT... DATA STREAM ESTABLISHED at /now",
-    type: "success"
+    type: "success",
+    redirect: "/now"
   }),
 
   social: async () => ({
     output: "OPENING NEURAL NODE NETWORK... UPLINK ESTABLISHED at /social",
-    type: "success"
+    type: "success",
+    redirect: "/social"
   }),
 
   who: async () => ({
@@ -49,18 +53,21 @@ AVAILABLE COMMANDS:
     const list = repos.map(r => `> ${r.title} (${r.stars}★)`).join("\n");
     return {
       output: `ACTIVE DEPLOYMENTS:\n${list || "No transmissions detected."}`,
-      type: "success"
+      type: "success",
+      redirect: "/projects"
     };
   },
 
   skills: async () => ({
     output: "NEURAL CONSTELLATION:\n- LANGUAGES: TS, JS, PYTHON, SOLIDITY\n- FRAMEWORKS: NEXT.JS, REACT, FASTAPI\n- TOOLS: GSAP, THREE.JS, N8N, DOCKER",
-    type: "info"
+    type: "info",
+    redirect: "/skills"
   }),
 
   contact: async () => ({
     output: "INITIATING SECURE LINK...\nEMAIL: farhanmallick\nGITHUB: @farhanmallik05\nLINKEDIN: /in/farhanmallik",
-    type: "success"
+    type: "success",
+    redirect: "/contact"
   }),
 
   "sudo hire": async () => ({

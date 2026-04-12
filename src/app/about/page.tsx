@@ -97,7 +97,7 @@ export default function About() {
                                 <div className="absolute inset-0 bg-[linear-gradient(rgba(15,211,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(15,211,255,0.05)_1px,transparent_1px)] bg-[size:10px_10px]" />
                                 
                                 <motion.div
-                                    className="absolute left-0 right-0 h-0.5 bg-mech-cyan shadow-[0_0_15px_#0FD3FF]"
+                                    className="absolute left-0 right-0 h-0.5 bg-neon shadow-glow"
                                     initial={{ top: "-10%" }}
                                     animate={{ top: "110%" }}
                                     transition={{ duration: 3, repeat: Infinity, ease: "linear" }}

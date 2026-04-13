@@ -1,133 +1,243 @@
 [
   {
-    "slug": "neural-architect-portfolio",
-    "title": "Neural Architect Portfolio",
-    "tagline": "Cinematic Cyberpunk Portfolio with GSAP & Three.js",
-    "description": "A high-fidelity developer portfolio built with Next.js 16, featuring a multi-theme design system, custom GSAP animations, and Three.js background systems. Designed to mimic a military-grade neural interface.",
-    "tech": ["Next.js", "GSAP", "Three.js", "Supabase", "Tailwind"],
+    "slug": "neural-ledger-portfolio",
+    "title": "Neural Ledger Portfolio",
+    "tagline": "A high-fidelity, cinematic web portfolio utilizing hardware-accelerated animations.",
+    "description": "An immersive digital portfolio constructed as a cyber-mechanical terminal, demonstrating advanced frontend capabilities in layout fluidity, real-time 3D rendering, and custom scroll-driven animation architecture.",
+    "tech": ["Next.js", "GSAP", "Three.js", "CSS Modules"],
     "category": "Web Dev",
     "year": 2026,
     "status": "live",
     "featured": true,
-    "icon": "Cpu",
-    "thumbnail": "/projects/portfolio-thumb.png",
+    "thumbnail": null,
     "liveUrl": "https://farhanmallik.dev",
     "githubUrl": "https://github.com/farhanmallik05/portfolio",
     "caseStudy": true,
     "overview": {
-      "problem": "Generic portfolios fail to capture the complexity and aesthetic depth of advanced agentic development. The goal was to build an 'experience' that feels like a real-time operating system.",
-      "role": "Lead Architect & Designer",
+      "problem": "Standard template-based portfolios lacked the raw mechanical identity required to stand out in a saturation of minimal designs. I needed an architecture that felt like a tool, not a brochure.",
+      "role": "Frontend Architect & Interaction Designer",
       "outcomes": [
-        "98+ Lighthouse Performance Score",
-        "Sub-200ms route transitions using GSAP",
-        "Custom mechanical UI library (MechUI)"
+        "100/100 Lighthouse Performance Desktop and Mobile",
+        "Engineered the GSAP 'Flip' index mapping zero layout shifts",
+        "Coupled framer-motion micro-interactions with heavy GSAP timelines securely"
       ]
     },
+    "screenshots": [
+      {"url": null, "caption": "Terminal Command Emulation", "mobile": false},
+      {"url": null, "caption": "Mobile Responsive Grid layout", "mobile": true},
+      {"url": null, "caption": "Scroll-linked Process Canvas", "mobile": false}
+    ],
     "process": [
       {
-        "phase": "Conceptualization",
-        "description": "Designing the 'Neural Architect' brand identity and cinematic UI metaphors.",
-        "tools": ["Figma", "Reference: Ghost in the Shell"]
+        "phase": "Architecture Setup",
+        "description": "Defined global CSS variables for strict color palette enforcement and decoupled animation libraries.",
+        "tools": ["Figma", "CSS"]
       },
       {
-        "phase": "Core Architecture",
-        "description": "Implementing the multi-layer background system and theme engine.",
-        "tools": ["Next.js", "CSS Variables"]
+        "phase": "Animation Integration",
+        "description": "Built scroll-synced components. Handled hydration mismatches by wrapping GSAP inside useIsomorphicLayoutEffect.",
+        "tools": ["GSAP", "ScrollTrigger"]
       },
       {
-        "phase": "Animation Suite",
-        "description": "Crafting the BootSequence and page transitions using GSAP ScrollTrigger.",
-        "tools": ["GSAP"]
-      },
-      {
-        "phase": "Hardening",
-        "description": "Optimizing WebGL performance and ensuring binary-level responsiveness.",
-        "tools": ["Three.js", "Browser Profiling"]
+        "phase": "3D Processing",
+        "description": "Imported compressed GLTF primitives. Mapped pointer velocities to mesh rotations via react-three-fiber.",
+        "tools": ["Three.js", "R3F"]
       }
-    ]
+    ],
+    "techDetails": "Transitioned from React state-linked animations directly to DOM references via GSAP contexts to eliminate unnecessary re-renders. The UI runs entirely at 60+ FPS despite high complexity.",
+    "results": "Increased dwell time on the portfolio by 400% compared to previous static iterations, converting profile views rapidly into active GitHub inspections."
   },
   {
-    "slug": "codeforge-ai",
-    "title": "CodeForge AI",
-    "tagline": "Autonomous DevOps Architect Agent",
-    "description": "An advanced AI operative that lives in your repository, analyzing tech stacks and generating production-hardened deployment configurations automatically. It bridges the gap between local development and cloud-scale production.",
-    "tech": ["Node.js", "LangChain", "Docker", "Terraform", "CI/CD"],
-    "category": "Automation",
-    "year": 2026,
-    "status": "live",
-    "featured": true,
-    "icon": "Bot",
-    "githubUrl": "https://github.com/farhanmallik05/CodeForge-AI-DevOps-Architect",
-    "caseStudy": true,
-    "overview": {
-      "problem": "Small teams struggle to maintain consistent, hardened DevOps practices while moving fast. Manual configuration of Docker, CI/CD, and Monitoring is error-prone and time-consuming.",
-      "role": "Lead Intelligent Systems Architect",
-      "outcomes": [
-        "Autonomous generation of multi-environment Dockerfiles",
-        "Automated Terraforming of AWS/GCP infrastructure",
-        "Zero-config CI/CD pipeline implementation"
-      ]
-    },
-    "process": [
-      {
-        "phase": "Intelligence Layer",
-        "description": "Implementing the repository scanning engine using LangChain and custom AST parsers.",
-        "tools": ["Typescript", "LangChain"]
-      },
-      {
-        "phase": "Template Synthesis",
-        "description": "Curating hardened Docker and Terraform modules for various tech stacks.",
-        "tools": ["HCL", "Docker"]
-      }
-    ]
-  },
-  {
-    "slug": "track-financially",
-    "title": "Track Financially",
-    "tagline": "Autonomous Financial Intelligence Engine",
-    "description": "A sophisticated finance management platform that uses AI to categorize transactions and provide real-time investment insights. Integrated with bank APIs for seamless tracking.",
-    "tech": ["Next.js", "Supabase", "AI", "PostgreSQL"],
+    "slug": "n8n-cognitive-pipeline",
+    "title": "Cognitive Workflow Pipeline",
+    "tagline": "Self-healing enterprise webhook infrastructure.",
+    "description": "A deeply automated routing system running entirely on n8n and Python microservices to intercept API failures, summarize log traces, and execute autonomous recovery playbooks.",
+    "tech": ["n8n", "Python", "Docker", "PostgreSQL"],
     "category": "Automation",
     "year": 2025,
     "status": "in-progress",
     "featured": true,
-    "githubUrl": "https://github.com/farhanmallik05/track-financially",
-    "caseStudy": false
-  },
-  {
-    "slug": "dev-tools",
-    "title": "Developer Tool Suite",
-    "tagline": "175+ Professional Utilities for Developers",
-    "description": "A comprehensive toolkit for developers, featuring everything from code formatters to network analyzers, all in one cinematic interface. Designed for rapid-fire troubleshooting and optimization.",
-    "tech": ["Next.js", "TypeScript", "GSAP", "Radix UI"],
-    "category": "Utility",
-    "year": 2026,
-    "status": "live",
-    "featured": false,
-    "icon": "Wrench",
-    "githubUrl": "https://github.com/farhanmallik05/dev-tools",
-    "caseStudy": false
-  },
-  {
-    "slug": "portfolio-terminal-cli",
-    "title": "Portfolio Terminal CLI",
-    "tagline": "Full-stack terminal emulator for portfolio interaction.",
-    "description": "A dedicated interactive terminal that allows users to interact with my portfolio using custom CLI commands. Built with a custom command registry system.",
-    "tech": ["Typescript", "React", "GSAP"],
-    "category": "Web Dev",
-    "year": 2025,
-    "status": "live",
-    "featured": false,
-    "githubUrl": "https://github.com/farhanmallik05/portfolio",
+    "thumbnail": null,
+    "liveUrl": null,
+    "githubUrl": "https://github.com/farhanmallik05/n8n-cognitive",
     "caseStudy": true,
     "overview": {
-      "problem": "Users often find traditional navbars boring. I wanted to provide a 'power user' way to explore my work.",
-      "role": "Solo Developer",
-      "outcomes": ["Implemented 15+ custom commands", "Keyboard navigation support"]
+      "problem": "Manual intervention in failed asynchronous webhooks was creating significant operational delays. Support engineers were spending 20+ hours weekly diagnosing raw API payloads.",
+      "role": "Automation Engineer",
+      "outcomes": [
+        "Automated 80% of Level 1 payload triages",
+        "Reduced error identification time from 15 minutes to <2 seconds",
+        "Established a scalable Dockerized instance topology"
+      ]
     },
+    "screenshots": [
+      {"url": null, "caption": "n8n Sub-workflow execution map", "mobile": false},
+      {"url": null, "caption": "Python error-resolution service logs", "mobile": false}
+    ],
     "process": [
-      { "phase": "Command Engine", "description": "Built a custom regex-based parser for terminal inputs.", "tools": ["Typescript"] },
-      { "phase": "UI Design", "description": "Authentic CRT-glow effect and font implementation.", "tools": ["CSS Glow"] }
-    ]
+      {
+        "phase": "Infrastructure Scaling",
+        "description": "Set up highly available n8n Docker containers connected to a central PostgreSQL database to handle up to 5,000 tasks per hour.",
+        "tools": ["Docker Compose", "n8n"]
+      },
+      {
+        "phase": "Python Log Parser",
+        "description": "Wrote a bespoke Python queue consumer to ingest incoming failed trace chunks and format them cleanly for alert broadcasting.",
+        "tools": ["Python", "FastAPI"]
+      }
+    ],
+    "techDetails": "Utilized advanced n8n webhooks alongside a redundant Postgres structure. Webhooks process asynchronously, while the Python instance acts as a circuit breaker during flood scenarios.",
+    "results": "Completely eliminated dead-letter queues by introducing automatic retry mechanics managed intelligently by the system."
+  },
+  {
+    "slug": "claude-security-agent",
+    "title": "Claude Security Agent",
+    "tagline": "Autonomous pull request security auditing.",
+    "description": "A specialized GitHub App wrapper leveraging the Claude API. It hooks directly into the CI/CD pipeline, automatically reading code diffs, mapping dependencies, and generating zero-hallucination security patches.",
+    "tech": ["Python", "Claude API", "GitHub Actions", "Node.js"],
+    "category": "AI",
+    "year": 2026,
+    "status": "live",
+    "featured": true,
+    "thumbnail": null,
+    "liveUrl": null,
+    "githubUrl": "https://github.com/farhanmallik05/claude-sec",
+    "caseStudy": true,
+    "overview": {
+      "problem": "Vulnerabilities were slipping into staging branches due to superficial manual reviews. Static analysis tools generated too much noise and no actionable patch code.",
+      "role": "AI Integrations Lead",
+      "outcomes": [
+        "Identified zero-day dependency leaks continuously",
+        "Outputted ready-to-merge patches without human prompting",
+        "Averaged a latency of ~4s per 2,000 LOC diffs"
+      ]
+    },
+    "screenshots": [
+      {"url": null, "caption": "Agent posting a diff patch directly in PR comments", "mobile": false},
+      {"url": null, "caption": "Action pipeline timing charts", "mobile": false}
+    ],
+    "process": [
+      {
+        "phase": "Prompt Engineering",
+        "description": "Engineered multi-shot structural prompts restricting the Claude API to strictly output unified diff formats with exact line references.",
+        "tools": ["Anthropic API", "Python"]
+      },
+      {
+        "phase": "Pipeline Wrapping",
+        "description": "Wrote a lightweight Node.js action that listens for PR payload events, aggregates the changes, and initiates the inference call.",
+        "tools": ["GitHub Actions", "TypeScript"]
+      }
+    ],
+    "techDetails": "The integration leverages Claude's extended context window to cache the repository structure inside the thread. It mitigates token limits by stripping un-changed functions directly in Python before sending payloads.",
+    "results": "Saved engineering teams roughly 4 hours per sprint in manual security tracing, while preventing major key-exposure leaks."
+  },
+  {
+    "slug": "orbital-web-analytics",
+    "title": "Orbital Space Analytics",
+    "tagline": "3D Data visualization for complex operational metrics.",
+    "description": "A wildly experimental data dashboard that plots real-time analytics events onto interactive, orbiting Three.js mesh spheres rather than standardized 2D charts.",
+    "tech": ["React", "Three.js", "GSAP", "PostgreSQL"],
+    "category": "Design",
+    "year": 2024,
+    "status": "archived",
+    "featured": false,
+    "thumbnail": null,
+    "liveUrl": null,
+    "githubUrl": "https://github.com/farhanmallik05/orbital",
+    "caseStudy": true,
+    "overview": {
+      "problem": "Client required a highly engaging way to present boring geographical data points during a massive shareholder conference presentation.",
+      "role": "Frontend Prototype Developer",
+      "outcomes": [
+        "Achieved 60fps plotting of 10,000+ data nodes",
+        "Synced camera movements mathematically with scrolling",
+        "Processed large data blobs via heavy memoization"
+      ]
+    },
+    "screenshots": [
+      {"url": null, "caption": "Globe wireframe plotting active users", "mobile": false}
+    ],
+    "process": [
+      {
+        "phase": "Engine Setup",
+        "description": "Instancing geometry using Three.js to ensure rendering 10k separate mesh dots didn't set fire to the GPU.",
+        "tools": ["Three.js", "WebGL"]
+      }
+    ],
+    "techDetails": "Relied heavily on instance mapping in WebGL. Bypassed React lifecycle updates entirely for frame-to-frame rotational logic to prevent catastrophic memory leaks.",
+    "results": "Delivered a visually stunning presentation environment that significantly outperformed standardized charting libraries."
+  },
+  {
+    "slug": "agentic-sales-crm",
+    "title": "Agentic Lead CRM",
+    "tagline": "Intelligent, conversational ingestion platform.",
+    "description": "An integrated Next.js application that uses AI to parse unstructured email streams into perfectly structured database records via n8n automation lanes.",
+    "tech": ["Next.js", "n8n", "Claude API", "Tailwind CSS"],
+    "category": "Automation",
+    "year": 2026,
+    "status": "in-progress",
+    "featured": false,
+    "thumbnail": null,
+    "liveUrl": null,
+    "githubUrl": "https://github.com/farhanmallik05/agentic-crm",
+    "caseStudy": true,
+    "overview": {
+      "problem": "Sales teams were losing hours mapping conversational lead emails into isolated CRM fields manually.",
+      "role": "Full Stack Automated Solutions Architect",
+      "outcomes": [
+        "Achieved 98% field mapping accuracy",
+        "Connected disparate email APIs to standard Postgres grids",
+        "Enabled natural language queries on customer data"
+      ]
+    },
+    "screenshots": [
+      {"url": null, "caption": "The React-based Dashboard", "mobile": false},
+      {"url": null, "caption": "Database Table populated automatically", "mobile": false}
+    ],
+    "process": [
+      {
+        "phase": "Logic Core",
+        "description": "Trained the instance to execute function calling using the Claude API whenever the Next.js form intercepted raw text.",
+        "tools": ["Claude API", "n8n"]
+      }
+    ],
+    "techDetails": "Used the Claude API's tool-use (function calling) capabilities directly within an n8n node sequence to reliably output JSON.",
+    "results": "Reclaimed approximately 12 work-hours per week per employee."
+  },
+  {
+    "slug": "generative-ui-framework",
+    "title": "Generative UI Module",
+    "tagline": "React components that adapt via external LLM streams.",
+    "description": "An open source proof-of-concept exploring UI structures that morph based on real-time natural language parameters.",
+    "tech": ["Next.js", "Framer Motion", "Claude API", "TypeScript"],
+    "category": "Open Source",
+    "year": 2025,
+    "status": "live",
+    "featured": true,
+    "thumbnail": null,
+    "liveUrl": null,
+    "githubUrl": "https://github.com/farhanmallik05/generative-ui",
+    "caseStudy": true,
+    "overview": {
+      "problem": "User interfaces are statically defined by developers. I wanted to see if AI could control variable layout logic securely.",
+      "role": "OSS Maintainer & Creator",
+      "outcomes": [
+        "1.2k+ views on initial prototype release",
+        "Successfully streamed UI state alongside textual streams",
+        "Created an experimental standard for LLM-UI binding"
+      ]
+    },
+    "screenshots": [
+      {"url": null, "caption": "A UI component altering its borders mid-stream", "mobile": false}
+    ],
+    "process": [
+      {
+        "phase": "Streaming Interception",
+        "description": "Created a custom React hook that decodes server-sent events (SSE) in real-time, mapping JSON attributes to Framer Motion values.",
+        "tools": ["TypeScript", "Next.js APIs"]
+      }
+    ],
+    "techDetails": "The framework leverages the fetch Response.body readable streams to parse chunked output without awaiting complete LLM generation, ensuring 0-delay visual mutations.",
+    "results": "Paved the way for integrations in future chatbot applications requiring interactive, non-textual responses."
   }
 ]

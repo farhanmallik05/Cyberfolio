@@ -26,7 +26,16 @@ const BASE_URL = "https://api.github.com";
 
 export async function fetchGithubProjects(): Promise<Project[]> {
   try {
+    const headers: HeadersInit = {
+      'Accept': 'application/vnd.github.v3+json',
+    };
+
+    if (process.env.GITHUB_TOKEN) {
+      headers['Authorization'] = `Bearer ${process.env.GITHUB_TOKEN}`;
+    }
+
     const response = await fetch(`${BASE_URL}/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=100`, {
+      headers,
       next: { revalidate: 3600 } // Cache for 1 hour
     });
 
@@ -82,7 +91,16 @@ export interface GithubStats {
 
 export async function fetchGithubStats(): Promise<GithubStats> {
   try {
+    const headers: HeadersInit = {
+      'Accept': 'application/vnd.github.v3+json',
+    };
+
+    if (process.env.GITHUB_TOKEN) {
+      headers['Authorization'] = `Bearer ${process.env.GITHUB_TOKEN}`;
+    }
+
     const response = await fetch(`${BASE_URL}/users/${GITHUB_USERNAME}/repos?per_page=100`, {
+      headers,
       next: { revalidate: 3600 }
     });
 

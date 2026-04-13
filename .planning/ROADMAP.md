@@ -1,6 +1,6 @@
 ## Last Updated: 2026-04-12
 ## Current State: ⏳ Milestone 3 In Progress — Cinematic Core
-## Next Target: Phase 12 — Projects Index + Case Studies
+## Next Target: Phase 13 — Blog System (MDX)
 
 ---
 
@@ -75,8 +75,8 @@
 - **Status**: ✅ Complete
 - **Scope**: Reconstructed homepage with GSAP. Hero typewriter, about preview, projects strip, services preview, contact wizard, boot loader, WebGL background, and Matrix easter egg.
 
-### Phase 12: Projects Index + Case Studies (L)
-- **Status**: ⏳ Planned
+### Phase 12: Projects Index + Case Studies (L) ✅
+- **Status**: ✅ Complete
 - **Scope**: /projects transition grid, /projects/[slug] scroll-scrubbed case studies.
 
 ### Phase 13: Blog System (MDX) (L)

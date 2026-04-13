@@ -1,9 +1,9 @@
 # Project State
 
 ## Current Milestone: M3 — Cinematic Core
-## Next Phase to Execute: Phase 12 (Projects Index + Case Studies)
-## Last Updated: 2026-04-12
-## Status: ⏳ Milestone 3 In Progress (Phase 11 Complete — HARDENED)
+## Next Phase to Execute: Phase 13 (Blog System)
+## Last Updated: 2026-04-13
+## Status: ⏸️ Milestone 3 In Progress — Phase 13 Paused (Wave 1 Infrastructure)
 
 ---
 
@@ -67,7 +67,7 @@ Phase 0 blueprint in: `.planning/phases/phase-00-architecture-blueprint/PLAN.md`
 | 9 | Multi-Theme System | ✅ Complete |
 | 10 | Testimonials & Social Proof | ✅ Complete |
 | 11 | Cinematic Home Redesign | ✅ Complete (HARDENED) |
-| 12 | Projects Index + Case Studies | ⏳ Planned (NEXT) |
+| 12 | Projects Index + Case Studies | ✅ Complete (HARDENED) |
 | 13 | Blog System (MDX) | ⏳ Planned |
 | 13.5 | Minimal Admin Panel | ⏳ Planned |
 | 14 | About Page Expanded | ⏳ Planned |

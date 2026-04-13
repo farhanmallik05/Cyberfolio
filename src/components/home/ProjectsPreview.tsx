@@ -14,10 +14,31 @@ export function ProjectsPreview() {
   const sectionRef = useRef<HTMLElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
     async function load() {
-      const data = await fetchGithubProjects();
-      setProjects(data.slice(0, 6)); // Top 6 for preview
+      try {
+        setLoading(true);
+        console.log("Fetching project deployments from proxy...");
+        const response = await fetch('/api/github/projects');
+        
+        if (!response.ok) {
+          const errData = await response.json();
+          throw new Error(errData.error || 'Failed to fetch from proxy');
+        }
+        
+        const data = await response.json();
+        console.log(`Successfully received ${data.length} repositories.`);
+        setProjects(data.slice(0, 6)); 
+        setError(null);
+      } catch (err: any) {
+        console.error("Neural grid transmission failure:", err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
     }
     load();
   }, []);

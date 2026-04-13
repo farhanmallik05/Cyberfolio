@@ -1,159 +1,138 @@
-"use client";
+'use client';
 
-import { motion, AnimatePresence } from "framer-motion";
-import { ProjectCard } from "@/components/ui/ProjectCard";
-import { useEffect, useState, useMemo } from "react";
-import { getAllProjects, Project } from "@/lib/projects";
-import { useRole, ROLE_META } from "@/context/RoleContext";
-import { GitHubStatsBar } from "@/components/GitHubStatsBar";
-import { FilterBar } from "@/components/projects/FilterBar";
-import Fuse from "fuse.js";
+import dynamic from 'next/dynamic';
+import { useState, useMemo, useEffect, useRef } from 'react';
+import { Flip } from 'gsap/all';
+import gsap from 'gsap';
+import Fuse from 'fuse.js';
+import projectsData from '@/data/projects.json';
+import { FilterBar } from '@/components/projects/FilterBar';
+import { Code2, Search } from 'lucide-react';
+import { GlitchText } from '@/components/ui/GlitchText';
 
-export default function Projects() {
-    const { activeRole } = useRole();
-    const roleMeta = ROLE_META[activeRole];
-    const [allProjects, setAllProjects] = useState<Project[]>([]);
-    const [activeCategory, setActiveCategory] = useState("All");
-    const [searchQuery, setSearchQuery] = useState("");
-    const [isLoading, setIsLoading] = useState(true);
+import { ProjectCard } from '@/components/ui/ProjectCard';
 
-    useEffect(() => {
-        // Simple artificial delay for boot sequence feel
-        const timer = setTimeout(() => {
-            setAllProjects(getAllProjects());
-            setIsLoading(false);
-        }, 800);
-        return () => clearTimeout(timer);
-    }, []);
+export default function ProjectsPage() {
+  const [activeCategory, setActiveCategory] = useState('All');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredProjects, setFilteredProjects] = useState(projectsData);
+  const gridRef = useRef<HTMLDivElement>(null);
+  
+  const categories = ['All', 'Web Dev', 'Automation', 'AI', 'Design', 'Open Source'];
 
-    const categories = useMemo(() => {
-        const cats = new Set(allProjects.map(p => p.category));
-        return ["All", ...Array.from(cats)];
-    }, [allProjects]);
+  // Initialize Fuse.js
+  const fuse = useMemo(() => new Fuse(projectsData, {
+    keys: ['title', 'description', 'tech', 'category'],
+    threshold: 0.3,
+  }), []);
 
-    const filteredProjects = useMemo(() => {
-        let results = [...allProjects];
+  useEffect(() => {
+    // Register Flip securely on client
+    gsap.registerPlugin(Flip);
+  }, []);
 
-        // 1. Category Filter
-        if (activeCategory !== "All") {
-            results = results.filter(p => p.category === activeCategory);
-        }
+  useEffect(() => {
+    if (!gridRef.current) return;
 
-        // 2. Search Filter (Fuse.js)
-        if (searchQuery) {
-            const fuse = new Fuse(results, {
-                keys: ["title", "tech", "description", "category"],
-                threshold: 0.2 // More strict for technical accuracy
-            });
-            results = fuse.search(searchQuery).map(r => r.item);
-        }
+    // Capture state before updating
+    const items = gsap.utils.toArray('.project-item') as HTMLElement[];
+    const state = Flip.getState(items);
 
-        // 3. Role-based sorting (if role isn't 'all')
-        if (activeRole !== "all") {
-             // Basic sort: featured first, then by year
-             results.sort((a, b) => {
-                 if (a.featured && !b.featured) return -1;
-                 if (!a.featured && b.featured) return 1;
-                 return b.year - a.year;
-             });
-        }
+    let result = projectsData;
 
-        return results;
-    }, [allProjects, activeCategory, searchQuery, activeRole]);
+    // Search filter
+    if (searchQuery) {
+      result = fuse.search(searchQuery).map(r => r.item);
+    }
 
-    return (
-        <div className="min-h-screen pt-32 pb-16 px-4 max-w-7xl mx-auto relative z-10 w-full">
-            <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="w-full"
-            >
-                <div className="flex flex-col items-center mb-12 w-full">
-                    <div className="px-4 py-1 border border-mech-cyan/30 bg-mech-cyan/10 rounded-sm mb-4">
-                        <span className="text-xs font-orbitron font-bold text-mech-cyan tracking-widest uppercase">PROJECT ARCHIVES</span>
-                    </div>
-                    <h1 className="text-3xl md:text-5xl font-orbitron font-bold text-center tracking-widest uppercase text-mech-white">
-                        Mission <span className="text-mech-blue">Control</span>
-                    </h1>
-                    <p className="text-center font-inter text-mech-silver mt-4 max-w-2xl">
-                        A definitive ledger of neural deployments, system architectures, and autonomous experiments.
-                    </p>
-                </div>
+    // Category filter
+    if (activeCategory !== 'All') {
+      result = result.filter(project => project.category === activeCategory);
+    }
 
-                <div className="mb-12">
-                    <FilterBar 
-                        categories={categories}
-                        activeCategory={activeCategory}
-                        onCategoryChange={setActiveCategory}
-                        onSearch={setSearchQuery}
-                    />
-                </div>
+    setFilteredProjects(result);
 
-                {isLoading ? (
-                    <div className="flex flex-col items-center justify-center py-20">
-                        <div className="w-12 h-12 border-2 border-mech-cyan border-t-transparent rounded-full animate-spin mb-4" />
-                        <span className="font-orbitron text-mech-cyan animate-pulse tracking-widest text-sm uppercase">Accessing Database...</span>
-                    </div>
-                ) : (
-                    <>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full auto-rows-fr">
-                            <AnimatePresence mode="popLayout">
-                                {filteredProjects.length > 0 ? (
-                                    filteredProjects.map((project, idx) => (
-                                        <motion.div
-                                            key={project.slug}
-                                            layout
-                                            initial={{ opacity: 0, scale: 0.9 }}
-                                            animate={{ opacity: 1, scale: 1 }}
-                                            exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
-                                            transition={{ 
-                                                layout: { duration: 0.4, ease: "circOut" },
-                                                opacity: { duration: 0.4 },
-                                                delay: idx * 0.05
-                                            }}
-                                            className="h-full"
-                                        >
-                                            <ProjectCard 
-                                                slug={project.slug}
-                                                title={project.title}
-                                                description={project.description}
-                                                techStack={project.tech}
-                                                githubUrl={project.githubUrl}
-                                                liveUrl={project.liveUrl}
-                                                imagePath={project.thumbnail}
-                                                isFeatured={project.featured}
-                                                featuredColor={roleMeta.color}
-                                                category={project.category}
-                                                status={project.status}
-                                                caseStudy={project.caseStudy}
-                                            />
-                                        </motion.div>
-                                    ))
-                                ) : (
-                                    <motion.div 
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        className="col-span-full py-32 text-center border border-dashed border-mech-silver/20 rounded-lg relative overflow-hidden"
-                                    >
-                                        <div className="absolute inset-0 bg-mech-cyan/5 animate-pulse" />
-                                        <div className="relative z-10">
-                                            <div className="w-16 h-1 w-full bg-mech-cyan/20 absolute top-0 left-0 animate-scan-fast" />
-                                            <p className="font-orbitron text-mech-cyan uppercase tracking-[0.4em] mb-4 text-sm animate-pulse">NO_MATCHING_INTEL_FOUND</p>
-                                            <p className="font-mono text-mech-silver/40 text-[10px] uppercase">Verify query parameters or clear neural filters</p>
-                                        </div>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </div>
-                        
-                        <div className="mt-20 pt-10 border-t border-mech-silver/10">
-                            <h2 className="text-center font-orbitron text-mech-silver/40 text-xs tracking-widest uppercase mb-8">Global Network Statistics</h2>
-                            <GitHubStatsBar />
-                        </div>
-                    </>
-                )}
-            </motion.div>
+    // Animate layout shift after React state updates the DOM
+    requestAnimationFrame(() => {
+      if (!gridRef.current) return;
+      const newItems = gsap.utils.toArray('.project-item') as HTMLElement[];
+      
+      Flip.from(state, {
+        targets: newItems,
+        duration: 0.6,
+        ease: 'power3.out',
+        stagger: 0.05,
+        onEnter: elements => gsap.fromTo(elements, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.4 }),
+        onLeave: elements => gsap.to(elements, { opacity: 0, scale: 0.9, duration: 0.4 })
+      });
+    });
+  }, [activeCategory, searchQuery, fuse]);
+
+  return (
+    <main className="min-h-screen pt-32 pb-32 px-6 max-w-[1400px] mx-auto">
+      {/* Header */}
+      <div className="mb-16">
+        <div className="flex items-center gap-4 mb-4">
+          <Code2 className="w-8 h-8 text-mech-cyan" />
+          <GlitchText text="Neural Ledger" as="h1" className="text-4xl md:text-5xl font-black uppercase tracking-tight" />
         </div>
-    );
+        <p className="font-inter text-mech-silver max-w-2xl text-lg mt-4 md:pl-[48px]">
+          A verifiable archive of engineered solutions, ranging from immersive web experiences to self-healing automation architectures.
+        </p>
+      </div>
+
+      {/* Controls */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12 md:pl-[48px] pr-4">
+        <FilterBar 
+          categories={categories} 
+          activeCategory={activeCategory} 
+          onSelect={setActiveCategory} 
+        />
+        
+        <div className="relative w-full md:w-64 group z-20">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <Search className="h-4 w-4 text-mech-silver group-focus-within:text-mech-cyan transition-colors" />
+          </div>
+          <input
+            type="text"
+            className="block w-full pl-10 pr-3 py-2 border border-mech-silver/20 rounded-sm leading-5 bg-mech-base/50 placeholder-mech-silver/50 focus:outline-none focus:bg-mech-base focus:border-mech-cyan focus:ring-1 focus:ring-mech-cyan sm:text-sm font-inter transition-colors text-white"
+            placeholder="Search stack, title..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <div className="absolute inset-0 pointer-events-none rounded-sm bg-gradient-to-r from-mech-cyan/0 via-mech-cyan/0 to-mech-cyan/0 group-focus-within:from-mech-cyan/10 group-focus-within:via-mech-cyan/5 group-focus-within:to-transparent" />
+        </div>
+      </div>
+
+      {/* Grid */}
+      <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[500px] md:pl-[48px]">
+        {filteredProjects.map((project) => (
+          <div key={project.slug} className="project-item h-[450px]">
+             <ProjectCard
+                slug={project.slug}
+                title={project.title}
+                description={project.description}
+                techStack={project.tech}
+                githubUrl={project.githubUrl || undefined}
+                liveUrl={project.liveUrl || undefined}
+                imagePath={project.thumbnail || undefined}
+                isFeatured={project.featured}
+                featuredColor="#00F5FF"
+                category={project.category}
+                year={project.year}
+                status={project.status as any}
+                caseStudy={project.caseStudy}
+             />
+          </div>
+        ))}
+        {filteredProjects.length === 0 && (
+          <div className="col-span-full py-20 flex flex-col items-center justify-center border border-dashed border-mech-silver/20 bg-mech-base/30 rounded-sm">
+            <Search className="w-12 h-12 text-mech-silver/40 mb-4" />
+            <h3 className="font-orbitron text-xl text-white mb-2 tracking-widest uppercase">No Match Found</h3>
+            <p className="text-mech-silver font-inter">Try adjusting your category or search parameters.</p>
+          </div>
+        )}
+      </div>
+    </main>
+  );
 }

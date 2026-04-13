@@ -56,7 +56,9 @@ Live project indexing directly from the GitHub API, showcasing star counts, fork
 
 ## ⚡ Deployment & Maintenance
 
-Built with **Vercel** for globally distributed performance. 
+Built with **Netlify** for globally distributed performance and robust edge integrations.
+
+For comprehensive documentation covering APIs, configuration, and architecture, please refer to the `docs/` directory.
 
 To run the architect environment locally:
 ```bash

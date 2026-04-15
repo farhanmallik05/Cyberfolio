@@ -66,6 +66,12 @@ letter-spacing: 4px;
 text-transform: uppercase;
 ```
 
+### Protocol v12.0 — Viewport Priority
+- **System**: Role-based content filtering expanded to 12 sectors + 'All'.
+- **Trigger**: `RoleBadge` fixed bottom-left UI with scrollable popover.
+- **State**: `RoleProvider` (Context) synchronizes UI roles with Skill sectors.
+- **Persistence**: URL `?role=...` + LocalStorage sync.
+
 ### Section Format
 `[glow-line][number — Name]` → Example: `▸▸ 01 — About`
 
@@ -159,10 +165,11 @@ Elastic:   elastic.out(1, 0.5) — GSAP
     └── "Learn More →" links to /about
 
 04. SKILLS (VISUAL)
-    └── NOT progress bars — interactive constellation map
-    └── Nodes grouped by category
-    └── Hover to see proficiency + project reference
-    └── Animated connections between related skills
+    └── **Constellation V2**: Responsive SVG architecture (unified Mobile/Desktop).
+    └── **Interaction**: Click-to-lock nodes (persistent connections + labels).
+    └── **Visuals**: Animated 'flowing beams' (dashed stoke offsets) for active data paths.
+    └── **Logic**: O(1) SKILL_CAT lookup mapping for instant sector highlighting.
+    └── **Zoom**: Smooth `viewBox` panning to focus on selected sectors.
 
 05. PROJECTS (PREVIEW — 3 featured)
     └── Horizontal scroll on desktop
@@ -469,7 +476,7 @@ Protected by Supabase Auth (admin role only)
 ```
 
 ### 🛠️ Infrastructure Standard
-- **GitHub API**: Cache responses in Vercel Edge KV for 1 hour to prevent rate-limiting in production.
+- **GitHub API**: Cache responses in Netlify Edge caching for 1 hour to prevent rate-limiting in production.
 - **Database Backup**: Daily GitHub Action triggers pg_dump export to Supabase Storage bucket `/backups/db/`.
 - **SEO Utilities**: Shared `generateMetadata` wrapper with JSON-LD Breadcrumb generation on all Platform Layer pages.
 

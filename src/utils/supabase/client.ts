@@ -5,8 +5,12 @@ export function createClient() {
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
   if (!supabaseUrl || !supabaseAnonKey) {
+    const missing = []
+    if (!supabaseUrl) missing.push('NEXT_PUBLIC_SUPABASE_URL')
+    if (!supabaseAnonKey) missing.push('NEXT_PUBLIC_SUPABASE_ANON_KEY')
+
     console.warn(
-      'Supabase environment variables are missing. Database features will be disabled.'
+      `Supabase environment variables [${missing.join(', ')}] are missing. Database features will be disabled.`
     )
     // Return a proxy or a dummy client that doesn't crash on initialization
     // but will fail gracefully on method calls

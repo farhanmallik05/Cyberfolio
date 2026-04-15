@@ -22,13 +22,16 @@ export interface Project {
     year: number;
     status: 'live' | 'in-progress' | 'archived';
     featured?: boolean;
-    thumbnail?: string;
-    liveUrl?: string;
-    githubUrl?: string;
+    thumbnail?: string | null;
+    liveUrl?: string | null;
+    githubUrl?: string | null;
     caseStudy?: boolean;
     icon?: string;
-    overview?: ProjectOverview;
+    overview?: ProjectOverview | null;
     process?: ProjectProcess[];
+    techDetails?: string | null;
+    results?: string | null;
+    screenshots?: { url: string | null; caption: string; mobile?: boolean }[] | null;
 }
 
 export function getAllProjects(): Project[] {

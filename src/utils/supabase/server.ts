@@ -8,8 +8,12 @@ export async function createClient() {
 
   if (!supabaseUrl || !supabaseAnonKey) {
     if (process.env.NODE_ENV === 'development') {
+      const missing = []
+      if (!supabaseUrl) missing.push('NEXT_PUBLIC_SUPABASE_URL')
+      if (!supabaseAnonKey) missing.push('NEXT_PUBLIC_SUPABASE_ANON_KEY')
+
       console.warn(
-        'Supabase environment variables are missing. Server-side database features will be disabled.'
+        `Supabase environment variables [${missing.join(', ')}] are missing. Server-side database features will be disabled.`
       )
     }
     return createServerClient(

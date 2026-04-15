@@ -1,38 +1,38 @@
-.legendContainer {
-  /* Dynamic values will be handled via CSS variables passed in style attribute */
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
 }
 
-.categoryDot {
-  width: 0.75rem; /* w-3 */
-  height: 0.75rem; /* h-3 */
-  border-radius: 9999px;
-  background-color: var(--category-color, var(--neon));
-  color: var(--category-color, var(--neon));
-  box-shadow: 0 0 10px currentColor;
-  transition: transform 0.2s ease-in-out;
+/* Sector color mapping via local class to satisfy CSS Modules "pure selector" rule */
+.item[data-sector="frontend"] { --sector-color: #00F5FF; --glow-color: rgba(0,245,255,0.5); }
+.item[data-sector="backend-api"] { --sector-color: #FF2E63; --glow-color: rgba(255,46,99,0.5); }
+.item[data-sector="core-lang"] { --sector-color: #08F7AF; --glow-color: rgba(8,247,175,0.5); }
+.item[data-sector="ai-llm"] { --sector-color: #BF5FFF; --glow-color: rgba(191,95,255,0.5); }
+.item[data-sector="ml-data"] { --sector-color: #FFD700; --glow-color: rgba(255,215,0,0.5); }
+.item[data-sector="automation"] { --sector-color: #FF5722; --glow-color: rgba(255,87,34,0.5); }
+.item[data-sector="design-ux"] { --sector-color: #FF00FF; --glow-color: rgba(255,0,255,0.5); }
+.item[data-sector="content"] { --sector-color: #7FFF00; --glow-color: rgba(127,255,0,0.5); }
+.item[data-sector="leadership"] { --sector-color: #1E90FF; --glow-color: rgba(30,144,255,0.5); }
+.item[data-sector="devops"] { --sector-color: #FF4500; --glow-color: rgba(255,69,0,0.5); }
+.item[data-sector="security-ops"] { --sector-color: #DC143C; --glow-color: rgba(220,20,60,0.5); }
+.item[data-sector="cs-core"] { --sector-color: #FF8C00; --glow-color: rgba(255,140,0,0.5); }
+
+.dot {
+  background-color: var(--sector-color);
+  box-shadow: 0 0 8px var(--glow-color);
 }
 
-.categoryDot[data-category="frontend"] { --category-color: var(--neon); }
-.categoryDot[data-category="backend"] { --category-color: var(--neon2); }
-.categoryDot[data-category="automation"] { --category-color: var(--neon); }
-.categoryDot[data-category="ai"] { --category-color: var(--neon2); }
-.categoryDot[data-category="design"] { --category-color: var(--neon); }
-.categoryDot[data-category="devops"] { --category-color: var(--neon2); }
-
-.categoryGroup:hover .categoryDot {
-  transform: scale(1.25);
+.label {
+  color: rgba(255, 255, 255, 0.4);
 }
 
-.categoryLabel {
-  font-family: var(--font-orbitron), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: var(--dim); /* Fallback */
-  color: color-mix(in srgb, var(--text) 40%, transparent);
-  transition: color 0.2s ease-in-out;
+.item:hover .dot {
+  transform: scale(1.5);
 }
 
-.categoryGroup:hover .categoryLabel {
-  color: var(--text);
+.item:hover .label {
+  color: rgba(255, 255, 255, 0.8);
 }

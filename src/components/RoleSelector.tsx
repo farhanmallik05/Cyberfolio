@@ -7,7 +7,7 @@ import { Terminal } from 'lucide-react'
 export function RoleSelector() {
   const { activeRole, setRole } = useRole()
 
-  const roles: Role[] = ['all', 'frontend', 'automation', 'ai']
+  const roles = Object.keys(ROLE_META) as Role[]
 
   return (
     <div className="flex flex-col gap-4 w-full">

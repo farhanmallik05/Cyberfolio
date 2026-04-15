@@ -70,17 +70,17 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body>
+      <body suppressHydrationWarning={true}>
         <ThemeProvider>
           <RoleProvider>
-            <div className={`${orbitron.variable} ${inter.variable} antialiased text-foreground min-h-screen relative`}>
+            <div className={`${orbitron.variable} ${inter.variable} antialiased text-foreground min-h-screen relative flex flex-col`}>
               <Cursor />
               <ScrollProgress />
               <BackgroundSystem />
               <BootSequence>
                 <PageLoadingBar />
                 <Navbar />
-                <main>{children}</main>
+                <main className="flex-1">{children}</main>
                 <Footer />
               </BootSequence>
               <RoleBadge />

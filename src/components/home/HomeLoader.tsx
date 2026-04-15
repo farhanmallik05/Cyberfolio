@@ -16,6 +16,14 @@ export function HomeLoader({ children }: HomeLoaderProps) {
   const logoRef = useRef<HTMLDivElement>(null);
   const curtainTopRef = useRef<HTMLDivElement>(null);
   const curtainBottomRef = useRef<HTMLDivElement>(null);
+  const progressFillRef = useRef<HTMLDivElement>(null);
+
+  // Update progress bar width via ref to avoid inline style lint warnings
+  useEffect(() => {
+    if (progressFillRef.current) {
+      progressFillRef.current.style.width = `${progress}%`;
+    }
+  }, [progress]);
 
   useEffect(() => {
     // Session storage check
@@ -119,7 +127,7 @@ export function HomeLoader({ children }: HomeLoaderProps) {
     "INITIALIZING NEURAL ARCHITECT v3.0.0",
     "LOADING CORE MODULES...",
     "ESTABLISHING CONNECTION...",
-    "IDENTITY CONFIRMED: FARHAN",
+    "IDENTITY CONFIRMED: FARHAN MALLIK",
     "SYSTEM READY."
   ];
 
@@ -150,7 +158,7 @@ export function HomeLoader({ children }: HomeLoaderProps) {
           <div className={styles.progressCounter}>
             <span className={styles.percentText}>{progress}%</span>
             <div className={styles.progressTrack}>
-               <div className={styles.progressFill} style={{ width: `${progress}%` }} />
+              <div ref={progressFillRef} className={styles.progressFill} />
             </div>
           </div>
         </div>

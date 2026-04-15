@@ -10,15 +10,18 @@
   "specializations": [
     {
       "title": "AI & Automation",
-      "description": "Developing agentic workflows and LLM-integrated systems for autonomous problem solving."
+      "description": "Developing agentic workflows and LLM-integrated systems for autonomous problem solving.",
+      "skillTags": ["ai-llm", "automation", "ml-data"]
     },
     {
       "title": "Fullstack Architecture",
-      "description": "Designing scalable React/Next.js applications with robust PostgreSQL/Supabase backends."
+      "description": "Designing scalable React/Next.js applications with robust PostgreSQL/Supabase backends.",
+      "skillTags": ["frontend", "backend-api", "core-lang", "devops"]
     },
     {
       "title": "Systems Security",
-      "description": "Hardening digital infrastructure and ensuring data integrity through secure coding practices."
+      "description": "Hardening digital infrastructure and ensuring data integrity through secure coding practices.",
+      "skillTags": ["security-ops", "devops", "backend-api"]
     }
   ],
   "experience": [
@@ -26,31 +29,36 @@
       "role": "Campus Lead",
       "organization": "Open Source Community Group (OSCG)",
       "period": "Feb 2026 - Present",
-      "details": "Driving the research-oriented open-source community on campus, organizing technical workshops and enabling peer contributions."
+      "details": "Driving the research-oriented open-source community on campus, organizing technical workshops and enabling peer contributions.",
+      "skillTags": ["leadership", "content", "devops"]
     },
     {
       "role": "Open Source Developer",
       "organization": "Open Source Connect (NexFellow)",
       "period": "Jan 2026 - Mar 2026",
-      "details": "Contributing to global open-source projects, improving community-driven software through international collaboration."
+      "details": "Contributing to global open-source projects, improving community-driven software through international collaboration.",
+      "skillTags": ["devops", "backend-api", "core-lang"]
     },
     {
       "role": "Mentee",
       "organization": "Apertre",
       "period": "Jan 2026 - Mar 2026",
-      "details": "Engaging in iterative review cycles for complex Python/TypeScript codebases within a collaborative ecosystem."
+      "details": "Engaging in iterative review cycles for complex Python/TypeScript codebases within a collaborative ecosystem.",
+      "skillTags": ["core-lang", "backend-api", "devops"]
     },
     {
       "role": "Open Source Contributor",
       "organization": "Hacktoberfest / GitHub",
       "period": "2023 - Present",
-      "details": "Contributing to large-scale AI modules and high-performance frontend frameworks."
+      "details": "Contributing to large-scale AI modules and high-performance frontend frameworks.",
+      "skillTags": ["ai-llm", "frontend", "devops"]
     },
     {
       "role": "Fullstack Developer",
       "organization": "Independent Builder",
       "period": "2022 - Present",
-      "details": "Architecting and deploying autonomous fintech and portfolio systems."
+      "details": "Architecting and deploying autonomous fintech and portfolio systems.",
+      "skillTags": ["frontend", "backend-api", "automation", "design-ux"]
     }
   ],
   "academicRecord": [

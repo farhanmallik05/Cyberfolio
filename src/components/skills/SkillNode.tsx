@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Skill, SkillCategory, CATEGORY_CONFIG } from '@/data/skills';
+import { Skill, SECTOR_CONFIG } from '@/data/skills';
 
 interface SkillNodeProps {
   skill: Skill;
@@ -15,81 +15,64 @@ interface SkillNodeProps {
   onHover: (id: string | null) => void;
 }
 
-export function SkillNode({ 
-  skill, 
-  cx, 
-  cy, 
-  isHovered, 
-  isDimmed, 
-  isConnected, 
-  isRoleMatch, 
-  onHover 
+export function SkillNode({
+  skill, cx, cy, isHovered, isDimmed, isConnected, isRoleMatch, onHover
 }: SkillNodeProps) {
-  const config = CATEGORY_CONFIG[skill.category];
-  const radius = skill.proficiency / 10 + (isRoleMatch ? 12 : 8); 
-
-  // Ambient Drift (seeded by ID for deterministic randomness)
-  const driftSeed = skill.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  const config = SECTOR_CONFIG[skill.category];
+  const baseRadius = Math.max(5, skill.proficiency / 14);
+  const radius = baseRadius + (isRoleMatch ? 4 : 0);
+  const driftSeed = skill.id.split('').reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
   const driftDuration = 3 + (driftSeed % 4);
   const driftDelay = (driftSeed % 5) * -1;
+  const labelText = skill.name.length > 12 ? skill.name.slice(0, 11) + '…' : skill.name;
 
   return (
     <motion.g
       initial={{ opacity: 0, scale: 0 }}
-      animate={{ 
-        opacity: isDimmed ? 0.3 : 1, 
+      animate={{
+        opacity: isDimmed ? 0.2 : 1,
         scale: 1,
-        x: [0, 2, -2, 0],
-        y: [0, -4, 2, 0],
+        x: [0, 1.5, -1.5, 0],
+        y: [0, -3, 1.5, 0],
       }}
       transition={{
         opacity: { duration: 0.5 },
-        x: { duration: driftDuration, repeat: Infinity, ease: "linear", delay: driftDelay },
-        y: { duration: driftDuration + 1, repeat: Infinity, ease: "linear", delay: driftDelay },
+        x: { duration: driftDuration, repeat: Infinity, ease: 'linear', delay: driftDelay },
+        y: { duration: driftDuration + 1, repeat: Infinity, ease: 'linear', delay: driftDelay },
       }}
       className="cursor-pointer"
       onMouseEnter={() => onHover(skill.id)}
       onMouseLeave={() => onHover(null)}
     >
-      {/* Glow Filter Definition (Inner scope for SVG) */}
       <defs>
         <filter id={`glow-${skill.id}`} x="-100%" y="-100%" width="300%" height="300%">
-          <feGaussianBlur stdDeviation={isRoleMatch || isHovered ? "5" : "3"} result="blur" />
+          <feGaussianBlur stdDeviation={isRoleMatch || isHovered ? '5' : '2'} result="blur" />
           <feComposite in="SourceGraphic" in2="blur" operator="over" />
         </filter>
       </defs>
-
-      {/* Main Node Circle */}
       <motion.circle
-        cx={cx}
-        cy={cy}
-        r={radius}
+        cx={cx} cy={cy} r={radius}
         fill={config.color}
-        fillOpacity={isHovered || isRoleMatch ? 0.35 : 0.15}
+        fillOpacity={isHovered || isRoleMatch ? 0.4 : 0.15}
         stroke={config.color}
-        strokeWidth={isHovered || isRoleMatch ? 3 : 2}
-        strokeOpacity={isHovered || isConnected || isRoleMatch ? 1 : 0.8}
+        strokeWidth={isHovered || isRoleMatch ? 2.5 : 1.5}
+        strokeOpacity={isHovered || isConnected || isRoleMatch ? 1 : 0.7}
         animate={{
-          r: isHovered ? radius * 1.1 : radius,
+          r: isHovered ? radius * 1.2 : radius,
           filter: isHovered || isRoleMatch ? `url(#glow-${skill.id})` : 'none',
         }}
         transition={{ type: 'spring', stiffness: 300, damping: 20 }}
       />
-
-      {/* Label */}
       <motion.text
-        x={cx}
-        y={cy + radius + 18}
+        x={cx} y={cy + radius + 12}
         textAnchor="middle"
         fill={config.color}
-        className="font-mono text-[10px] pointer-events-none tracking-tighter uppercase font-bold"
-        animate={{
-          opacity: isDimmed ? 0.15 : 1,
-          scale: isHovered || isRoleMatch ? 1.1 : 1,
-        }}
+        fontSize={isHovered || isRoleMatch ? 10 : 8}
+        className="pointer-events-none uppercase font-mono tracking-tighter"
+        animate={{ opacity: isDimmed ? 0.1 : (isHovered || isRoleMatch ? 1 : 0.75) }}
         style={{ textShadow: isHovered || isRoleMatch ? `0 0 10px ${config.glowColor}` : 'none' }}
       >
-        {skill.name}
+        {labelText}
       </motion.text>
     </motion.g>
   );

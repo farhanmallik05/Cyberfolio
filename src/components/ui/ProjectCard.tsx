@@ -1,3 +1,5 @@
+'use client';
+
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useMotionTemplate, useMotionValue, useTransform } from "framer-motion";
@@ -25,6 +27,7 @@ interface ProjectCardProps {
     isFeatured?: boolean;
     featuredColor?: string;
     category?: string;
+    year?: number;
     status?: 'live' | 'in-progress' | 'archived';
     caseStudy?: boolean;
     icon?: string;
@@ -41,6 +44,7 @@ export function ProjectCard({
     isFeatured, 
     featuredColor,
     category,
+    year,
     status,
     caseStudy,
     icon
@@ -180,9 +184,17 @@ export function ProjectCard({
                 <div className="p-6 flex flex-col flex-1 gap-4 bg-gradient-to-b from-mech-navy/40 to-mech-base/60">
                     <div className="flex items-center justify-between">
                         <div className="flex flex-col">
-                            {category && (
-                                <span className="text-[10px] font-mono text-mech-cyan/60 uppercase tracking-widest mb-1">{category}</span>
-                            )}
+                            <div className="flex items-center gap-2 mb-1">
+                                {category && (
+                                    <span className="text-[10px] font-mono text-mech-cyan/60 uppercase tracking-widest">{category}</span>
+                                )}
+                                {year && (
+                                    <>
+                                        <span className="text-[10px] text-mech-silver/40">•</span>
+                                        <span className="text-[10px] font-mono text-mech-silver/60 tracking-widest">{year}</span>
+                                    </>
+                                )}
+                            </div>
                             <h3 className="font-orbitron font-bold text-xl text-mech-white group-hover:text-mech-cyan transition-colors uppercase tracking-wide">
                                 {title}
                             </h3>
@@ -215,6 +227,13 @@ export function ProjectCard({
                 <div className="absolute bottom-0 left-0 w-8 h-8 border-l-2 border-b-2 border-mech-cyan/30 pointer-events-none" />
                 <div className="absolute top-0 right-0 w-8 h-8 border-r-2 border-t-2 border-mech-blue/30 pointer-events-none" />
 
+                {caseStudy && (
+                    <Link 
+                        href={`/projects/${slug}`} 
+                        className="absolute inset-0 z-10 cursor-pointer" 
+                        aria-label={`View case study for ${title}`}
+                    />
+                )}
             </MechPanel>
         </motion.div>
     );
@@ -224,11 +243,7 @@ export function ProjectCard({
             style={{ perspective: 1000 }}
             className="h-full"
         >
-            {caseStudy ? (
-                <Link href={`/projects/${slug}`} className="block h-full no-underline">
-                    {CardContent}
-                </Link>
-            ) : CardContent}
+            {CardContent}
         </motion.div>
     );
 }

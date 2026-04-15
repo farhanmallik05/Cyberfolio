@@ -2,8 +2,10 @@
 'use client'
 
 import { createContext, useContext, useEffect, useState, useCallback } from 'react'
+import { SkillCategory, SECTOR_CONFIG } from '@/data/skills'
 
-export type Role = 'all' | 'frontend' | 'automation' | 'ai'
+// Role = 'all' + all 12 skill categories
+export type Role = 'all' | SkillCategory
 
 export const ROLE_META: Record<Role, { label: string; color: string; symbol: string; bio: string; resumeUrl: string }> = {
   all: { 
@@ -13,28 +15,22 @@ export const ROLE_META: Record<Role, { label: string; color: string; symbol: str
     bio: "Building at the intersection of software development, UI/UX design, automation, and digital product creation. Engineering intelligent systems and high-performance solutions — always learning, always building, always improving.",
     resumeUrl: '/resume.pdf'
   },
-  frontend: { 
-    label: 'Frontend', 
-    color: 'var(--neon)', 
-    symbol: '⬡',
-    bio: "Focused on architecting pixel-perfect, high-performance interfaces and immersive user experiences. Specializing in advanced React patterns, GSAP animations, and modern frontend ecosystems.",
-    resumeUrl: '/resume.pdf'
-  },
-  automation: { 
-    label: 'Automation', 
-    color: 'var(--neon2)', 
-    symbol: '⟳',
-    bio: "Streamlining complex operations through autonomous workflow engineering. Expert in n8n, Python-driven automation, and building self-healing system protocols to eliminate manual overhead.",
-    resumeUrl: '/resume.pdf'
-  },
-  ai: { 
-    label: 'AI', 
-    color: 'var(--accent-glow)', 
-    symbol: '◎',
-    bio: "Engineering the next generation of intelligent systems using GenAI and Agentic architectures. Proficient in RAG, prompt engineering, and deploying autonomous AI agents to solve high-value problems.",
-    resumeUrl: '/resume.pdf'
-  },
+  // Generate entries from SECTOR_CONFIG
+  ...Object.fromEntries(
+    (Object.entries(SECTOR_CONFIG) as [SkillCategory, typeof SECTOR_CONFIG.frontend][]).map(([key, cfg]) => [
+      key,
+      {
+        label: cfg.label,
+        color: cfg.color,
+        symbol: cfg.icon,
+        bio: cfg.description,
+        resumeUrl: '/resume.pdf',
+      },
+    ])
+  ) as Record<SkillCategory, { label: string; color: string; symbol: string; bio: string; resumeUrl: string }>,
 }
+
+const ALL_ROLES = ['all', ...Object.keys(SECTOR_CONFIG)] as Role[]
 
 interface RoleContextValue {
   activeRole: Role
@@ -44,10 +40,9 @@ interface RoleContextValue {
 const RoleContext = createContext<RoleContextValue | null>(null)
 
 const STORAGE_KEY = 'portfolio-active-role'
-const VALID_ROLES: Role[] = ['all', 'frontend', 'automation', 'ai']
 
 function isValidRole(v: string | null): v is Role {
-  return VALID_ROLES.includes(v as Role)
+  return ALL_ROLES.includes(v as Role)
 }
 
 export function RoleProvider({ children }: { children: React.ReactNode }) {

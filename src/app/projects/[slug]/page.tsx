@@ -1,154 +1,215 @@
-import React from "react";
-import { getProjectBySlug, getAllProjects } from "@/lib/projects";
-import { notFound } from "next/navigation";
-import { motion } from "framer-motion";
-import { ProcessTimeline } from "@/components/projects/ProcessTimeline";
-import { ScreenshotCarousel } from "@/components/projects/ScreenshotCarousel";
-import { Github, ExternalLink, ArrowLeft, ChevronRight } from "lucide-react";
-import Link from "next/link";
-import styles from "./CaseStudy.module.css";
-import { Metadata } from "next";
+import { notFound } from 'next/navigation';
+import Link from 'next/link';
+import { ArrowLeft, ExternalLink, Github } from 'lucide-react';
+import projectsData from '@/data/projects.json';
+import { GlitchText } from '@/components/ui/GlitchText';
+import { ScreenshotCarousel } from '@/components/projects/ScreenshotCarousel';
+import { ProcessTimeline } from '@/components/projects/ProcessTimeline';
+import { RelatedProjects } from '@/components/projects/RelatedProjects';
+import { Project } from '@/lib/projects';
 
-interface PageProps {
-    params: Promise<{ slug: string }>;
+interface Props {
+  params: Promise<{
+    slug: string;
+  }>;
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-    const { slug } = await params;
-    const project = getProjectBySlug(slug);
-    if (!project) return { title: "Project Not Found" };
-    
-    return {
-        title: `${project.title} | Case Study`,
-        description: project.tagline,
-    };
-}
+export const dynamicParams = false; // Enforce strict SSG since all case studies are known ahead of time
 
 export async function generateStaticParams() {
-    const projects = getAllProjects();
-    return projects.map((p) => ({
-        slug: p.slug,
+  return projectsData
+    .filter((project) => project.caseStudy)
+    .map((project) => ({
+      slug: project.slug,
     }));
 }
 
-export default async function ProjectCaseStudy({ params }: PageProps) {
-    const { slug } = await params;
-    const project = getProjectBySlug(slug);
+export default async function CaseStudyPage({ params }: Props) {
+  const resolvedParams = await params;
+  const project = projectsData.find((p) => p.slug === resolvedParams.slug);
 
-    if (!project) notFound();
+  if (!project || !project.caseStudy) {
+    notFound();
+  }
 
-    return (
-        <div className="min-h-screen bg-mech-base w-full">
-            {/* Minimal Header/Nav Back */}
-            <div className="fixed top-24 left-8 z-50">
-                <Link href="/projects" className="flex items-center gap-2 text-mech-silver/60 hover:text-mech-cyan transition-colors group">
-                    <div className="p-2 border border-mech-silver/20 bg-mech-base group-hover:border-mech-cyan">
-                        <ArrowLeft className="w-4 h-4" />
-                    </div>
-                    <span className="font-orbitron text-[10px] tracking-widest uppercase hidden md:inline">Back to Mission Control</span>
-                </Link>
+  const relatedProjects = projectsData
+    .filter((p) => p.slug !== project.slug && (p.category === project.category || p.tech.some(t => project.tech.includes(t))))
+    .slice(0, 3);
+
+  return (
+    <article className="min-h-screen pt-32 pb-20 px-6 max-w-[1400px] mx-auto overflow-hidden">
+      {/* Back Link */}
+      <div className="mb-8 md:pl-[48px]">
+        <Link href="/projects" className="inline-flex items-center gap-2 font-orbitron text-sm text-mech-silver hover:text-mech-cyan transition-colors tracking-widest uppercase">
+          <ArrowLeft className="w-4 h-4" />
+          Back to Ledger
+        </Link>
+      </div>
+
+      {/* Hero */}
+      <header className="mb-20 md:pl-[48px] pr-4">
+        <div className="flex flex-wrap items-center gap-4 mb-6">
+           <span className="text-xs font-mono text-mech-cyan/60 uppercase tracking-widest px-3 py-1 border border-mech-cyan/20 bg-mech-cyan/5">
+                {project.category}
+           </span>
+           <span className="text-xs font-mono text-mech-silver/60 uppercase tracking-widest">
+                {project.year}
+           </span>
+           <div className={`px-2 py-0.5 text-[10px] font-orbitron font-bold border rounded-sm tracking-widest uppercase flex items-center gap-1.5 ${
+                project.status === 'live' ? 'bg-green-500/10 text-green-400 border-green-500/20' :
+                project.status === 'in-progress' ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' :
+                'bg-gray-500/10 text-gray-400 border-gray-500/20'
+            }`}>
+                <div className={`w-1.5 h-1.5 rounded-full ${
+                    project.status === 'live' ? 'bg-green-400 animate-pulse shadow-[0_0_8px_#4ade80]' :
+                    project.status === 'in-progress' ? 'bg-amber-400 animate-pulse' :
+                    'bg-gray-400'
+                }`} />
+                {project.status.replace('-', ' ')}
             </div>
+        </div>
 
-            {/* Cinematic Hero */}
-            <section className={styles.hero}>
-                <div className={styles.heroContent}>
-                    <div className={styles.meta}>
-                        <span className={styles.year}>{project.year}</span>
-                        <div className={styles.line} />
-                        <span className={styles.category}>{project.category.toUpperCase()}</span>
-                    </div>
+        <GlitchText text={project.title} as="h1" className="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-6 relative z-10" />
+        
+        <p className="font-inter text-xl md:text-2xl text-mech-silver max-w-3xl leading-relaxed mb-10">
+            {project.tagline}
+        </p>
 
-                    <h1 className={styles.title}>{project.title}</h1>
-                    <p className={styles.tagline}>{project.tagline}</p>
+        <div className="flex flex-wrap gap-4 mb-8">
+            {project.liveUrl && (
+                <a href={project.liveUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-6 py-3 bg-mech-cyan text-mech-base font-orbitron font-bold uppercase tracking-widest hover:bg-white hover:shadow-[0_0_20px_var(--neon)] transition-all">
+                    <ExternalLink className="w-4 h-4" />
+                    Live Deployment
+                </a>
+            )}
+            {project.githubUrl && (
+                <a href={project.githubUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-6 py-3 border border-mech-cyan/50 text-mech-cyan font-orbitron font-bold uppercase tracking-widest hover:bg-mech-cyan/10 transition-all">
+                    <Github className="w-4 h-4" />
+                    Source Code
+                </a>
+            )}
+        </div>
 
-                    <div className={styles.actions}>
-                        {project.liveUrl && (
-                            <a href={project.liveUrl} target="_blank" rel="noreferrer" className={styles.primaryBtn}>
-                                <ExternalLink className="w-4 h-4" />
-                                EXECUTE LIVE DEMO
-                            </a>
-                        )}
-                        {project.githubUrl && (
-                            <a href={project.githubUrl} target="_blank" rel="noreferrer" className={styles.secondaryBtn}>
-                                <Github className="w-4 h-4" />
-                                ACCESS REPOSITORY
-                            </a>
-                        )}
-                    </div>
-                </div>
+        <div className="flex flex-wrap gap-2 pt-8 border-t border-mech-silver/10">
+            {project.tech.map(tech => (
+                <span key={tech} className="text-[11px] font-orbitron tracking-wider px-3 py-1 bg-mech-base border border-mech-silver/20 text-mech-silver">
+                    {tech}
+                </span>
+            ))}
+        </div>
+      </header>
 
-                {/* Status Float */}
-                <div className={styles.statusFloat}>
-                    <span className="text-[10px] font-mono opacity-40 mb-1">DEPLOYMENT_STATUS</span>
-                    <span className={styles.statusValue}>{project.status.toUpperCase()}</span>
-                </div>
-            </section>
-
-            {/* Overview Section */}
+      {/* Grid Layout for Content */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 md:pl-[48px] pr-4">
+        
+        {/* Main Content */}
+        <div className="lg:col-span-8 space-y-24">
+            
+            {/* Overview */}
             {project.overview && (
-                <section className={styles.section}>
-                    <div className={styles.grid}>
-                        <div className={styles.overviewText}>
-                            <h2 className={styles.sectionTitle}>The Objective</h2>
-                            <p className={styles.description}>{project.overview.problem}</p>
-                            
-                            <div className={styles.roleBox}>
-                                <span className="text-[10px] font-orbitron text-mech-cyan mb-2 block">CODENAME_ROLE</span>
-                                <p className="font-orbitron text-xl uppercase font-black">{project.overview.role}</p>
-                            </div>
-                        </div>
-
-                        <div className={styles.outcomes}>
-                            <h2 className={styles.sectionTitle}>Key Outcomes</h2>
-                            <ul className={styles.outcomeList}>
-                                {project.overview.outcomes.map((o, idx) => (
-                                    <li key={idx} className={styles.outcomeItem}>
-                                        <ChevronRight className="w-4 h-4 text-mech-cyan" />
-                                        <span>{o}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    </div>
-                </section>
+              <section>
+                  <div className="flex items-center gap-4 mb-8">
+                      <div className="text-xs font-orbitron text-mech-cyan tracking-[0.2em] uppercase">▸▸ 01 — Overview</div>
+                      <div className="h-px flex-1 bg-gradient-to-r from-mech-cyan/20 to-transparent" />
+                  </div>
+                  
+                  <div className="space-y-8 font-inter text-mech-silver/90 leading-relaxed text-lg">
+                      {project.overview.problem && (
+                          <div>
+                              <h3 className="font-orbitron text-xl text-white uppercase tracking-wider mb-4">The Challenge</h3>
+                              <p>{project.overview.problem}</p>
+                          </div>
+                      )}
+                      {project.overview.outcomes && (
+                          <div>
+                              <h3 className="font-orbitron text-xl text-white uppercase tracking-wider mb-4">Key Outcomes</h3>
+                              <ul className="list-disc list-inside space-y-2 text-mech-silver">
+                                  {project.overview.outcomes.map((outcome, i) => <li key={i}>{outcome}</li>)}
+                              </ul>
+                          </div>
+                      )}
+                  </div>
+              </section>
             )}
 
-            {/* Tech Stack Horizontal Scroll/Grid */}
-            <section className={`${styles.section} ${styles.techSection}`}>
-               <h2 className={styles.sectionTitleCenter}>Integrated Systems</h2>
-               <div className={styles.techGrid}>
-                   {project.tech.map(t => (
-                       <div key={t} className={styles.techCard}>
-                           <span className={styles.techName}>{t}</span>
-                       </div>
-                   ))}
-               </div>
+            {/* Visuals */}
+            <section>
+                <div className="flex items-center gap-4 mb-8">
+                    <div className="text-xs font-orbitron text-mech-cyan tracking-[0.2em] uppercase">▸▸ 02 — Visuals</div>
+                    <div className="h-px flex-1 bg-gradient-to-r from-mech-cyan/20 to-transparent" />
+                </div>
+                
+                <ScreenshotCarousel images={project.screenshots && project.screenshots.length > 0 ? project.screenshots : (project.thumbnail ? [{url: project.thumbnail, caption: 'Primary View'}] : [])} />
             </section>
 
             {/* Process Timeline */}
-            {project.process && (
-                <section className={styles.section}>
-                    <h2 className={styles.sectionTitleCenter}>The Process Matrix</h2>
-                    <ProcessTimeline steps={project.process} />
+            {project.process && project.process.length > 0 && (
+                <section>
+                    <div className="flex items-center gap-4 mb-8">
+                        <div className="text-xs font-orbitron text-mech-cyan tracking-[0.2em] uppercase">▸▸ 03 — Process</div>
+                        <div className="h-px flex-1 bg-gradient-to-r from-mech-cyan/20 to-transparent" />
+                    </div>
+                    
+                    <ProcessTimeline phases={project.process} />
                 </section>
             )}
 
-            {/* Screenshot Visuals (Optional) */}
-            <section className={styles.section}>
-                 <h2 className={styles.sectionTitleCenter}>Visual Intelligence</h2>
-                 <ScreenshotCarousel images={project.thumbnail ? [project.thumbnail] : []} />
-            </section>
+            {/* Tech Details & Results */}
+            {(project.techDetails || project.results) && (
+              <section>
+                  <div className="flex items-center gap-4 mb-8">
+                      <div className="text-xs font-orbitron text-mech-cyan tracking-[0.2em] uppercase">▸▸ 04 — Engineering</div>
+                      <div className="h-px flex-1 bg-gradient-to-r from-mech-cyan/20 to-transparent" />
+                  </div>
+                  
+                  <div className="space-y-8 font-inter text-mech-silver/90 leading-relaxed text-lg">
+                      {project.techDetails && (
+                          <div>
+                              <h3 className="font-orbitron text-xl text-white uppercase tracking-wider mb-4">Technical Decisions</h3>
+                              <p>{project.techDetails}</p>
+                          </div>
+                      )}
+                      {project.results && (
+                          <div>
+                              <h3 className="font-orbitron text-xl text-white uppercase tracking-wider mb-4">Impact</h3>
+                              <p>{project.results}</p>
+                          </div>
+                      )}
+                  </div>
+              </section>
+            )}
+        </div>
 
-            {/* Bottom CTA */}
-            <section className={styles.footerCTA}>
-                <div className={styles.ctaCard}>
-                    <h3 className={styles.ctaTitle}>HAVE A SIMILAR MISSION?</h3>
-                    <p className={styles.ctaDesc}>Initiate a direct link for collaboration on next-gen neural architectures.</p>
-                    <Link href="/hire" className={styles.primaryBtnLarge}>
-                        ENGAGE COLLABORATION
+        {/* Sidebar */}
+        <aside className="lg:col-span-4">
+            <div className="sticky top-32">
+                <div className="p-8 border border-mech-silver/10 bg-mech-base/50 mb-12">
+                    <h3 className="font-orbitron text-lg text-white uppercase tracking-wider mb-6">Execution Role</h3>
+                    <p className="font-mono text-sm text-mech-cyan opacity-80 leading-relaxed">
+                        {project.overview?.role || "Lead Architect"}
+                    </p>
+                </div>
+
+                <div className="border border-mech-cyan/20 bg-mech-cyan/5 p-8 relative overflow-hidden group">
+                    <div className="absolute inset-0 opacity-20 bg-[linear-gradient(rgba(15,211,255,0.3)_1px,transparent_1px),linear-gradient(90deg,rgba(15,211,255,0.3)_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none" />
+                    
+                    <h3 className="font-orbitron text-xl text-white uppercase tracking-wider mb-4 relative z-10">
+                        Initiate a Protocol
+                    </h3>
+                    <p className="font-inter text-mech-silver text-sm mb-6 relative z-10">
+                        Have a similar architectural challenge or engaging UI boundary to push? Let's engineer a solution.
+                    </p>
+                    <Link href="/hire" className="inline-block w-full text-center py-3 bg-mech-cyan text-mech-base font-orbitron font-bold uppercase tracking-widest hover:bg-white transition-colors relative z-10 shadow-[0_0_15px_var(--glass)]">
+                        Establish Link
                     </Link>
                 </div>
-            </section>
-        </div>
-    );
+            </div>
+        </aside>
+      </div>
+
+      {/* Related Projects */}
+      <RelatedProjects projects={relatedProjects as Project[]} />
+
+    </article>
+  );
 }

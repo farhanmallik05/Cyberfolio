@@ -1,3 +1,5 @@
+import { SkillCategory } from './skills';
+
 export interface Service {
   id: string;
   title: string;
@@ -5,6 +7,7 @@ export interface Service {
   description: string; // one line
   startingPrice: string;
   includes: string[];  // shown on card back
+  skillTags: SkillCategory[];
 }
 
 export const SERVICES: Service[] = [
@@ -14,6 +17,7 @@ export const SERVICES: Service[] = [
     icon: 'Code',
     description: 'High-performance cinematic web applications built with Next.js.',
     startingPrice: '₹6,999',
+    skillTags: ['frontend', 'backend-api', 'core-lang', 'design-ux', 'devops'],
     includes: [
       'Responsive Design',
       'SEO Optimization',
@@ -28,6 +32,7 @@ export const SERVICES: Service[] = [
     icon: 'Cpu',
     description: 'Workflow optimization using n8n and custom neural scripts.',
     startingPrice: '₹3,999',
+    skillTags: ['automation', 'backend-api', 'core-lang', 'devops'],
     includes: [
       'Workflow Analysis',
       'Third-party Integration',
@@ -42,6 +47,7 @@ export const SERVICES: Service[] = [
     icon: 'Figma',
     description: 'Cyber-mechanical visual systems designed for high-conversion.',
     startingPrice: '₹2,999',
+    skillTags: ['design-ux', 'frontend', 'content'],
     includes: [
       'Visual Research',
       'Wireframing',
@@ -56,6 +62,7 @@ export const SERVICES: Service[] = [
     icon: 'Brain',
     description: 'Deploying RAG pipelines and custom LLM agents into your stack.',
     startingPrice: '₹9,999',
+    skillTags: ['ai-llm', 'ml-data', 'automation', 'backend-api'],
     includes: [
       'Prompt Optimization',
       'Vector Database Setup',
@@ -65,3 +72,4 @@ export const SERVICES: Service[] = [
     ]
   }
 ];
+

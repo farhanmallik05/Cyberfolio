@@ -1,69 +1,37 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from "react";
-import { Search, Filter, X } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import styles from "./FilterBar.module.css";
+import { motion } from 'framer-motion';
 
 interface FilterBarProps {
-    categories: string[];
-    activeCategory: string;
-    onCategoryChange: (category: string) => void;
-    onSearch: (query: string) => void;
+  categories: string[];
+  activeCategory: string;
+  onSelect: (category: string) => void;
 }
 
-export function FilterBar({ categories, activeCategory, onCategoryChange, onSearch }: FilterBarProps) {
-    const [searchQuery, setSearchQuery] = useState("");
-
-    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const query = e.target.value;
-        setSearchQuery(query);
-        onSearch(query);
-    };
-
-    const clearSearch = () => {
-        setSearchQuery("");
-        onSearch("");
-    };
-
-    return (
-        <div className={styles.container}>
-            <div className={styles.searchWrapper}>
-                <Search className="w-4 h-4 text-mech-cyan/60 absolute left-4 top-1/2 -translate-y-1/2" />
-                <input
-                    type="text"
-                    placeholder="SCANNING REPOSITORIES..."
-                    value={searchQuery}
-                    onChange={handleSearchChange}
-                    className={styles.searchInput}
-                />
-                {searchQuery && (
-                    <button 
-                        onClick={clearSearch} 
-                        className={styles.clearButton}
-                        aria-label="Clear Search"
-                        title="Clear Search"
-                    >
-                        <X className="w-4 h-4" />
-                    </button>
-                )}
-            </div>
-
-            <div className={styles.filtersWrapper}>
-                <div className={styles.categories}>
-                    {categories.map((cat) => (
-                        <button
-                            key={cat}
-                            onClick={() => onCategoryChange(cat)}
-                            className={`${styles.categoryTab} ${activeCategory === cat ? styles.active : ""}`}
-                        >
-                            <span className={styles.glitchText} data-text={cat.toUpperCase()}>
-                                {cat.toUpperCase()}
-                            </span>
-                        </button>
-                    ))}
-                </div>
-            </div>
-        </div>
-    );
+export function FilterBar({ categories, activeCategory, onSelect }: FilterBarProps) {
+  return (
+    <div className="flex flex-wrap gap-3 items-center justify-start md:justify-center">
+      {categories.map((category) => {
+        const isActive = activeCategory === category;
+        return (
+          <button
+            key={category}
+            onClick={() => onSelect(category)}
+            className={`relative px-4 py-2 font-orbitron text-[11px] font-bold tracking-widest uppercase transition-colors duration-300 ${
+              isActive ? 'text-mech-cyan' : 'text-mech-silver hover:text-white'
+            }`}
+          >
+            {isActive && (
+              <motion.div
+                layoutId="activeFilter"
+                className="absolute inset-0 bg-mech-cyan/10 border border-mech-cyan/30 rounded-sm pointer-events-none"
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              />
+            )}
+            <span className="relative z-10">{category}</span>
+          </button>
+        );
+      })}
+    </div>
+  );
 }

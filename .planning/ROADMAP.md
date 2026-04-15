@@ -1,6 +1,6 @@
-## Last Updated: 2026-04-12
+## Last Updated: 2026-04-16
 ## Current State: ⏳ Milestone 3 In Progress — Cinematic Core
-## Next Target: Phase 12 — Projects Index + Case Studies
+## Next Target: Phase 15.5 — Services Integration
 
 ---
 
@@ -75,35 +75,42 @@
 - **Status**: ✅ Complete
 - **Scope**: Reconstructed homepage with GSAP. Hero typewriter, about preview, projects strip, services preview, contact wizard, boot loader, WebGL background, and Matrix easter egg.
 
-### Phase 12: Projects Index + Case Studies (L)
-- **Status**: ⏳ Planned
+### Phase 12: Projects Index + Case Studies (L) ✅
+- **Status**: ✅ Complete
 - **Scope**: /projects transition grid, /projects/[slug] scroll-scrubbed case studies.
 
-### Phase 13: Blog System (MDX) (L)
-- **Status**: ⏳ Planned
+### Phase 13: Blog System (MDX) (L) ✅
+- **Status**: ✅ Complete
 - **Scope**: MDX blog, reading progress, stick TOC, giscus comments, OG image generator.
 
-### Phase 13.5: Minimal Admin Panel (S)
-- **Status**: ⏳ Planned
+### Phase 13.5: Minimal Admin Panel (S) ✅
+- **Status**: ✅ Complete
 - **Scope**: Availability toggle, blog list draft/publish toggle.
 
-### Phase 14: About Page Expanded (L)
-- **Status**: ⏳ Planned
-- **Scope**: Video intro, interactive timeline, AI-powered Q&A section.
+### Phase 14: About Page Expanded (L) ✅
+- **Status**: ✅ Complete
+- **Scope**: Video intro, interactive timeline, personality metrics (AI Q&A deferred to P19).
 
-### Phase 14.5: System Performance & Asset Optimization (M)
-- **Status**: ⏳ Planned — phases/phase-14-5-optimization/PLAN.md
+### Phase 14.5: System Performance & Asset Optimization (L) ✅
+- **Status**: ✅ Complete
 - **Scope**: Production hardening. Lazy load Three.js components, compress static assets (WebP/AVIF), implementation of Supabase cache for GitHub API, dynamic imports for heavy GSAP modules.
 
 ---
 
 ## 💰 Milestone 4: Monetization & Conversion
 
-### Phase 15: Services Full Build (M)
-- **Status**: ⏳ Planned
-- **Scope**: /services with blocks, interactive pricing calculator, Cal.com booking.
+### Phase 15: Skill Constellation V2 & Role System (XL) ✅
+- **Status**: ✅ Complete
+- **Scope**: 
+  - **Protocol v12.0**: Unified Role system with 12 skill sectors.
+  - **Constellation V2**: Responsive SVG architecture (no mobile accordion), click-to-lock nodes, flowing beam animations, and intelligent viewpoint priority panning.
+  - **Universal Tagging**: Content data (projects, certs, services) tagged with `SkillCategory` for cross-linkage.
 
-### Phase 16: /hire Conversion Page (S)
+### Phase 15.5: Services Full Build (L)
+- **Status**: ⏳ Planned
+- **Scope**: /services with interactive pricing calculator, Cal.com booking integration, and service filtering based on new `skillTags`.
+
+### Phase 16: /hire Conversion Page (M)
 - **Status**: ⏳ Planned
 - **Scope**: Conversion-focused landing for agencies/clients.
 
@@ -113,11 +120,17 @@
 
 ---
 
-## 🤖 Milestone 5: AI & Platform Layer
+## 🤖 Milestone 5: Scale , AI & Platform Layer
 
-### Phase 18: Free AI Micro-Tools (/tools) (L)
-- **Status**: ⏳ Planned
-- **Scope**: prompt-optimizer, readme-generator, portfolio-roaster. Claude API powered.
+### Phase 18:  DSA Arena + Resume + Codolio Integration (M)
+- **Status**: ⏳ Planned — phases/24-dsa-arena-resume-codolio-integration/PLAN.md
+- **Scope**: Three interconnected deliverables:
+  1. **`/resume`** — Interactive resume page seeded from resume data (Farhan Mallik). Displays objective, skills, education, experience, projects, achievements. Role-aware (mirrors Role Customizer). Download PDF CTA.
+  2. **`/dsa`** — Dedicated DSA Arena page. Displays languages practised (#JAVA, #C++, #DSA, #MYSQL, #PYTHON3, #CP). Stat cards: Questions Solved, Active Days, Streak. Difficulty heatmap. Platform links (LeetCode, CodeChef, HackerRank).
+  3. **Codolio Widget** — Embeds the Codolio card (`https://codolio.com/profile/farhanmallik/card`) either as an iframe widget or replicates card data via the Codolio public profile URL. Placement: DSA page + About page sidebar.
+- **Depends on**: Phase 14 (About Expanded — shares timeline)
+- **Data Source**: `src/data/resume.ts` (new) + Codolio public profile URL
+
 
 ### Phase 19: AI Chat — /chat (AI Farhan) (XL)
 - **Status**: ⏳ Planned
@@ -143,14 +156,10 @@
 - **Status**: ⏳ Planned
 - **Scope**: Discord server links, open source contribution showcase, job board.
 
-### Phase 24: DSA Arena + Resume + Codolio Integration (M)
-- **Status**: ⏳ Planned — phases/24-dsa-arena-resume-codolio-integration/PLAN.md
-- **Scope**: Three interconnected deliverables:
-  1. **`/resume`** — Interactive resume page seeded from resume data (Farhan Mallik). Displays objective, skills, education, experience, projects, achievements. Role-aware (mirrors Role Customizer). Download PDF CTA.
-  2. **`/dsa`** — Dedicated DSA Arena page. Displays languages practised (#JAVA, #C++, #DSA, #MYSQL, #PYTHON3, #CP). Stat cards: Questions Solved, Active Days, Streak. Difficulty heatmap. Platform links (LeetCode, CodeChef, HackerRank).
-  3. **Codolio Widget** — Embeds the Codolio card (`https://codolio.com/profile/farhanmallik/card`) either as an iframe widget or replicates card data via the Codolio public profile URL. Placement: DSA page + About page sidebar.
-- **Depends on**: Phase 14 (About Expanded — shares timeline)
-- **Data Source**: `src/data/resume.ts` (new) + Codolio public profile URL
+### Phase 24:
+Free AI Micro-Tools (/tools) (L)
+- **Status**: ⏳ Planned
+- **Scope**: prompt-optimizer, readme-generator, portfolio-roaster. Claude API powered.
 
 ---
 
@@ -166,7 +175,7 @@
 | SEED-006 | Consulting Booking Calendar | Phase 15 | M4 |
 | SEED-007 | Digital Product Store Expanded | Phase 17 | M4 |
 | SEED-008 | AI Greeter + Cursor "FM" | Phase 19 | M5 |
-| SEED-009 | Spotify Now Playing | Phase 11 | M3 |
+| SEED-009 | Spotify Now Playing | Phase 11 | M3 | ❌ Dropped |
 | SEED-010 | PWA + Offline Support | Phase 22 | M6 |
 | SEED-011 | Matrix Rain Easter Egg | Phase 11 | M3 |
 | SEED-012 | Ambient Sound Toggle | Phase 18 | M5 |
@@ -174,5 +183,5 @@
 | SEED-014 | Podcast Version of Posts | Phase 21 | M6 |
 | SEED-015 | Password Protected Pages | Phase 17 | M4 |
 | SEED-016 | Pricing Calculator | Phase 15 | M4 |
-| SEED-017 | OG Image Generator | Phase 13 | M3 |
+| SEED-017 | OG Image Generator | Phase 13 | M3 | ✅ |
 | SEED-018 | Public API (/api/*) | Phase 20 | M5 |

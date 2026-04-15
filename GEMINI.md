@@ -23,4 +23,5 @@
 - **Vendor Choices:** Adhere strictly to the chosen tech stack (Supabase, GSAP) and architectural patterns as defined in the project registry.
 - **Frustrations:** Ensure 100% adherence to multi-page update requests and documentation synchronization to avoid manual oversight corrections.
 - **Learning:** Respect the developer's direct knowledge of the codebase map and planning directory by providing specific references to existing docs.
+- **Documentation Context:** Always consult the canonical artifacts in the `docs/` directory (`ARCHITECTURE.md`, `API.md`, `CONFIGURATION.md`, etc.) before making structural proposals.
 <!-- GSD:profile-end -->

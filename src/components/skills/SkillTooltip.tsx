@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Skill, CATEGORY_CONFIG } from '@/data/skills';
+import { Skill, SECTOR_CONFIG } from '@/data/skills';
 import styles from './SkillTooltip.module.css';
 
 interface SkillTooltipProps {
@@ -12,7 +12,7 @@ interface SkillTooltipProps {
 }
 
 export function SkillTooltip({ skill, x, y }: SkillTooltipProps) {
-  const config = CATEGORY_CONFIG[skill.category];
+  const config = SECTOR_CONFIG[skill.category];
 
   return (
     <motion.div

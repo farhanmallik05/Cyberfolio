@@ -32,7 +32,7 @@ Monitoring potential bottlenecks and architectural friction.
 - **Pagination / Virtualization**: Required if Certificate or Projects ledger exceeds ~50 items.
 - **Supabase Content API**: Transition from static JSON to a Supabase-managed content API for easier remote updates (Phase 20 admin panel dependency).
 - **OG Image Generator**: Currently missing dynamic OG images per-page. All pages share the same static OG config. Phase 13 will add `/api/og` using `@vercel/og`.
-- **GitHub API Rate Limiting**: Production API calls to GitHub are not yet cached. Phase 14.5 will add Vercel Edge KV caching for 1-hour TTL.
+- **GitHub API Rate Limiting**: Production API calls to GitHub are not yet cached. Phase 14.5 will add Netlify Edge caching for 1-hour TTL.
 - **Resume PDF**: `/public/farhan-mallik-resume.pdf` missing. Required for Hero CTA. Blocking "Download Resume" button.
 
 ---

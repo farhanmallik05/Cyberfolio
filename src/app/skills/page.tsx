@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import styles from "./skills.module.css";
 import { SkillConstellation } from "@/components/skills/SkillConstellation";
-import { ConstellationLegend } from "@/components/skills/ConstellationLegend";
 
 export default function Skills() {
     return (
@@ -32,20 +31,15 @@ export default function Skills() {
                     <div className="h-px bg-gradient-to-r from-transparent via-neon/30 to-transparent w-full max-w-md mx-auto mt-4" />
                 </div>
 
-                {/* Main Constellation Map */}
+                {/* Main Constellation Map + Integrated Legend */}
                 <div className="relative mt-8">
                     <SkillConstellation />
                 </div>
 
-                {/* Legend & Info */}
-                <div className="max-w-4xl mx-auto">
-                    <ConstellationLegend />
-                    
-                    <div className="mt-8 text-center space-y-2">
-                        <p className="font-mono text-[10px] text-dim uppercase tracking-[0.2em]">
-                            System Status: Optimized // All Modules Synchronized
-                        </p>
-                    </div>
+                <div className="mt-8 text-center space-y-2">
+                    <p className="font-mono text-[10px] text-dim uppercase tracking-[0.2em]">
+                        System Status: Optimized // All Modules Synchronized
+                    </p>
                 </div>
             </motion.div>
         </div>

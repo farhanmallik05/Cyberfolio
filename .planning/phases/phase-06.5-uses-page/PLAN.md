@@ -16,7 +16,7 @@ Zero dependencies. 2-3 hour build. Adds immediate SEO value for searches like "b
 3. Design — Figma + plugins, color tools, fonts
 4. Automation & AI — n8n, Docker, AI tools daily
 5. Productivity — Notion, task management, notes
-6. Hosting & Infra — Vercel, Supabase, Cloudflare
+6. Hosting & Infra — Netlify, Supabase, Cloudflare
 7. Learning — platforms, YouTube, newsletters
 
 ---

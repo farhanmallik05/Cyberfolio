@@ -1,0 +1,102 @@
+.container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3/2;
+  min-height: 340px;
+}
+
+/* Base styles for legendary nodes and tooltips */
+.tooltip {
+  position: absolute; /* Explicit position for variable anchoring */
+  left: var(--left);
+  top: var(--top);
+  pointer-events: none;
+  width: 192px; /* 12rem / 48 */
+  padding: 12px;
+  border-radius: 4px;
+  -webkit-backdrop-filter: blur(12px); /* Safari support */
+  backdrop-filter: blur(12px);
+  z-index: 50;
+  background: rgba(4, 8, 20, 0.96);
+}
+
+.statusBar {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 20px;
+  border-radius: 4px;
+  -webkit-backdrop-filter: blur(12px); /* Safari support */
+  backdrop-filter: blur(12px);
+  pointer-events: none;
+  background: rgba(4, 8, 20, 0.92);
+}
+
+/* Sector Color Mapping via local classes to satisfy CSS Modules requirement */
+.tooltip[data-sector="all"], .statusBar[data-sector="all"], .item[data-sector="all"] { --sector-color: var(--text-dim); }
+.tooltip[data-sector="frontend"], .statusBar[data-sector="frontend"], .item[data-sector="frontend"] { --sector-color: #00F5FF; }
+.tooltip[data-sector="backend-api"], .statusBar[data-sector="backend-api"], .item[data-sector="backend-api"] { --sector-color: #FF2E63; }
+.tooltip[data-sector="core-lang"], .statusBar[data-sector="core-lang"], .item[data-sector="core-lang"] { --sector-color: #08F7AF; }
+.tooltip[data-sector="ai-llm"], .statusBar[data-sector="ai-llm"], .item[data-sector="ai-llm"] { --sector-color: #BF5FFF; }
+.tooltip[data-sector="ml-data"], .statusBar[data-sector="ml-data"], .item[data-sector="ml-data"] { --sector-color: #FFD700; }
+.tooltip[data-sector="automation"], .statusBar[data-sector="automation"], .item[data-sector="automation"] { --sector-color: #FF5722; }
+.tooltip[data-sector="design-ux"], .statusBar[data-sector="design-ux"], .item[data-sector="design-ux"] { --sector-color: #FF00FF; }
+.tooltip[data-sector="content"], .statusBar[data-sector="content"], .item[data-sector="content"] { --sector-color: #7FFF00; }
+.tooltip[data-sector="leadership"], .statusBar[data-sector="leadership"], .item[data-sector="leadership"] { --sector-color: #1E90FF; }
+.tooltip[data-sector="devops"], .statusBar[data-sector="devops"], .item[data-sector="devops"] { --sector-color: #FF4500; }
+.tooltip[data-sector="security-ops"], .statusBar[data-sector="security-ops"], .item[data-sector="security-ops"] { --sector-color: #DC143C; }
+.tooltip[data-sector="cs-core"], .statusBar[data-sector="cs-core"], .item[data-sector="cs-core"] { --sector-color: #FF8C00; }
+
+.tooltip, .statusBar {
+  /* Solid fallbacks for Chrome < 111 */
+  border: 1px solid rgba(255, 255, 255, 0.1); 
+  border: 1px solid color-mix(in srgb, var(--sector-color, rgba(255,255,255,0.2)) 25%, transparent);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--sector-color, rgba(255,255,255,0.1)) 10%, transparent);
+}
+
+.sectorLabel {
+  color: var(--sector-color);
+}
+
+.gradientBar {
+  background: linear-gradient(to right, var(--sector-color), transparent);
+}
+
+.nodeFill {
+  width: var(--progress, 0%);
+  background-color: var(--sector-color);
+}
+
+.glowShadow {
+  filter: drop-shadow(0 0 14px var(--sector-color));
+}
+
+.legendDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.legendItem[data-active="true"] .legendDot {
+  transform: scale(1.5);
+  box-shadow: 0 0 14px var(--sector-color);
+  background-color: var(--sector-color);
+}
+
+.legendItem[data-active="false"] .legendDot {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.allLegendDot {
+  background: linear-gradient(135deg, #0fd3ff, #c084fc, #f59e0b);
+}
+
+.legendItem[data-active="true"] .allLegendDot {
+  box-shadow: 0 0 12px rgba(15, 211, 255, 0.5);
+}

@@ -1,0 +1,44 @@
+---
+title: "Self-Hosting n8n on Docker: Complete Guide"
+date: "2026-03-22"
+author: "Farhan Mallik"
+category: "Automation"
+excerpt: "Stop paying Zapier fees. Learn how to deploy a production-grade n8n instance on your own VPS."
+tags: ["Docker", "n8n", "Self-Hosting", "Cloud"]
+featured: false
+---
+
+# Self-Hosting n8n on Docker
+
+Zapier is great for simple tasks, but for enterprise automation, you need control.
+
+## The Setup
+
+We'll use Docker Compose to manage both n8n and its PostgreSQL database.
+
+### docker-compose.yml
+
+```yaml
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: n8n
+      POSTGRES_USER: n8n
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+
+  n8n:
+    image: n8nio/n8n:latest
+    ports:
+      - "5678:5678"
+    environment:
+      DB_TYPE: postgresdb
+      DB_POSTGRESDB_DATABASE: n8n
+      DB_POSTGRESDB_HOST: db
+      DB_POSTGRESDB_USER: n8n
+      DB_POSTGRESDB_PASSWORD: ${DB_PASSWORD}
+```
+
+Deploying this takes less than 5 minutes and gives you unlimited workflow flexibility.

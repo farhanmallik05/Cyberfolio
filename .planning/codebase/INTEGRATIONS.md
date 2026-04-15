@@ -10,7 +10,7 @@ Documenting all external service dependencies and internal utility registries.
 - **Purpose**: Live repository statistics (`/projects` page — stars, forks, languages, descriptions).
 - **Auth**: Unauthenticated (public API, 60 req/hr rate limit per IP).
 - **Pattern**: Fetched at route level via React Server Component in `/app/projects/page.tsx`.
-- **Phase 14.5 Upgrade**: Vercel Edge KV caching planned for 1-hour TTL to prevent rate-limiting in production.
+- **Phase 14.5 Upgrade**: Netlify Edge caching planned for 1-hour TTL to prevent rate-limiting in production.
 
 ### Supabase
 - **Project ID**: `snyvarunuobcpfadkpmc`
@@ -41,8 +41,8 @@ Documenting all external service dependencies and internal utility registries.
 - **Pattern**: `next/font/google` API in `src/app/layout.tsx` — CSS variables emitted to root
 - **Share Tech Mono**: External `@font-face` in `globals.css` (monospace labels)
 
-### Vercel
-- **Deployment**: Static Export + Vercel Edge Functions
+### Netlify
+- **Deployment**: Static Export + Netlify Edge Functions
 - **Planned**: Edge KV for GitHub API caching (Phase 14.5)
 
 ---

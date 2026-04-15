@@ -24,11 +24,16 @@ This project is hardened for production and optimized for cinematic performance:
 A custom-built interactive terminal component allowing users to explore my professional history through a classic command-line interface. 
 - Try running: `help`, `whoa`, or `projects`.
 
+### 🌌 Skill Constellation V2
+A responsive SVG neural map with click-to-lock interaction pathways, flowing data beams, and intelligent viewpoint priority panning.
+- **Protocol v12.0**: Unified 12-sector skill taxonomy synchronized across all site content.
+
 ### 🔗 LinkedIn Professional Sync
-All professional history, education, and achievements are synchronized via a unified **JSON Content Ledger**.
-- `src/data/about.json`: Synthesized bio and synthesized role.
-- `src/data/skills.json`: 70+ categorized skills across Neural, Agentic, Interface, and Ops quadrants.
-- `src/data/certificates.json`: 15+ industry-verified credentials.
+All professional history and achievements are synchronized via a unified **JSON Content Ledger** with universal `skillTags`.
+- `src/data/about.json`: Synthesized bio and experience timelines.
+- `src/data/projects.json`: Live GitHub integration merged with manual skill tagging.
+- `src/data/skills.ts`: 100+ skills mapped to 12 sector priorities.
+- `src/data/certificates.json`: 18+ industry-verified credentials.
 
 ### 🏆 Achievement Matrix
 An interactive 3D Wall of achievements featuring filtered categories and keyboard-accessible flip interactions for credential verification.

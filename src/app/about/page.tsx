@@ -21,6 +21,9 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { fetchGithubReadme } from "@/lib/github-api";
 import aboutData from "@/data/about.json";
+import TimelineInteractive from "@/components/about/TimelineInteractive";
+import BioVideoPulse from "@/components/about/BioVideoPulse";
+import PersonalityMetrics from "@/components/about/PersonalityMetrics";
 
 export default function About() {
     const [readme, setReadme] = useState<string>("");
@@ -153,43 +156,17 @@ export default function About() {
                             </div>
                         </MechPanel>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            {/* Academic History */}
-                            <div className="space-y-6">
-                                <h3 className="font-orbitron text-sm text-white flex items-center gap-3 tracking-[0.2em] uppercase">
-                                    <GraduationCap className="w-5 h-5 text-mech-blue" />
-                                    Academic_Logs
-                                </h3>
-                                <div className="space-y-4">
-                                    {aboutData.academicRecord.map((edu, idx) => (
-                                        <div key={idx} className="relative pl-6 border-l border-mech-blue/30 py-2">
-                                            <div className="absolute w-2 h-2 bg-mech-blue rounded-full -left-[5px] top-4 shadow-[0_0_8px_rgba(0,174,239,0.8)]" />
-                                            <h4 className="font-orbitron text-xs text-mech-white uppercase tracking-widest">{edu.degree}</h4>
-                                            <p className="text-[10px] text-mech-silver/60 font-mono mt-1">{edu.institution} • {edu.period}</p>
-                                            <span className="inline-block mt-2 px-2 py-0.5 bg-mech-blue/10 border border-mech-blue/20 rounded text-[8px] font-mono text-mech-blue">{edu.status.toUpperCase()}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
+                        {/* Interactive Timeline — replaces static Academic/Experience lists */}
+                        <TimelineInteractive 
+                            experience={aboutData.experience}
+                            academicRecord={aboutData.academicRecord}
+                        />
 
-                            {/* Professional Experience */}
-                            <div className="space-y-6">
-                                <h3 className="font-orbitron text-sm text-white flex items-center gap-3 tracking-[0.2em] uppercase">
-                                    <Briefcase className="w-5 h-5 text-mech-cyan" />
-                                    Expertise_Pulse
-                                </h3>
-                                <div className="space-y-4">
-                                    {aboutData.experience.map((exp, idx) => (
-                                        <div key={idx} className="relative pl-6 border-l border-mech-cyan/30 py-2">
-                                            <div className="absolute w-2 h-2 bg-mech-cyan rounded-full -left-[5px] top-4 shadow-[0_0_8px_rgba(15,211,255,0.8)]" />
-                                            <h4 className="font-orbitron text-xs text-mech-white uppercase tracking-widest">{exp.role}</h4>
-                                            <p className="text-[10px] text-mech-silver/60 font-mono mt-1">{exp.organization} • {exp.period}</p>
-                                            <p className="text-[10px] text-mech-silver/40 mt-2 font-inter italic">{exp.details}</p>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
+                        {/* Video Introduction */}
+                        <BioVideoPulse 
+                            src="/intro.mp4" 
+                            poster="https://github.com/farhanmallik05.png"
+                        />
 
                         {/* Core Interests Bar */}
                         <MechPanel border className="p-4 bg-mech-panel/30 border-dashed border-mech-silver/10">
@@ -205,6 +182,9 @@ export default function About() {
                         </MechPanel>
                     </div>
                 </div>
+
+                {/* 3. Personality & Working Style Metrics */}
+                <PersonalityMetrics />
 
                 {/* 3. Supplemental Intel (README sync) */}
                 <div className="mt-12 space-y-4">

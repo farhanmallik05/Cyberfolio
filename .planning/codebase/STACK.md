@@ -22,9 +22,9 @@ Evaluating core technological dependencies and module versions.
 - **Share Tech Mono** (external): UI label / terminal text elements
 
 ## Data & Persistence
-- **JSON Content Ledger**: Centralized in `src/data/` (`about.json`, `certificates.json`, `skills.json`, `now.json`, `uses.json`)
-- **TypeScript Modules**: `src/data/*.ts` for typed content (stats, services, testimonials, themes, availability)
-- **GitHub API**: Live repository data for the `/projects` page
+- **JSON Content Ledger**: Centralized in `src/data/` (`about.json`, `projects.json`, `certificates.json`, `skills.json`, `now.json`, `uses.json`). Every item implements `skillTags: SkillCategory[]`.
+- **TypeScript Modules**: `src/data/*.ts` for typed content (stats, services, testimonials, themes, availability). `SERVICES` also implements universal tagging.
+- **GitHub API**: Live repository data for the `/projects` page. Local project data augmented with manual skill tags.
 - **Supabase**: Backend infrastructure — Project ID: `snyvarunuobcpfadkpmc`
   - PostgreSQL database
   - Auth (planned Phase 20 admin)
@@ -35,7 +35,7 @@ Evaluating core technological dependencies and module versions.
 
 ## State Management
 - **ThemeContext** (`src/context/ThemeContext.tsx`): Global theme state. Persisted in `localStorage` as `na-theme`. Default: `cyber`.
-- **RoleContext** (`src/context/RoleContext.tsx`): Active resume role (Frontend/AI/Automation). Drives constellation sync.
+- **RoleContext** (`src/context/RoleContext.tsx`): Protocol v12.0 — Manage 12 skill sectors + 'All' as Viewport Priorities. Drives constellation focus and global data tagging visibility.
 
 ## Animation Ownership Matrix
 | Concern | Tool |
@@ -51,5 +51,5 @@ Evaluating core technological dependencies and module versions.
 - **OS**: Windows (Local Dev)
 - **Compiler**: Turbopack
 - **Dev Server**: `npm run dev` — `localhost:3000`
-- **Deployment Target**: Vercel (Static Export + Edge Functions)
+- **Deployment Target**: Netlify (Static Export + Edge Functions)
 - **Build Command**: `next build` (Exit Code 0 verified 2026-04-12)

@@ -5,38 +5,19 @@
       "title": "Neural Core",
       "subtitle": "Foundational Logic & Architecture",
       "skills": [
-        {
-          "name": "Data Structures & Algorithms",
-          "level": 42
-        },
-        {
-          "name": "Problem Solving",
-          "level": 65
-        },
-        {
-          "name": "Analytical Skills",
-          "level": 68
-        },
-        {
-          "name": "Operating Systems",
-          "level": 85
-        },
-        {
-          "name": "Computer Networks",
-          "level": 42
-        },
-        {
-          "name": "C/C++",
-          "level": 65
-        },
-        {
-          "name": "Mathematics",
-          "level": 70
-        },
-        {
-          "name": "Critical Thinking",
-          "level": 80
-        }
+        { "name": "Data Structures & Algorithms", "level": 42 },
+        { "name": "Problem Solving",              "level": 65 },
+        { "name": "Analytical Skills",            "level": 68 },
+        { "name": "Operating Systems",            "level": 85 },
+        { "name": "Computer Networks",            "level": 42 },
+        { "name": "C/C++",                        "level": 65 },
+        { "name": "Mathematics",                  "level": 70 },
+        { "name": "Critical Thinking",            "level": 80 },
+        { "name": "Programming",                  "level": 60 },
+        { "name": "Data Science",                 "level": 55 },
+        { "name": "Data Analysis",                "level": 60 },
+        { "name": "Open-Source Dev",              "level": 72 },
+        { "name": "Software Development",         "level": 55 }
       ]
     },
     {
@@ -44,38 +25,18 @@
       "title": "Agentic Systems",
       "subtitle": "AI Intelligence & Autonomy",
       "skills": [
-        {
-          "name": "AI Agents",
-          "level": 44
-        },
-        {
-          "name": "Prompt Engineering",
-          "level": 86
-        },
-        {
-          "name": "Generative AI Tools",
-          "level": 95
-        },
-        {
-          "name": "Machine Learning",
-          "level": 75
-        },
-        {
-          "name": "n8n Automation",
-          "level": 68
-        },
-        {
-          "name": "UiPath AI RPA",
-          "level": 32
-        },
-        {
-          "name": "Python",
-          "level": 60
-        },
-        {
-          "name": "Workflow Management",
-          "level": 88
-        }
+        { "name": "AI Agents",           "level": 44 },
+        { "name": "Prompt Engineering",  "level": 86 },
+        { "name": "Generative AI Tools", "level": 95 },
+        { "name": "Machine Learning",    "level": 75 },
+        { "name": "n8n Automation",      "level": 68 },
+        { "name": "UiPath AI RPA",       "level": 32 },
+        { "name": "Python",              "level": 60 },
+        { "name": "Workflow Management", "level": 88 },
+        { "name": "Workflow Automation", "level": 80 },
+        { "name": "GitHub Copilot",      "level": 82 },
+        { "name": "Tech Integration",    "level": 70 },
+        { "name": "Productivity Mgmt",   "level": 78 }
       ]
     },
     {
@@ -83,77 +44,41 @@
       "title": "Interface Matrix",
       "subtitle": "Fullstack & UI Frameworks",
       "skills": [
-        {
-          "name": "TypeScript",
-          "level": 52
-        },
-        {
-          "name": "React / Next.js",
-          "level": 45
-        },
-        {
-          "name": "Web Development",
-          "level": 34
-        },
-        {
-          "name": "Figma (Design/UX)",
-          "level": 78
-        },
-        {
-          "name": "User Interaction",
-          "level": 60
-        },
-        {
-          "name": "Tailwind CSS",
-          "level": 45
-        },
-        {
-          "name": "HTML5 / CSS3",
-          "level": 72
-        },
-        {
-          "name": "Vibe Coding",
-          "level": 79
-        }
+        { "name": "TypeScript",          "level": 52 },
+        { "name": "React / Next.js",     "level": 45 },
+        { "name": "Web Development",     "level": 34 },
+        { "name": "Web Design",          "level": 68 },
+        { "name": "Figma (Design/UX)",   "level": 78 },
+        { "name": "User Interaction",    "level": 60 },
+        { "name": "Tailwind CSS",        "level": 45 },
+        { "name": "HTML5 / CSS3",        "level": 72 },
+        { "name": "Vibe Coding",         "level": 79 },
+        { "name": "UX Design",           "level": 65 },
+        { "name": "UI Prototyping",      "level": 70 },
+        { "name": "Graphic Design",      "level": 50 },
+        { "name": "Image Editing",       "level": 55 },
+        { "name": "Content Creation",    "level": 72 },
+        { "name": "Creative Writing",    "level": 68 },
+        { "name": "WordPress",           "level": 45 }
       ]
     },
     {
       "id": "operations-control",
       "title": "Operations Control",
-      "subtitle": "Deployment & Data Security",
+      "subtitle": "Deployment, Comms & Security",
       "skills": [
-        {
-          "name": "Git / GitHub",
-          "level": 64
-        },
-        {
-          "name": "Data Privacy",
-          "level": 75
-        },
-        {
-          "name": "Linux & Bash",
-          "level": 38
-        },
-        {
-          "name": "Cloud Computing (AWS)",
-          "level": 65
-        },
-        {
-          "name": "SEO & Performance",
-          "level": 92
-        },
-        {
-          "name": "Code Review",
-          "level": 48
-        },
-        {
-          "name": "Debugging",
-          "level": 30
-        },
-        {
-          "name": "Leadership / Mentoring",
-          "level": 75
-        }
+        { "name": "Git / GitHub",        "level": 64 },
+        { "name": "Data Privacy",        "level": 75 },
+        { "name": "Linux & Bash",        "level": 38 },
+        { "name": "Cloud Computing (AWS)", "level": 65 },
+        { "name": "SEO & Performance",   "level": 92 },
+        { "name": "Code Review",         "level": 48 },
+        { "name": "Debugging",           "level": 55 },
+        { "name": "Leadership / Mentoring", "level": 75 },
+        { "name": "Team Collaboration",  "level": 80 },
+        { "name": "Communication",       "level": 78 },
+        { "name": "Social Media",        "level": 65 },
+        { "name": "Project Engineering", "level": 60 }
       ]
     }
   ]

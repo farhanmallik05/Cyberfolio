@@ -22,7 +22,7 @@ Computer Science Engineer and Neural Architect specializing in the intersection 
 - **Backend**: Supabase (PostgreSQL, Auth, Edge Functions — Project: snyvarunuobcpfadkpmc)
 - **Typography**: Orbitron (Headings, loaded via Next Font), Inter (Body), Share Tech Mono (Labels)
 - **Icons**: Lucide React 0.575 (Centralized Registry: `src/lib/icons.ts`)
-- **Deployment**: Vercel (Static + Edge Functions)
+- **Deployment**: Netlify (Static + Edge Functions)
 
 ## Themes (Live in `src/data/themes.ts`)
 Six switchable themes: **CYBER** (default), **ARCTIC**, **INFERNO**, **GHOST**, **BIO**, **VOID**.

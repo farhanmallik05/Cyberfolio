@@ -8,7 +8,7 @@ Every phase from M4 onward writes to or reads from a database. Setting up Supaba
 - Full database schema (all tables for all phases)
 - Auth setup (admin role, RLS policies)
 - Storage buckets (product files, images, avatars)
-- Environment variables configured on Vercel
+- Environment variables configured on Netlify
 - Connection tested from Next.js app
 
 ## Database Schema (create all tables now)
@@ -44,7 +44,7 @@ id, key (unique), value, updated_at
 - project-thumbnails (public)
 - avatar (public)
 
-## Environment Variables (add to Vercel + .env.local)
+## Environment Variables (add to Netlify + .env.local)
 ```
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
@@ -61,7 +61,7 @@ ADMIN_EMAIL=farhanmallick2005@gmail.com
 - Supabase project live and connected
 - All tables created with correct schemas
 - RLS policies active
-- Env vars on Vercel
+- Env vars on Netlify
 - /api/health endpoint returns 200 + db ping
 
 ---
@@ -70,6 +70,6 @@ ADMIN_EMAIL=farhanmallick2005@gmail.com
 - N/A — infrastructure only, no UI
 
 ## Dependency Check
-- [ ] Vercel project connected to domain
+- [ ] Netlify project connected to domain
 - [ ] Next.js app initialized
 - [ ] No UI changes made in this phase

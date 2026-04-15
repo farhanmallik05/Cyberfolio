@@ -8,31 +8,31 @@
   }
 }
 
-/* Dynamic Role Color Definitions mapped to Theme Variables */
-.badgeContainer[data-active-role="frontend"] { --role-color: var(--neon); }
-.badgeContainer[data-active-role="automation"] { --role-color: var(--neon2); }
-.badgeContainer[data-active-role="ai"] { --role-color: var(--neon); }
-.badgeContainer[data-active-role="all"] { --role-color: var(--dim); }
-
-/* Item-specific overrides for the popover list */
-.roleItem[data-item-role="frontend"] { --role-color: var(--neon); }
-.roleItem[data-item-role="automation"] { --role-color: var(--neon2); }
-.roleItem[data-item-role="ai"] { --role-color: var(--accent-glow); }
-.roleItem[data-item-role="all"] { --role-color: var(--text-dim); }
+/* Role colors mapped via local classes to satisfy CSS Modules "pure selector" requirement */
+.badgeContainer[data-active-role="all"], .roleItem[data-item-role="all"] { --role-color: var(--text-dim); }
+.badgeContainer[data-active-role="frontend"], .roleItem[data-item-role="frontend"] { --role-color: #00F5FF; }
+.badgeContainer[data-active-role="backend-api"], .roleItem[data-item-role="backend-api"] { --role-color: #FF2E63; }
+.badgeContainer[data-active-role="core-lang"], .roleItem[data-item-role="core-lang"] { --role-color: #08F7AF; }
+.badgeContainer[data-active-role="ai-llm"], .roleItem[data-item-role="ai-llm"] { --role-color: #BF5FFF; }
+.badgeContainer[data-active-role="ml-data"], .roleItem[data-item-role="ml-data"] { --role-color: #FFD700; }
+.badgeContainer[data-active-role="automation"], .roleItem[data-item-role="automation"] { --role-color: #FF5722; }
+.badgeContainer[data-active-role="design-ux"], .roleItem[data-item-role="design-ux"] { --role-color: #FF00FF; }
+.badgeContainer[data-active-role="content"], .roleItem[data-item-role="content"] { --role-color: #7FFF00; }
+.badgeContainer[data-active-role="leadership"], .roleItem[data-item-role="leadership"] { --role-color: #1E90FF; }
+.badgeContainer[data-active-role="devops"], .roleItem[data-item-role="devops"] { --role-color: #FF4500; }
+.badgeContainer[data-active-role="security-ops"], .roleItem[data-item-role="security-ops"] { --role-color: #DC143C; }
+.badgeContainer[data-active-role="cs-core"], .roleItem[data-item-role="cs-core"] { --role-color: #FF8C00; }
 
 .roleItemActive {
   background-color: var(--glass) !important; /* Fallback */
-  border-color: var(--border) !important; /* Fallback */
+  border-color: var(--border) !important;    /* Fallback */
 }
 
 @supports (color: color-mix(in srgb, red, blue)) {
-  .roleSelector::before {
+  .roleItemActive {
     background-color: color-mix(in srgb, var(--role-color, var(--neon)) 8%, transparent) !important;
-    border-color: color-mix(in srgb, var(--role-color, var(--neon)) 20%, transparent) !important;
-  }
-
-  .roleLabel {
-    color: var(--role-color, var(--neon)) !important;
+    border-color: color-mix(in srgb, var(--role-color, var(--neon)) 26%, transparent) !important;
+    box-shadow: 0 0 15px color-mix(in srgb, var(--role-color, var(--neon)) 20%, transparent) !important;
   }
 
   .activeIndicator {
@@ -40,12 +40,11 @@
   }
 
   .roleItem {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .roleItem[data-active="true"] {
-      border-color: color-mix(in srgb, var(--role-color, var(--neon)) 26%, transparent) !important;
-      box-shadow: 0 0 15px color-mix(in srgb, var(--role-color, var(--neon)) 20%, transparent) !important;
+  .roleItem:hover {
+    background-color: color-mix(in srgb, var(--role-color, var(--neon)) 6%, transparent) !important;
   }
 
   .roleDot {
@@ -56,10 +55,6 @@
     background-color: var(--role-color, var(--neon)) !important;
     box-shadow: 0 0 8px var(--role-color, var(--neon)) !important;
   }
-
-  .roleItem[data-item-role="frontend"] { --role-color: var(--neon); }
-  .roleItem[data-item-role="automation"] { --role-color: var(--neon2); }
-  .roleItem[data-item-role="ai"] { --role-color: var(--neon); }
 }
 
 .triggerButton {
@@ -81,4 +76,8 @@
 .statusIndicator {
   background-color: var(--role-color, var(--neon)) !important;
   box-shadow: 0 0 8px var(--role-color, var(--neon)) !important;
+}
+
+.roleSymbol {
+  filter: drop-shadow(0 0 4px var(--role-color, var(--neon)));
 }

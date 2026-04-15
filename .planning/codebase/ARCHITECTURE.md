@@ -6,7 +6,7 @@
 - **Animation Engine**: GSAP 3.14.2 (ScrollTrigger) + Framer Motion 12. See Animation Ownership section.
 - **3D Layer**: Three.js 0.183 + @react-three/fiber 9. SSR-disabled, dynamic-imported.
 - **Backend**: Supabase (Auth, PostgreSQL, pgvector, Edge Functions).
-- **Deployment**: Vercel (Static Export + Edge Functions).
+- **Deployment**: Netlify (Static Export + Edge Functions).
 - **Hardening**: `suppressHydrationWarning` on root `<html>` to silence browser extension interference.
 
 ## Core Architecture Patterns
@@ -43,17 +43,24 @@ Wave 5: TerminalCLI         z-[20]  — Interactive CLI final node
 
 GSAP lifecycle: All animations managed via `gsap.context(fn, ref)` for React safety + `ctx.revert()` on unmount.
 
+### Protocol v12.0 — Viewport Priority
+- **System**: Role-based content filtering expanded to 12 sectors + 'All'.
+- **Trigger**: `RoleBadge` fixed bottom-left UI with scrollable popover.
+- **State**: `RoleProvider` (Context) synchronizes UI roles with Skill sectors.
+- **Persistence**: URL `?role=...` + LocalStorage sync.
+
 ### Data Architecture — Content Ledger Strategy
-All site content is decoupled from UI components via a centralized JSON/TS ledger in `src/data/`:
+All site content is decoupled from UI components via a centralized JSON/TS ledger in `src/data/`. Every content file implements a universal `skillTags: SkillCategory[]` array for cross-linkage and filtering.
 - `stats.ts` → Hero strip numbers (10+ Projects, 2+ Years, 12+ Hackathons)
-- `services.ts` → Service cards with pricing (single source of truth)
+- `services.ts` → Service definitions + `skillTags`
 - `themes.ts` → Theme palette definitions
 - `availability.ts` → Live availability badge state
 - `testimonials.ts` → Marquee testimonial data
-- `about.json` → Bio, education, experience timelines
+- `about.json` → Bio, education, experience timelines + `skillTags`
 - `skills.ts` / `skills.json` → Constellation node data
-- `certificates.json` → Credential flip-card wall
+- `certificates.json` → Credential flip-card wall + `skillTags`
 - `now.json` → Now page content
+- `projects.json` → Project ledger + `skillTags`
 - `uses.json` → Uses/Stack page items
 
 ### Global Component Layer (layout.tsx)

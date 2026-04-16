@@ -24,6 +24,10 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
     const { slug } = await params;
     try {
         const post = await getPostBySlug(slug);
+        if (!post) {
+            return { title: "Post Not Found" };
+        }
+        
         const ogImage = `/api/og?title=${encodeURIComponent(post.title)}&category=${encodeURIComponent(post.category)}`;
         
         return {
@@ -57,10 +61,9 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
 export default async function PostPage({ params }: PostPageProps) {
     const { slug } = await params;
     
-    let post;
-    try {
-        post = await getPostBySlug(slug);
-    } catch (e) {
+    const post = await getPostBySlug(slug);
+    
+    if (!post) {
         notFound();
     }
 

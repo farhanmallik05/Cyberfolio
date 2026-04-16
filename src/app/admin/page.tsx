@@ -1,15 +1,16 @@
 import { verifyAdmin, getAdminSettings, getAdminMetrics } from './actions';
 import { getAllPosts } from '@/lib/mdx';
 import AdminDashboard from './AdminDashboard';
+import { BlogPost } from '@/types/blog';
 
 export const dynamic = 'force-dynamic';
 
 export default async function AdminPage() {
     const isAuthorized = await verifyAdmin();
     
-    let initialPosts = [];
+    let initialPosts: (BlogPost & { is_published: boolean })[] = [];
     let initialSettings = null;
-    let metrics = { enquiries: [], subscribers: [] };
+    let metrics: { enquiries: any[]; subscribers: any[] } = { enquiries: [], subscribers: [] };
     
     if (isAuthorized) {
         initialPosts = await getAllPosts(true);

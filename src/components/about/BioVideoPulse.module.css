@@ -1,16 +1,26 @@
 .pulseRing1 {
   border: 1px solid rgba(0, 245, 255, 0.1); 
-  border: 1px solid color-mix(in srgb, var(--neon, #00F5FF) 10%, transparent);
+}
+
+@supports (color: color-mix(in srgb, red, blue)) {
+  .pulseRing1 {
+    border: 1px solid color-mix(in srgb, var(--neon, #00F5FF) 10%, transparent);
+  }
 }
 
 .pulseRing2 {
   position: absolute;
   inset: 8px;
   border: 1px solid rgba(0, 245, 255, 0.1); 
-  border: 1px solid color-mix(in srgb, var(--neon, #00F5FF) 10%, transparent);
   border-radius: 4px;
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   animation-delay: 0.5s;
+}
+
+@supports (color: color-mix(in srgb, red, blue)) {
+  .pulseRing2 {
+    border: 1px solid color-mix(in srgb, var(--neon, #00F5FF) 10%, transparent);
+  }
 }
 
 .progressBar {

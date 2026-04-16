@@ -54,8 +54,13 @@
 .tooltip, .statusBar {
   /* Solid fallbacks for Chrome < 111 */
   border: 1px solid rgba(255, 255, 255, 0.1); 
-  border: 1px solid color-mix(in srgb, var(--sector-color, rgba(255,255,255,0.2)) 25%, transparent);
-  box-shadow: 0 0 20px color-mix(in srgb, var(--sector-color, rgba(255,255,255,0.1)) 10%, transparent);
+}
+
+@supports (color: color-mix(in srgb, red, blue)) {
+  .tooltip, .statusBar {
+    border: 1px solid color-mix(in srgb, var(--sector-color, rgba(255,255,255,0.2)) 25%, transparent);
+    box-shadow: 0 0 20px color-mix(in srgb, var(--sector-color, rgba(255,255,255,0.1)) 10%, transparent);
+  }
 }
 
 .sectorLabel {

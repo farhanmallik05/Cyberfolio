@@ -1,49 +1,54 @@
-import { createServerClient, type CookieOptions } from '@supabase/ssr'
+import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
-export async function createClient() {
-  const cookieStore = await cookies()
+/**
+ * Creates a Supabase client for server-side operations.
+ * Handles fallbacks for static generation (SSG) where cookies() is unavailable.
+ */
+export async function createClient(useServiceRole = false) {
+  let cookieStore: Awaited<ReturnType<typeof cookies>> | undefined;
+  try {
+    cookieStore = await cookies()
+  } catch {
+    // cookieStore remains undefined during static generation (builld time)
+  }
+
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  const supabaseKey = useServiceRole 
+    ? process.env.SUPABASE_SERVICE_ROLE_KEY 
+    : process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-  if (!supabaseUrl || !supabaseAnonKey) {
+  if (!supabaseUrl || !supabaseKey) {
     if (process.env.NODE_ENV === 'development') {
-      const missing = []
-      if (!supabaseUrl) missing.push('NEXT_PUBLIC_SUPABASE_URL')
-      if (!supabaseAnonKey) missing.push('NEXT_PUBLIC_SUPABASE_ANON_KEY')
-
       console.warn(
-        `Supabase environment variables [${missing.join(', ')}] are missing. Server-side database features will be disabled.`
+        `Supabase environment variables are missing. Creating restricted client.`
       )
     }
     return createServerClient(
-      supabaseUrl || 'https://missing-url.supabase.co',
-      supabaseAnonKey || 'missing-key',
+      supabaseUrl || 'https://missing.supabase.co',
+      supabaseKey || 'missing-key',
       {
         cookies: {
-          getAll() {
-            return []
-          },
+          getAll() { return [] },
           setAll() {},
         },
       }
     )
   }
 
-  return createServerClient(supabaseUrl, supabaseAnonKey, {
+  return createServerClient(supabaseUrl, supabaseKey, {
     cookies: {
       getAll() {
-        return cookieStore.getAll()
+        return cookieStore ? cookieStore.getAll() : []
       },
       setAll(cookiesToSet) {
+        if (!cookieStore) return
         try {
           cookiesToSet.forEach(({ name, value, options }) =>
             cookieStore.set(name, value, options)
           )
         } catch {
-          // The `setAll` method was called from a Server Component.
-          // This can be ignored if you have middleware refreshing
-          // user sessions.
+          // Handle cases where cookies cannot be set (e.g., during render)
         }
       },
     },

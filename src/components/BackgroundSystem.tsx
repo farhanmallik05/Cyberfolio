@@ -25,16 +25,16 @@ function RotatingRings() {
     return (
         <group ref={ringsRef}>
             <mesh>
-                <torusGeometry args={[3, 0.02, 16, 64]} />
-                <meshBasicMaterial color={accentColor} wireframe transparent opacity={0.3} />
+                <torusGeometry args={[3, 0.005, 16, 64]} />
+                <meshBasicMaterial color={accentColor} wireframe transparent opacity={0.1} />
             </mesh>
             <mesh rotation={[Math.PI / 2, 0, 0]}>
-                <torusGeometry args={[4, 0.02, 16, 64]} />
-                <meshBasicMaterial color={accentColor} wireframe transparent opacity={0.2} />
+                <torusGeometry args={[4, 0.005, 16, 64]} />
+                <meshBasicMaterial color={accentColor} wireframe transparent opacity={0.08} />
             </mesh>
             <mesh rotation={[0, Math.PI / 3, Math.PI / 4]}>
-                <torusGeometry args={[5, 0.01, 16, 64]} />
-                <meshBasicMaterial color={theme === 'cyber' ? "#C9D1D9" : accentColor} wireframe transparent opacity={0.1} />
+                <torusGeometry args={[5, 0.002, 16, 64]} />
+                <meshBasicMaterial color={theme === 'cyber' ? "#C9D1D9" : accentColor} wireframe transparent opacity={0.05} />
             </mesh>
         </group>
     );

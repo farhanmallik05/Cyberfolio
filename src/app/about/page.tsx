@@ -24,6 +24,8 @@ import aboutData from "@/data/about.json";
 import TimelineInteractive from "@/components/about/TimelineInteractive";
 import BioVideoPulse from "@/components/about/BioVideoPulse";
 import PersonalityMetrics from "@/components/about/PersonalityMetrics";
+import Link from "next/link";
+import CodolioCard from "@/components/shared/CodolioCard";
 
 export default function About() {
     const [readme, setReadme] = useState<string>("");
@@ -92,7 +94,7 @@ export default function About() {
                         <MechPanel border className="p-1 group overflow-hidden bg-mech-base">
                             <div className="relative aspect-[4/5] overflow-hidden">
                                 <motion.img 
-                                    src="https://github.com/farhanmallik05.png" 
+                                    src="/images/farhan.jpg" 
                                     alt="Subject FM"
                                     className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700"
                                 />
@@ -137,6 +139,19 @@ export default function About() {
                                 </MechPanel>
                             ))}
                         </div>
+
+                        {/* Codolio Widget Integration - Wave 4 */}
+                        <div className="space-y-4">
+                            <h3 className="font-orbitron text-[10px] tracking-[0.4em] text-mech-silver/40 uppercase mb-2 px-1">Performance_Link</h3>
+                            <CodolioCard />
+                            <Link 
+                                href="/dsa" 
+                                className="w-full py-3 border border-mech-cyan/20 bg-mech-cyan/5 text-mech-cyan font-orbitron text-[10px] tracking-[0.2em] uppercase flex items-center justify-center gap-2 hover:bg-mech-cyan hover:text-mech-base transition-all rounded shadow-glow-sm"
+                            >
+                                <Target className="w-3.5 h-3.5" />
+                                View Full DSA Arena →
+                            </Link>
+                        </div>
                     </div>
 
                     {/* Mission Core Panel */}
@@ -165,7 +180,7 @@ export default function About() {
                         {/* Video Introduction */}
                         <BioVideoPulse 
                             src="/intro.mp4" 
-                            poster="https://github.com/farhanmallik05.png"
+                            poster="/images/farhan.jpg"
                         />
 
                         {/* Core Interests Bar */}

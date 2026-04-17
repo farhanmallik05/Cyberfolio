@@ -147,21 +147,30 @@ export function TerminalCLI() {
             </div>
 
             {/* Input Line */}
-            <form onSubmit={handleCommand} className="p-4 border-t border-mech-cyan/10 bg-mech-base/30 flex items-center gap-2">
+            <form onSubmit={handleCommand} className="p-4 border-t border-mech-cyan/10 bg-mech-base/30 flex items-center gap-2 relative">
               <ChevronRight className="w-4 h-4 text-mech-cyan" />
               <span className="font-mono text-mech-cyan/40 text-xs">@terminal:</span>
-              <input 
-                ref={inputRef}
-                autoFocus
-                type="text"
-                id="terminal-input"
-                aria-label="Terminal command interface"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                className="flex-1 bg-transparent border-none outline-none text-mech-cyan font-mono text-sm caret-mech-cyan"
-                autoComplete="off"
-                spellCheck="false"
-              />
+              <div className="flex-1 relative flex items-center">
+                <input 
+                  ref={inputRef}
+                  autoFocus
+                  type="text"
+                  id="terminal-input"
+                  aria-label="Terminal command interface"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  className="w-full bg-transparent border-none outline-none text-mech-cyan font-mono text-sm caret-transparent"
+                  autoComplete="off"
+                  spellCheck="false"
+                />
+                {!input && (
+                  <motion.span 
+                    animate={{ opacity: [0, 1, 0] }}
+                    transition={{ duration: 0.8, repeat: Infinity }}
+                    className="absolute left-0 w-2 h-4 bg-mech-cyan/80 translate-y-[1px]"
+                  />
+                )}
+              </div>
             </form>
           </motion.div>
         )}

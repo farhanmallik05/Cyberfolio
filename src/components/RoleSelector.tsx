@@ -18,7 +18,7 @@ export function RoleSelector() {
         </span>
       </div>
       
-      <div className="flex flex-wrap gap-3">
+      <div className="relative flex flex-wrap md:flex-nowrap items-center bg-mech-base/40 border border-mech-cyan/10 p-1 rounded-lg backdrop-blur-md overflow-x-auto no-scrollbar">
         {roles.map((role, idx) => {
           const meta = ROLE_META[role]
           const isActive = activeRole === role
@@ -27,31 +27,26 @@ export function RoleSelector() {
             <button
               key={role}
               onClick={() => setRole(role)}
-              className={`relative group px-4 py-2 border transition-all duration-300 ${
-                isActive 
-                ? 'border-mech-cyan bg-mech-cyan/5 shadow-[0_0_15px_rgba(15,211,255,0.2)]' 
-                : 'border-mech-silver/20 bg-transparent hover:border-mech-cyan/50 hover:bg-mech-white/5'
+              className={`relative flex-1 min-w-[120px] px-6 py-2.5 transition-all duration-500 z-10 ${
+                isActive ? 'text-mech-white' : 'text-mech-silver/40 hover:text-mech-silver'
               }`}
             >
-              <div className="flex items-center gap-3">
-                <span className={`font-orbitron text-[10px] ${isActive ? 'text-mech-cyan' : 'text-mech-silver/40'}`}>
-                  0{idx + 1}.
-                </span>
-                <span className={`font-orbitron font-bold text-xs tracking-widest uppercase transition-colors ${
-                  isActive ? 'text-mech-white' : 'text-mech-silver group-hover:text-mech-white'
-                }`}>
+              <div className="flex items-center justify-center gap-2">
+                <span className={`font-orbitron font-bold text-[10px] tracking-widest uppercase transition-colors`}>
                   {meta.label}
                 </span>
               </div>
               
-              {/* Corner Accents */}
               {isActive && (
-                <>
-                  <div className="absolute top-0 left-0 w-1 h-1 border-t border-l border-mech-cyan" />
-                  <div className="absolute top-0 right-0 w-1 h-1 border-t border-r border-mech-cyan" />
-                  <div className="absolute bottom-0 left-0 w-1 h-1 border-b border-l border-mech-cyan" />
-                  <div className="absolute bottom-0 right-0 w-1 h-1 border-b border-r border-mech-cyan" />
-                </>
+                <motion.div
+                  layoutId="activeRoleTab"
+                  className="absolute inset-0 bg-mech-cyan/10 border border-mech-cyan/30 rounded-md shadow-[0_0_20px_rgba(0,245,255,0.1)]"
+                  initial={false}
+                  transition={{ type: "spring", bounce: 0.15, duration: 0.6 }}
+                >
+                    <div className="absolute top-0 left-0 w-1 h-1 border-t border-l border-mech-cyan" />
+                    <div className="absolute bottom-0 right-0 w-1 h-1 border-b border-r border-mech-cyan" />
+                </motion.div>
               )}
             </button>
           )

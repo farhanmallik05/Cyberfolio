@@ -14,6 +14,8 @@ AVAILABLE COMMANDS:
   help      - Display this directory
   who       - Reveal subject dossier
   projects  - List active deployments
+  dsa       - Enter the Algorithms Arena
+  resume    - Download tactical loadout
   social    - Open neural node network
   now       - View current heartbeat
   uses      - Audit neural armory
@@ -73,5 +75,17 @@ AVAILABLE COMMANDS:
   "sudo hire": async () => ({
     output: "ACCESS GRANTED. OVERRIDING PAYWALL...\nPRIORITY: HIGH\nSTATUS: READY TO BUILD.\nDM FOR RATES.",
     type: "warning"
+  }),
+  
+  dsa: async () => ({
+    output: "INITIALIZING ARENA PROTOCOL... SYNCING LEETCODE/GFG DATA STREAM at /dsa",
+    type: "success",
+    redirect: "/dsa"
+  }),
+  
+  resume: async () => ({
+    output: "DECRYPTING TACTICAL LOADOUT... PREPARING PDF EXPORT at /resume",
+    type: "success",
+    redirect: "/resume"
   })
 };

@@ -19,18 +19,19 @@ import {
     Share2,
     Activity,
     Zap,
-    Award
+    Award,
+    FileText
 } from "lucide-react";
 
 const navItems = [
     { href: "/", label: "Home", icon: Home },
     { href: "/about", label: "About", icon: User },
     { href: "/skills", label: "Skills", icon: BarChart3 },
+    { href: "/resume", label: "Resume", icon: FileText },
     { href: "/projects", label: "Projects", icon: FolderGit2 },
     { href: "/certificates", label: "Certificates", icon: Award },
     { href: "/social", label: "Social", icon: Share2 },
     { href: "/now", label: "Now", icon: Activity },
-    { href: "/uses", label: "Uses", icon: Zap },
     { href: "/services", label: "Services", icon: Briefcase },
     { href: "/marketplace", label: "Market", icon: ShoppingCart },
     { href: "/blog", label: "Blog", icon: BookOpen },
@@ -80,19 +81,19 @@ export function Navbar() {
                         </Link>
 
                         {/* Desktop Navigation */}
-                        <div className="hidden lg:flex items-center gap-1">
+                        <div className="hidden lg:flex items-center gap-1 overflow-x-auto no-scrollbar">
                             {navItems.map((item) => {
                                 const isActive = pathname === item.href;
                                 return (
                                     <Link
                                         key={item.href}
                                         href={item.href}
-                                        className={`relative px-3 py-2 rounded-md font-orbitron text-[11px] tracking-wider uppercase transition-all duration-300 flex items-center gap-2 group ${isActive
+                                        className={`relative px-3 py-2 rounded-md font-orbitron text-[10px] tracking-wider uppercase transition-all duration-300 flex items-center gap-1.5 whitespace-nowrap group ${isActive
                                             ? "text-mech-cyan"
                                             : "text-mech-silver/60 hover:text-mech-white"
                                             }`}
                                     >
-                                        <item.icon className={`w-3.5 h-3.5 transition-colors ${isActive ? "text-mech-cyan" : "text-mech-silver/40 group-hover:text-mech-silver/80"}`} />
+                                        <item.icon className={`w-3 h-3 transition-colors ${isActive ? "text-mech-cyan" : "text-mech-silver/40 group-hover:text-mech-silver/80"}`} />
                                         {item.label}
                                         {isActive && (
                                             <motion.div

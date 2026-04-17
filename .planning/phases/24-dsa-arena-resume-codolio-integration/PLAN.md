@@ -1,172 +1,135 @@
-# Phase 24: DSA Arena + Resume + Codolio Integration
+# Phase 24 — DSA Arena + Resume + Codolio Integration
+# Milestone 6 · Size: M · Status: Ready to Execute
 
-## Overview
+## Goal
+Ship three interconnected deliverables: a cinematic role-aware /resume page,
+a /dsa arena with activity heatmap, and a custom CodolioCard component placed
+on /dsa and the existing About page sidebar.
 
-This phase adds three interconnected feature areas to the Neural Architect portfolio:
+## Key Decisions (locked)
+- Role-awareness: Full content swap across all sections (skills, projects,
+  experience reorder) driven by existing RoleContext — no new context needed.
+- PDF download: react-pdf — PDFDocument built from resume.ts data dynamically.
+  Also add @media print stylesheet as fallback.
+- Heatmap granularity: Both — StreakBar (weekly) above ActivityHeatmap (12-month grid).
+- Codolio widget: Custom styled CodolioCard component powered by dsa.ts data,
+  links to https://codolio.com/profile/farhanmallik — no iframe.
+- Nav placement: /resume added to main nav. /dsa linked from About page + terminal only.
+- About page: CodolioCard injected into Phase 3.5 build sidebar now
+  (not deferred to Phase 14).
+- Data: All stats are static/seeded in dsa.ts. Add "Last Synced" timestamp
+  for transparency.
 
-1. **`/resume`** — A full interactive resume page that replaces a static PDF dump with a role-aware, cyber-styled breakdown of Farhan Mallik's credentials, skills, experience, and projects.
-2. **`/dsa`** — A dedicated DSA Arena page showcasing competitive programming activity, Codolio stats, platform breakdown, and language proficiency.
-3. **Codolio Widget** — Embeds or replicates the Codolio profile card for social proof on both the DSA page and About page.
+## Design Lock (always applies)
+- Colors: --neon:#00F5FF --neon2:#BF5FFF --bg:#070C1A --bg2:#0D1425
+- Fonts: Orbitron (headings) / Share Tech Mono (mono) / Rajdhani (body)
+- Theme: Cyber default
+- All components use glassmorphism cards, neon glow borders, standard glow patterns
 
----
+## New Files
+- src/data/resume.ts          — typed, role-aware resume data
+- src/data/dsa.ts             — DSA stats, heatmap grid, streak data, platform links
+- src/app/resume/page.tsx     — /resume route (client component, uses RoleContext)
+- src/app/dsa/page.tsx        — /dsa route
+- src/components/resume/ResumeHeader.tsx
+- src/components/resume/ResumeSkills.tsx
+- src/components/resume/ResumeExperience.tsx
+- src/components/resume/ResumeProjects.tsx
+- src/components/resume/ResumeEducation.tsx
+- src/components/resume/ResumeAchievements.tsx
+- src/components/resume/ResumePDFDocument.tsx  — react-pdf Document
+- src/components/dsa/StatCards.tsx
+- src/components/dsa/StreakBar.tsx
+- src/components/dsa/ActivityHeatmap.tsx
+- src/components/dsa/LanguageTags.tsx
+- src/components/dsa/PlatformLinks.tsx
+- src/components/shared/CodolioCard.tsx        — shared, used on /dsa + /about
 
-## Data Sources
+## Modified Files
+- src/components/layout/Navbar.tsx   — add /resume nav link
+- src/app/about/page.tsx             — inject CodolioCard + "View DSA Arena →" CTA
+- src/components/terminal/commands.ts — add `dsa` command → router.push('/dsa')
 
-### Resume (from image — 2026-04-12)
+## Wave Plan
 
-| Field | Value |
-|-------|-------|
-| Name | FARHAN MALLIK |
-| Phone | 7988009083 |
-| Email | farhanmallick2005@gmail.com |
-| Blog | farhanmallik.blogspot.com |
-| LinkedIn | @farhanmallik |
+### Wave 1 — Data Foundation (parallel)
+- [ ] Create src/data/resume.ts
+      Types: ResumeData, RoleVariant<T> wrapper for role-aware fields
+      Sections: objective, skills[], education[], experience[],
+      projects[] (role-filtered), achievements[]
+      Each role (Frontend/AI/Fullstack) has its own skills[] and projects[]
+- [ ] Create src/data/dsa.ts
+      Types: DsaStats, HeatmapDay, StreakWeek, Platform
+      Data: statCards (Questions Solved, Active Days, Streak, Rank),
+      heatmapData (365 days, activity level 0-4),
+      streakData (52 weeks), languageTags, platforms,
+      lastSynced: ISO date string
+- [ ] Add /resume to Navbar (desktop + mobile menu)
 
-**Education**
-- B.Tech — KCC Institute of Technology & Management (2024–2028)
-- 12th — D.A.V. Centenary Public School, Rohtak (2023)
-- 10th — D.A.V. Centenary Public School, Rohtak (2021)
+### Wave 2 — Resume Page (parallel)
+- [ ] /resume/page.tsx
+      'use client' — consumes RoleContext
+      Full role swap on role change: Framer Motion layout animations
+      Section order changes per role (AI: skills first → projects → experience)
+      Download button triggers react-pdf BlobProvider
+- [ ] ResumeHeader — name, role badge, contact row, download CTA
+- [ ] ResumeSkills — role-filtered skill chips, grouped by category
+- [ ] ResumeExperience — timeline cards, glassmorphism
+- [ ] ResumeProjects — role-filtered project cards, 2-col grid
+- [ ] ResumeEducation — education timeline
+- [ ] ResumeAchievements — achievement badges
+- [ ] ResumePDFDocument — react-pdf layout mirroring page content
+      dynamic import: import { PDFDownloadLink } from '@react-pdf/renderer'
+      with ssr: false to avoid SSR crash
+- [ ] @media print stylesheet in resume/page.tsx or globals
+      Hides: navbar, footer, download button
+      Resets: backgrounds to white, text to black, removes glow
 
-**Experience**
-- Hacktober Fest — Open Source Contributor (Oct 2025)
+### Wave 3 — DSA Arena Page (parallel)
+- [ ] /dsa/page.tsx — layout shell, section composition
+- [ ] StatCards — 4 cards: Questions Solved / Active Days / Current Streak / Global Rank
+      Neon number, muted label, glassmorphism card, Framer Motion count-up on mount
+- [ ] StreakBar — 52-week bar chart (weekly totals)
+      SVG bars, current week highlighted in --neon, tooltip on hover
+- [ ] ActivityHeatmap — 12-month grid (GitHub-style)
+      SVG rect grid, 5 neon intensity levels (0 = bg2, 4 = --neon full)
+      Month labels (Share Tech Mono), "Last Synced: [date]" footer
+- [ ] LanguageTags — neon pill badges: #JAVA #C++ #DSA #MYSQL #PYTHON3 #CP
+- [ ] PlatformLinks — LeetCode / CodeChef / HackerRank cards
+      Icon + handle + "View Profile →" link, glassmorphism
 
-**Projects**
-- Edu-Tech Website (Techverse): Techverse helps students learn technology, AI, and programming in a science-backed way
-- n8n and Automation Script: Self-hosted various softwares with Docker and content automation using n8n
+### Wave 4 — Codolio Widget + Integrations (sequential)
+- [ ] CodolioCard component (src/components/shared/)
+      Avatar circle (initials "FM"), handle @farhanmallik,
+      stat row (questions solved, active days, streak) from dsa.ts,
+      platform icon row, "View on Codolio →" link to profile
+      Design: glassmorphism, neon border, --neon2 accent
+- [ ] Place CodolioCard on /dsa page (hero or sidebar)
+- [ ] Inject CodolioCard into About page
+      Find sidebar slot or inject below Philosophy/Values section
+      Add "View DSA Arena →" CTA button below the card
+- [ ] Add `dsa` command to terminal command registry
+      Command: 'dsa' → description: 'Open DSA Arena', action: router.push('/dsa')
+      Update help command output to include it
 
-**Skills** (from resume)
-- Python (pandas, numpy, matplotlib, tkinter)
-- Web Dev (HTML, CSS, JavaScript, React, vibe coding)
-- Linux (bash, terminal)
-- UI/UX (Canva, Figma, Stitch)
-- Prompt Engineering, Gen AI, n8n, automation scripting
+## Verification Criteria
+- [ ] /resume renders all sections, role switch swaps content with animation
+- [ ] PDF download produces correct role-filtered document
+- [ ] @media print hides chrome correctly
+- [ ] /resume appears in main nav (desktop + mobile)
+- [ ] /dsa loads with stat cards, streak bar, and heatmap visible
+- [ ] Heatmap shows 12-month grid with correct intensity levels
+- [ ] "Last Synced" date visible on heatmap
+- [ ] CodolioCard renders on /dsa page
+- [ ] CodolioCard renders on /about page
+- [ ] "View DSA Arena →" CTA on About page navigates to /dsa
+- [ ] Terminal `dsa` command navigates to /dsa
+- [ ] No hydration errors, no SSR crash from react-pdf
+- [ ] Build exits 0 (next build)
+- [ ] Design lock: no colors outside --neon/--neon2/--bg/--bg2 palette
 
-**Achievements**
-- Finalist in Paranox Hackathon
-- Finalist in Buildathon 1.0 KCC
-
-**Interests**: Graphic Design, Artificial Intelligence, Blockchain/web3
-
-### Codolio (from https://codolio.com/profile/farhanmallik)
-
-| Field | Value |
-|-------|-------|
-| Profile URL | https://codolio.com/profile/farhanmallik |
-| Card URL | https://codolio.com/profile/farhanmallik/card |
-| GitHub | farhanmallik05 |
-| Tags | #JAVA #C++ #DSA #MYSQL #PYTHON3 #CP |
-| Note | Stats (Questions Solved, Active Days, Contributions) require client-side JS — will need iframe or manual seeding |
-
----
-
-## Deliverables
-
-### Deliverable 1: `/resume` Page
-
-**Route**: `src/app/resume/page.tsx`
-**Components** (`src/components/resume/`):
-- `ResumeHeader.tsx` — Name, title, photo placeholder, contact strip
-- `ResumeSection.tsx` — Reusable cyber-styled section block
-- `ResumeTimeline.tsx` — Education + Experience timeline (reuse from About page style)
-- `ResumeSkillChips.tsx` — Skill tag cloud (filterable by category)
-- `ResumeProjects.tsx` — Mini project cards (Edu-Tech, n8n, etc.)
-- `ResumeAchievements.tsx` — Hackathon badge strip
-
-**Data**: `src/data/resume.ts` (new file — typed TS module)
-
-**Features**:
-- Role-aware sections (synced with `RoleContext` from Phase 8)
-- "Download PDF" CTA → `/public/farhan-mallik-resume.pdf`
-- Print-friendly CSS (`@media print`) variant
-- Linked from Navbar and Hero CTA
-
----
-
-### Deliverable 2: `/dsa` Page — DSA Arena
-
-**Route**: `src/app/dsa/page.tsx`
-**Components** (`src/components/dsa/`):
-- `DSAHero.tsx` — Page header with radar/circuit background, bio: "#DSA #CP #PYTHON3 #C++ #JAVA"
-- `CodolioCard.tsx` — Embeds or replicates the Codolio card
-- `DSAStatCards.tsx` — Stat strip: Questions Solved / Active Days / Streak / Contributions
-- `LanguageBreakdown.tsx` — Language proficiency bar/ring chart
-- `PlatformLinks.tsx` — Cards linking to LeetCode, CodeChef, HackerRank, Codolio
-- `DSAActivityHeatmap.tsx` — GitHub-style activity grid (Codolio API or manually seeded)
-
-**Data**: `src/data/dsa.ts` (new — seeded from Codolio card + manual entries)
-
-**Features**:
-- Codolio card embed as iframe widget (`https://codolio.com/profile/farhanmallik/card`)
-- Manual stat seeding fallback if Codolio API unavailable
-- Platform link cards with glow hover effects
-- GSAP fade-in entry animations
-
----
-
-### Deliverable 3: Codolio Widget Integration
-
-**Placement**:
-- `/dsa` page (primary)
-- `/about` page sidebar (secondary — Phase 14 hook)
-
-**Implementation Options** (decide at planning):
-- Option A: `<iframe src="https://codolio.com/profile/farhanmallik/card" />` styled with border + glassmorphism frame
-- Option B: Replicate card data manually in `src/data/dsa.ts` with a styled React component matching the Codolio card aesthetic
-
-**Recommendation**: Option A for `/dsa` (no maintenance), Option B for sidebar (smaller footprint).
-
----
-
-## Navigation Updates
-
-- Add `/resume` to `Navbar.tsx` (under "More" or direct link)
-- Add `/dsa` to `Navbar.tsx`
-- Terminal commands: `dsa` → opens `/dsa`, `resume` → opens `/resume`
-- Hero CTA: "Download Resume" → `/resume` (soft-link) + direct PDF download
-
----
-
-## Implementation Plan
-
-### Wave 1 — Data Layer
-- [ ] Create `src/data/resume.ts` (typed module seeded from resume image)
-- [ ] Create `src/data/dsa.ts` (seeded from Codolio card + manual)
-- [ ] Upload `/public/farhan-mallik-resume.pdf`
-
-### Wave 2 — Resume Page
-- [ ] `src/app/resume/page.tsx`
-- [ ] `ResumeHeader`, `ResumeTimeline`, `ResumeSkillChips`, `ResumeProjects`, `ResumeAchievements`
-- [ ] CSS Modules for each component
-- [ ] Print-friendly `@media print` variant
-
-### Wave 3 — DSA Arena Page
-- [ ] `src/app/dsa/page.tsx`
-- [ ] `DSAHero`, `CodolioCard`, `DSAStatCards`, `LanguageBreakdown`, `PlatformLinks`
-- [ ] Codolio iframe widget integration
-- [ ] GSAP entry animations
-
-### Wave 4 — Navigation & Hooks
-- [ ] Add `/resume` and `/dsa` to `Navbar.tsx`
-- [ ] Add terminal commands: `dsa`, `resume`
-- [ ] Hero CTA update
-
----
-
-## UAT Criteria
-
-| Test | Expected |
-|------|----------|
-| `/resume` renders with all data | ✅ All sections visible |
-| Role switching updates resume | ✅ Highlighted sections change |
-| "Download PDF" CTA | ✅ Opens/downloads the PDF |
-| `/dsa` renders Codolio card | ✅ Iframe loads or fallback renders |
-| DSA stat cards visible | ✅ Numbers show correctly |
-| Language breakdown correct | ✅ Matches Codolio tags |
-| Platform links open correctly | ✅ External links open in new tab |
-| Both routes in Navbar | ✅ Accessible |
-| Terminal `dsa` command | ✅ Navigates to /dsa |
-
----
-
-## Estimated Complexity: M (Medium)
-## Milestone: M6 (Community & Scale — or pull into M3 if prioritized)
+## Dependencies & Risks
+- react-pdf: must be dynamic-imported with ssr:false — SSR will crash
+- ActivityHeatmap SVG: test at mobile widths — may need horizontal scroll wrapper
+- About page injection: inspect current page structure before adding sidebar slot
+  to avoid breaking existing Framer Motion timeline animations

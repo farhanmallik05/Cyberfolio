@@ -1,17 +1,14 @@
 'use server';
 
 import { cookies } from 'next/headers';
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from '@/utils/supabase/server';
 import { revalidatePath } from 'next/cache';
 import { BlogPost } from '@/types/blog';
 
 const COOKIE_NAME = 'admin_session';
 
-function getAdminSupabase() {
-    return createClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.SUPABASE_SERVICE_ROLE_KEY!
-    );
+async function getAdminSupabase() {
+    return createClient(true);
 }
 
 export async function loginAdmin(password: string) {
@@ -38,7 +35,7 @@ export async function verifyAdmin() {
 export async function toggleAvailability(state: boolean) {
     if (!(await verifyAdmin())) throw new Error('Unauthorized');
 
-    const supabase = getAdminSupabase();
+    const supabase = await getAdminSupabase();
     const { error } = await supabase
         .from('admin_settings')
         .update({ is_available: state })
@@ -53,7 +50,7 @@ export async function toggleAvailability(state: boolean) {
 export async function saveBlogPost(postData: Partial<BlogPost> & { slug: string, is_published?: boolean }) {
     if (!(await verifyAdmin())) throw new Error('Unauthorized');
 
-    const supabase = getAdminSupabase();
+    const supabase = await getAdminSupabase();
     
     const { error } = await supabase
         .from('blog_posts')
@@ -82,7 +79,7 @@ export async function saveBlogPost(postData: Partial<BlogPost> & { slug: string,
 export async function deleteBlogPost(slug: string) {
     if (!(await verifyAdmin())) throw new Error('Unauthorized');
 
-    const supabase = getAdminSupabase();
+    const supabase = await getAdminSupabase();
     const { error } = await supabase
         .from('blog_posts')
         .delete()
@@ -97,7 +94,7 @@ export async function deleteBlogPost(slug: string) {
 export async function togglePostStatus(slug: string, is_published: boolean) {
     if (!(await verifyAdmin())) throw new Error('Unauthorized');
 
-    const supabase = getAdminSupabase();
+    const supabase = await getAdminSupabase();
     
     const { error } = await supabase
         .from('blog_posts')
@@ -114,7 +111,7 @@ export async function togglePostStatus(slug: string, is_published: boolean) {
 
 export async function getAdminSettings() {
     if (!(await verifyAdmin())) return null;
-    const supabase = getAdminSupabase();
+    const supabase = await getAdminSupabase();
     
     const { data: adminData } = await supabase
         .from('admin_settings')
@@ -130,25 +127,60 @@ export async function getAdminSettings() {
 
 import { ServiceConfig } from '@/types/services';
 
+const FALLBACK_SERVICE_CONFIG: ServiceConfig = [
+    {
+        id: "web-dev",
+        icon: "Code",
+        title: "Web Development",
+        enabled: true,
+        includes: ["Responsive Design", "SEO Optimization", "Animation Integration", "Database Connection", "CMS Support"],
+        basePrice: 6999,
+        description: "High-performance cinematic web applications built with Next.js.",
+        startingPrice: "₹6,999",
+        complexityTiers: [
+            { label: "MVP / Essential", value: "mvp", multiplier: 1 },
+            { label: "Standard / Pro", value: "standard", multiplier: 1.5 },
+            { label: "Advanced / Complex", value: "advanced", multiplier: 2.5 }
+        ]
+    },
+    {
+        id: "ai-automation",
+        icon: "BrainCircuit",
+        title: "AI & Automation",
+        enabled: true,
+        includes: ["Workflow Analysis", "n8n / Custom Scripting", "AI Agent Development", "RAG Pipeline Setup"],
+        basePrice: 4999,
+        description: "Custom AI agents, RAG pipelines, and workflow automation.",
+        startingPrice: "₹4,999",
+        complexityTiers: [
+            { label: "MVP / Essential", value: "mvp", multiplier: 1 },
+            { label: "Standard / Pro", value: "standard", multiplier: 1.5 },
+            { label: "Advanced / Complex", value: "advanced", multiplier: 2.5 }
+        ]
+    }
+];
+
 /** Public — no auth needed. Used by /services page to filter the calculator. */
 export async function getServiceConfig(): Promise<ServiceConfig> {
     // Build-safety: Netlify build env may not have Supabase vars.
-    // Return empty config so prerendering doesn't crash.
+    // Return fallback config so prerendering doesn't crash and cards are visible.
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-        return [] as ServiceConfig;
+        return FALLBACK_SERVICE_CONFIG;
     }
-    const supabase = getAdminSupabase();
+    const supabase = await getAdminSupabase();
     const { data } = await supabase
         .from('admin_settings')
         .select('service_config')
         .eq('id', 'global_status')
         .single();
-    return (data?.service_config ?? []) as ServiceConfig;
+    
+    // Fallback if data is missing from DB
+    return (data?.service_config ?? FALLBACK_SERVICE_CONFIG) as ServiceConfig;
 }
 
 export async function saveServiceConfig(config: ServiceConfig) {
     if (!(await verifyAdmin())) throw new Error('Unauthorized');
-    const supabase = getAdminSupabase();
+    const supabase = await getAdminSupabase();
     const { error } = await supabase
         .from('admin_settings')
         .update({ service_config: config })
@@ -160,7 +192,7 @@ export async function saveServiceConfig(config: ServiceConfig) {
 
 export async function getAdminMetrics() {
     if (!(await verifyAdmin())) return { enquiries: [], subscribers: [] };
-    const supabase = getAdminSupabase();
+    const supabase = await getAdminSupabase();
     
     const [enq, sub] = await Promise.all([
         supabase.from('enquiries').select('*').order('created_at', { ascending: false }).limit(10),

@@ -8,6 +8,9 @@ import CalBookingEmbed from '@/components/services/CalBookingEmbed';
 import { TestimonialMarquee } from '@/components/TestimonialMarquee';
 import { getServiceConfig } from '@/app/admin/actions';
 
+// Services data is fetched live from Supabase — skip prerendering
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Services & Pricing | Neural Architect',
   description: 'High-performance engineering tailored for visionary founders. Discover our web development, automation, and AI integration services.',

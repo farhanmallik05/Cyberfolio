@@ -132,6 +132,11 @@ import { ServiceConfig } from '@/types/services';
 
 /** Public — no auth needed. Used by /services page to filter the calculator. */
 export async function getServiceConfig(): Promise<ServiceConfig> {
+    // Build-safety: Netlify build env may not have Supabase vars.
+    // Return empty config so prerendering doesn't crash.
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+        return [] as ServiceConfig;
+    }
     const supabase = getAdminSupabase();
     const { data } = await supabase
         .from('admin_settings')

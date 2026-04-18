@@ -106,8 +106,8 @@
   - **Constellation V2**: Responsive SVG architecture (no mobile accordion), click-to-lock nodes, flowing beam animations, and intelligent viewpoint priority panning.
   - **Universal Tagging**: Content data (projects, certs, services) tagged with `SkillCategory` for cross-linkage.
 
-### Phase 15.5: Services Full Build (L)
-- **Status**: ⏳ Planned
+### Phase 15.5: Services Full Build (L) ✅
+- **Status**: ✅ Complete
 - **Scope**: /services with interactive pricing calculator, Cal.com booking integration, and service filtering based on new `skillTags`.
 
 ### Phase 16: /hire Conversion Page (M)
@@ -122,14 +122,10 @@
 
 ## 🤖 Milestone 5: Scale , AI & Platform Layer
 
-### Phase 18:  DSA Arena + Resume + Codolio Integration (M)
-- **Status**: ⏳ Planned — phases/24-dsa-arena-resume-codolio-integration/PLAN.md
-- **Scope**: Three interconnected deliverables:
-  1. **`/resume`** — Interactive resume page seeded from resume data (Farhan Mallik). Displays objective, skills, education, experience, projects, achievements. Role-aware (mirrors Role Customizer). Download PDF CTA.
-  2. **`/dsa`** — Dedicated DSA Arena page. Displays languages practised (#JAVA, #C++, #DSA, #MYSQL, #PYTHON3, #CP). Stat cards: Questions Solved, Active Days, Streak. Difficulty heatmap. Platform links (LeetCode, CodeChef, HackerRank).
-  3. **Codolio Widget** — Embeds the Codolio card (`https://codolio.com/profile/farhanmallik/card`) either as an iframe widget or replicates card data via the Codolio public profile URL. Placement: DSA page + About page sidebar.
-- **Depends on**: Phase 14 (About Expanded — shares timeline)
-- **Data Source**: `src/data/resume.ts` (new) + Codolio public profile URL
+### Phase 18: Free AI Micro-Tools (/tools) (L)
+- **Status**: ⏳ Planned
+- **Scope**: /tools index listing all tools. 3 initial tool pages: /tools/prompt-optimizer, /tools/readme-generator, /tools/portfolio-roaster. Claude API (Anthropic) powered.
+- **Depends on**: Phase 2.5 (Supabase — usage counters)
 
 
 ### Phase 19: AI Chat — /chat (AI Farhan) (XL)
@@ -156,10 +152,9 @@
 - **Status**: ⏳ Planned
 - **Scope**: Discord server links, open source contribution showcase, job board.
 
-### Phase 24:
-Free AI Micro-Tools (/tools) (L)
-- **Status**: ⏳ Planned
-- **Scope**: prompt-optimizer, readme-generator, portfolio-roaster. Claude API powered.
+### Phase 24: DSA Arena + Resume + Codolio Integration (M) ✅
+- **Status**: ✅ Complete
+- **Scope**: Three interconnected deliverables: /resume (role-adaptive), /dsa (heatmap/stats), and CodolioCard widget integration across About/DSA pages.
 
 ---
 

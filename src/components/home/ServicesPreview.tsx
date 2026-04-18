@@ -1,18 +1,30 @@
 "use client";
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Code, Cpu, Figma, Brain, ChevronRight } from 'lucide-react';
-import { SERVICES, Service } from '@/data/services';
+import { Code, Cpu, Figma, Brain, ChevronRight, Briefcase, Palette, BrainCircuit } from 'lucide-react';
+import { getServiceConfig } from '@/app/admin/actions';
+import { ServiceConfig, Service } from '@/types/services';
 import styles from './ServicesPreview.module.css';
 
 const ICON_MAP = {
   Code,
   Cpu,
   Figma,
-  Brain
+  Brain,
+  BrainCircuit,
+  Palette,
+  Briefcase
 };
 
 export function ServicesPreview() {
+  const [services, setServices] = useState<ServiceConfig>([]);
+
+  useEffect(() => {
+    getServiceConfig().then(setServices);
+  }, []);
+
+  const enabledServices = services.filter(s => s.enabled);
+
   return (
     <section className={styles.section} id="services">
       <div className={styles.header}>
@@ -25,7 +37,7 @@ export function ServicesPreview() {
       </div>
 
       <div className={styles.grid}>
-        {SERVICES.map((service: Service) => {
+        {enabledServices.map((service: Service) => {
           const Icon = ICON_MAP[service.icon as keyof typeof ICON_MAP] || Code;
           
           return (

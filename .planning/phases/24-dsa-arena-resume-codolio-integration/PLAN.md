@@ -53,62 +53,62 @@ on /dsa and the existing About page sidebar.
 ## Wave Plan
 
 ### Wave 1 — Data Foundation (parallel)
-- [ ] Create src/data/resume.ts
+- [x] Create src/data/resume.ts
       Types: ResumeData, RoleVariant<T> wrapper for role-aware fields
       Sections: objective, skills[], education[], experience[],
       projects[] (role-filtered), achievements[]
       Each role (Frontend/AI/Fullstack) has its own skills[] and projects[]
-- [ ] Create src/data/dsa.ts
+- [x] Create src/data/dsa.ts
       Types: DsaStats, HeatmapDay, StreakWeek, Platform
       Data: statCards (Questions Solved, Active Days, Streak, Rank),
       heatmapData (365 days, activity level 0-4),
       streakData (52 weeks), languageTags, platforms,
       lastSynced: ISO date string
-- [ ] Add /resume to Navbar (desktop + mobile menu)
+- [x] Add /resume to Navbar (desktop + mobile menu)
 
 ### Wave 2 — Resume Page (parallel)
-- [ ] /resume/page.tsx
+- [x] /resume/page.tsx
       'use client' — consumes RoleContext
       Full role swap on role change: Framer Motion layout animations
       Section order changes per role (AI: skills first → projects → experience)
       Download button triggers react-pdf BlobProvider
-- [ ] ResumeHeader — name, role badge, contact row, download CTA
-- [ ] ResumeSkills — role-filtered skill chips, grouped by category
-- [ ] ResumeExperience — timeline cards, glassmorphism
-- [ ] ResumeProjects — role-filtered project cards, 2-col grid
-- [ ] ResumeEducation — education timeline
-- [ ] ResumeAchievements — achievement badges
-- [ ] ResumePDFDocument — react-pdf layout mirroring page content
+- [x] ResumeHeader — name, role badge, contact row, download CTA
+- [x] ResumeSkills — role-filtered skill chips, grouped by category
+- [x] ResumeExperience — timeline cards, glassmorphism
+- [x] ResumeProjects — role-filtered project cards, 2-col grid
+- [x] ResumeEducation — education timeline
+- [x] ResumeAchievements — achievement badges
+- [x] ResumePDFDocument — react-pdf layout mirroring page content
       dynamic import: import { PDFDownloadLink } from '@react-pdf/renderer'
       with ssr: false to avoid SSR crash
-- [ ] @media print stylesheet in resume/page.tsx or globals
+- [x] @media print stylesheet in resume/page.tsx or globals
       Hides: navbar, footer, download button
       Resets: backgrounds to white, text to black, removes glow
 
 ### Wave 3 — DSA Arena Page (parallel)
-- [ ] /dsa/page.tsx — layout shell, section composition
-- [ ] StatCards — 4 cards: Questions Solved / Active Days / Current Streak / Global Rank
+- [x] /dsa/page.tsx — layout shell, section composition
+- [x] StatCards — 4 cards: Questions Solved / Active Days / Current Streak / Global Rank
       Neon number, muted label, glassmorphism card, Framer Motion count-up on mount
-- [ ] StreakBar — 52-week bar chart (weekly totals)
+- [x] StreakBar — 52-week bar chart (weekly totals)
       SVG bars, current week highlighted in --neon, tooltip on hover
-- [ ] ActivityHeatmap — 12-month grid (GitHub-style)
+- [x] ActivityHeatmap — 12-month grid (GitHub-style)
       SVG rect grid, 5 neon intensity levels (0 = bg2, 4 = --neon full)
       Month labels (Share Tech Mono), "Last Synced: [date]" footer
-- [ ] LanguageTags — neon pill badges: #JAVA #C++ #DSA #MYSQL #PYTHON3 #CP
-- [ ] PlatformLinks — LeetCode / CodeChef / HackerRank cards
+- [x] LanguageTags — neon pill badges: #JAVA #C++ #DSA #MYSQL #PYTHON3 #CP
+- [x] PlatformLinks — LeetCode / CodeChef / HackerRank cards
       Icon + handle + "View Profile →" link, glassmorphism
 
 ### Wave 4 — Codolio Widget + Integrations (sequential)
-- [ ] CodolioCard component (src/components/shared/)
+- [x] CodolioCard component (src/components/shared/)
       Avatar circle (initials "FM"), handle @farhanmallik,
       stat row (questions solved, active days, streak) from dsa.ts,
       platform icon row, "View on Codolio →" link to profile
       Design: glassmorphism, neon border, --neon2 accent
-- [ ] Place CodolioCard on /dsa page (hero or sidebar)
-- [ ] Inject CodolioCard into About page
+- [x] Place CodolioCard on /dsa page (hero or sidebar)
+- [x] Inject CodolioCard into About page
       Find sidebar slot or inject below Philosophy/Values section
       Add "View DSA Arena →" CTA button below the card
-- [ ] Add `dsa` command to terminal command registry
+- [x] Add `dsa` command to terminal command registry
       Command: 'dsa' → description: 'Open DSA Arena', action: router.push('/dsa')
       Update help command output to include it
 

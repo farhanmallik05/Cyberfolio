@@ -118,13 +118,39 @@ export async function getAdminSettings() {
     
     const { data: adminData } = await supabase
         .from('admin_settings')
-        .select('is_available')
+        .select('is_available, service_config')
         .eq('id', 'global_status')
         .single();
         
     return {
-        is_available: adminData?.is_available ?? true
+        is_available: adminData?.is_available ?? true,
+        service_config: adminData?.service_config ?? {}
     };
+}
+
+import { ServiceConfig } from '@/types/services';
+
+/** Public — no auth needed. Used by /services page to filter the calculator. */
+export async function getServiceConfig(): Promise<ServiceConfig> {
+    const supabase = getAdminSupabase();
+    const { data } = await supabase
+        .from('admin_settings')
+        .select('service_config')
+        .eq('id', 'global_status')
+        .single();
+    return (data?.service_config ?? []) as ServiceConfig;
+}
+
+export async function saveServiceConfig(config: ServiceConfig) {
+    if (!(await verifyAdmin())) throw new Error('Unauthorized');
+    const supabase = getAdminSupabase();
+    const { error } = await supabase
+        .from('admin_settings')
+        .update({ service_config: config })
+        .eq('id', 'global_status');
+    if (error) throw error;
+    revalidatePath('/services');
+    return { success: true };
 }
 
 export async function getAdminMetrics() {

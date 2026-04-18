@@ -65,5 +65,7 @@ Managed via `ThemeContext` + `ThemeHUD` component. Theme persisted in `localStor
 
 ## Milestone Status
 - M0–M2: ✅ Complete
-- **M3 (Cinematic Core)**: ⏳ In Progress — Phase 11 Done, Phase 12 next
-- M4–M6: 📋 Planned
+- M3 (Cinematic Core): ✅ Complete (Phases 11–14.5)
+- M4 (Monetization): ⏳ In Progress (Phase 15.5 ✅, Phase 16-17 planned)
+- M5 (AI & Platform): ⏳ Next (Phase 18 next, Phase 24 ✅)
+- M6 (Community): 📋 Planned

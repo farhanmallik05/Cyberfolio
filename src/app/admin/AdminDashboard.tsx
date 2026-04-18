@@ -2,16 +2,17 @@
 
 import { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { loginAdmin, toggleAvailability, togglePostStatus, saveBlogPost, deleteBlogPost } from './actions';
+import { loginAdmin, toggleAvailability, togglePostStatus, saveBlogPost, deleteBlogPost, saveServiceConfig } from './actions';
+import { ServiceConfig, Service, ComplexityTier } from '@/types/services';
 import { BlogPost, Category } from '@/types/blog';
 import { 
     FileText, Power, Mail, Users, Lock, Terminal, Activity, 
-    Plus, Edit3, Trash2, Eye, Save, X, ArrowLeft
+    Plus, Edit3, Trash2, Eye, Save, X, ArrowLeft, Sliders, Briefcase
 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
-type Tab = 'overview' | 'compose';
+type Tab = 'overview' | 'compose' | 'services';
 
 export default function AdminDashboard({ 
     isAuthorized, 
@@ -21,7 +22,7 @@ export default function AdminDashboard({
 }: { 
     isAuthorized: boolean; 
     initialPosts: (BlogPost & { is_published: boolean })[];
-    initialSettings: { is_available: boolean } | null;
+    initialSettings: { is_available: boolean; service_config: any } | null;
     metrics?: { enquiries: any[], subscribers: any[] };
 }) {
     const router = useRouter();
@@ -36,6 +37,10 @@ export default function AdminDashboard({
     // Dynamic State
     const [isAvailable, setIsAvailable] = useState(initialSettings?.is_available ?? true);
     const [posts, setPosts] = useState(initialPosts);
+    const [serviceConfig, setServiceConfig] = useState<ServiceConfig>(() => {
+        return (initialSettings?.service_config ?? []) as ServiceConfig;
+    });
+    const [configStatus, setConfigStatus] = useState<'idle' | 'saving' | 'saved'>('idle');
 
     // Editor Form State
     const [form, setForm] = useState({
@@ -103,6 +108,20 @@ export default function AdminDashboard({
         }
         setLoading(false);
     }
+
+    async function handleSaveServiceConfig() {
+        setConfigStatus('saving');
+        try {
+            await saveServiceConfig(serviceConfig);
+            setConfigStatus('saved');
+            setTimeout(() => setConfigStatus('idle'), 2000);
+        } catch (err: any) {
+            alert(`Save failed: ${err.message}`);
+            setConfigStatus('idle');
+        }
+    }
+
+
 
     async function handleTogglePost(slug: string, currentState: boolean) {
         try {
@@ -187,13 +206,19 @@ export default function AdminDashboard({
                 <div className="flex gap-4">
                     <button 
                         onClick={() => setActiveTab('overview')}
-                        className={`px-6 py-2 font-orbitron rounded transition-all text-sm ${activeTab === 'overview' ? 'bg-[var(--neon)] text-[var(--bg)] shadow-[0_0_15px_var(--neon)]' : 'bg-transparent border border-[var(--border)] text-[var(--dim)]'}`}
+                        className={`px-6 py-2 font-orbitron rounded transition-all text-sm ${activeTab === 'overview' ? 'bg-[var(--neon)] text-[var(--bg)] shadow-[0_0_15px_var(--neon)]' : 'bg-transparent border border-[var(--border)] text-[var(--dim)] hover:text-[var(--text)]'}`}
                     >
                         OVERVIEW
                     </button>
                     <button 
+                        onClick={() => setActiveTab('services')}
+                        className={`px-6 py-2 font-orbitron rounded transition-all text-sm flex items-center gap-2 ${activeTab === 'services' ? 'bg-[var(--neon)] text-[var(--bg)] shadow-[0_0_15px_var(--neon)]' : 'bg-transparent border border-[var(--border)] text-[var(--dim)] hover:text-[var(--text)]'}`}
+                    >
+                        <Briefcase size={16} /> SERVICES
+                    </button>
+                    <button 
                         onClick={startNew}
-                        className={`px-6 py-2 font-orbitron rounded transition-all text-sm flex items-center gap-2 ${activeTab === 'compose' && !editingPost ? 'bg-[var(--neon)] text-[var(--bg)] shadow-[0_0_15px_var(--neon)]' : 'bg-transparent border border-[var(--border)] text-[var(--dim)]'}`}
+                        className={`px-6 py-2 font-orbitron rounded transition-all text-sm flex items-center gap-2 ${activeTab === 'compose' && !editingPost ? 'bg-[var(--neon)] text-[var(--bg)] shadow-[0_0_15px_var(--neon)]' : 'bg-transparent border border-[var(--border)] text-[var(--dim)] hover:text-[var(--text)]'}`}
                     >
                         <Plus size={16} /> COMPOSE
                     </button>
@@ -298,6 +323,186 @@ export default function AdminDashboard({
                             </div>
                         </div>
                     </section>
+                </div>
+            ) : activeTab === 'services' ? (
+                <div className="flex flex-col gap-6">
+                    <div className="flex items-center justify-between border-b border-[var(--border)] pb-4">
+                        <div className="flex items-center gap-4">
+                            <button onClick={() => setActiveTab('overview')} className="p-2 hover:bg-[var(--glass)] rounded transition-colors" title="Back to Overview">
+                                <ArrowLeft className="text-[var(--neon)]" />
+                            </button>
+                            <h2 className="text-2xl font-orbitron mech-text-glow flex items-center gap-3">
+                                <Briefcase className="w-6 h-6 text-[var(--neon)]" /> Service Calculator
+                            </h2>
+                        </div>
+                        <button
+                            onClick={handleSaveServiceConfig}
+                            disabled={configStatus !== 'idle'}
+                            className={`px-5 py-2 font-orbitron font-bold rounded flex items-center gap-2 text-sm transition-all ${
+                                configStatus === 'saved'
+                                    ? 'bg-green-500 text-black shadow-[0_0_15px_#22c55e]'
+                                    : 'bg-[var(--neon)] text-[var(--bg)] shadow-[0_0_15px_var(--neon)] hover:scale-[1.02]'
+                            }`}
+                        >
+                            <Save size={16} /> {configStatus === 'saving' ? 'SAVING...' : configStatus === 'saved' ? 'DEPLOYED!' : 'DEPLOY'}
+                        </button>
+                    </div>
+
+                    <div className="flex flex-col gap-6">
+                        <button 
+                            onClick={() => {
+                                setServiceConfig([
+                                    ...serviceConfig, 
+                                    {
+                                        id: 'new-service-' + Date.now(),
+                                        title: 'New Service',
+                                        icon: 'Briefcase',
+                                        description: '',
+                                        startingPrice: '₹0',
+                                        basePrice: 0,
+                                        enabled: false,
+                                        includes: [],
+                                        complexityTiers: [
+                                            { value: 'mvp', label: 'MVP / Essential', multiplier: 1.0, enabled: true },
+                                            { value: 'standard', label: 'Standard / Pro', multiplier: 1.5, enabled: true },
+                                            { value: 'advanced', label: 'Advanced / Complex', multiplier: 2.5, enabled: true },
+                                            { value: 'enterprise', label: 'Enterprise / Scaled', multiplier: 3.5, enabled: true },
+                                            { value: 'custom', label: 'Custom Architecture', multiplier: 4.5, enabled: true }
+                                        ]
+                                    }
+                                ]);
+                            }}
+                            className="w-full py-4 border-2 border-dashed border-[var(--neon)]/50 text-[var(--neon)] font-orbitron hover:bg-[var(--neon)]/10 transition-colors rounded-xl flex items-center justify-center gap-2"
+                        >
+                            <Plus size={20} /> ADD NEW SERVICE
+                        </button>
+
+                        {serviceConfig.map((svc, sIndex) => (
+                            <div key={svc.id} className="mech-panel p-6 rounded-xl border border-[var(--border)] flex flex-col gap-4">
+                                <div className="flex items-center justify-between border-b border-[var(--border)] pb-4 mb-2">
+                                    <input 
+                                        type="text" 
+                                        value={svc.title}
+                                        onChange={(e) => {
+                                            const newCfg = [...serviceConfig];
+                                            newCfg[sIndex].title = e.target.value;
+                                            setServiceConfig(newCfg);
+                                        }}
+                                        className="bg-transparent text-xl font-orbitron font-bold text-[var(--neon)] outline-none border-b border-transparent focus:border-[var(--neon)] px-2 py-1 w-1/2"
+                                        placeholder="Service Title"
+                                    />
+                                    <div className="flex items-center gap-4">
+                                        <button
+                                            onClick={() => {
+                                                const newCfg = [...serviceConfig];
+                                                newCfg[sIndex].enabled = !newCfg[sIndex].enabled;
+                                                setServiceConfig(newCfg);
+                                            }}
+                                            className={`px-3 py-1 font-mono text-[10px] uppercase rounded border transition-all ${
+                                                svc.enabled
+                                                    ? 'border-[var(--neon)] text-[var(--neon)]'
+                                                    : 'border-red-500/50 text-red-500/70'
+                                            }`}
+                                        >
+                                            {svc.enabled ? 'ONLINE' : 'OFFLINE'}
+                                        </button>
+                                        <button 
+                                            onClick={() => {
+                                                if (confirm(`Delete ${svc.title}?`)) {
+                                                    setServiceConfig(serviceConfig.filter((_, i) => i !== sIndex));
+                                                }
+                                            }}
+                                            className="p-2 text-red-500 hover:bg-red-500/20 rounded"
+                                            title="Delete Service"
+                                            aria-label={`Delete ${svc.title}`}
+                                        >
+                                            <Trash2 size={16} />
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div className="flex flex-col gap-1">
+                                        <label htmlFor={`slug-${sIndex}`} className="text-xs font-mono text-[var(--dim)] uppercase">Slug ID</label>
+                                        <input id={`slug-${sIndex}`} value={svc.id} onChange={e => { const c=[...serviceConfig]; c[sIndex].id=e.target.value; setServiceConfig(c); }} className="bg-[var(--bg2)] border border-[var(--border)] p-2 font-mono text-sm focus:border-[var(--neon)] outline-none text-[var(--text)]" />
+                                    </div>
+                                    <div className="flex flex-col gap-1">
+                                        <label htmlFor={`icon-${sIndex}`} className="text-xs font-mono text-[var(--dim)] uppercase">Icon (Lucide)</label>
+                                        <input id={`icon-${sIndex}`} value={svc.icon} onChange={e => { const c=[...serviceConfig]; c[sIndex].icon=e.target.value; setServiceConfig(c); }} className="bg-[var(--bg2)] border border-[var(--border)] p-2 font-mono text-sm focus:border-[var(--neon)] outline-none text-[var(--text)]" />
+                                    </div>
+                                    <div className="flex flex-col gap-1 md:col-span-2">
+                                        <label htmlFor={`desc-${sIndex}`} className="text-xs font-mono text-[var(--dim)] uppercase">Description</label>
+                                        <input id={`desc-${sIndex}`} value={svc.description} onChange={e => { const c=[...serviceConfig]; c[sIndex].description=e.target.value; setServiceConfig(c); }} className="bg-[var(--bg2)] border border-[var(--border)] p-2 font-mono text-sm focus:border-[var(--neon)] outline-none text-[var(--text)]" />
+                                    </div>
+                                    <div className="flex flex-col gap-1">
+                                        <label htmlFor={`base-price-${sIndex}`} className="text-xs font-mono text-[var(--dim)] uppercase">Base Price (Number)</label>
+                                        <input id={`base-price-${sIndex}`} type="number" value={svc.basePrice} onChange={e => { const c=[...serviceConfig]; c[sIndex].basePrice=Number(e.target.value); setServiceConfig(c); }} className="bg-[var(--bg2)] border border-[var(--border)] p-2 font-mono text-sm focus:border-[var(--neon)] outline-none text-[var(--text)]" />
+                                    </div>
+                                    <div className="flex flex-col gap-1">
+                                        <label htmlFor={`start-price-${sIndex}`} className="text-xs font-mono text-[var(--dim)] uppercase">Starting Price Label</label>
+                                        <input id={`start-price-${sIndex}`} value={svc.startingPrice} onChange={e => { const c=[...serviceConfig]; c[sIndex].startingPrice=e.target.value; setServiceConfig(c); }} className="bg-[var(--bg2)] border border-[var(--border)] p-2 font-mono text-sm focus:border-[var(--neon)] outline-none text-[var(--text)]" />
+                                    </div>
+                                </div>
+
+                                <div className="mt-4">
+                                    <label htmlFor={`includes-${sIndex}`} className="text-xs font-mono text-[var(--dim)] uppercase mb-2 block">Included Features (Comma Separated)</label>
+                                    <textarea 
+                                        id={`includes-${sIndex}`}
+                                        value={svc.includes.join(', ')} 
+                                        onChange={e => { const c=[...serviceConfig]; c[sIndex].includes=e.target.value.split(',').map(s => s.trim()).filter(Boolean); setServiceConfig(c); }}
+                                        className="w-full bg-[var(--bg2)] border border-[var(--border)] p-2 font-mono text-sm focus:border-[var(--neon)] outline-none min-h-[60px] text-[var(--text)]"
+                                    />
+                                </div>
+
+                                <div className="mt-4 border-t border-[var(--border)] pt-4">
+                                    <div className="flex items-center justify-between mb-4">
+                                        <label className="text-sm font-orbitron text-[var(--neon)] uppercase">Complexity Tiers</label>
+                                        <button 
+                                            onClick={() => {
+                                                const c = [...serviceConfig];
+                                                c[sIndex].complexityTiers.push({ value: 'new-tier', label: 'New Tier', multiplier: 1.0, enabled: true });
+                                                setServiceConfig(c);
+                                            }}
+                                            className="text-xs font-mono px-2 py-1 bg-[var(--bg2)] hover:bg-[var(--neon)]/20 text-[var(--text)] rounded transition-colors"
+                                        >
+                                            + ADD TIER
+                                        </button>
+                                    </div>
+                                    <div className="flex flex-col gap-2">
+                                        {svc.complexityTiers.map((tier, tIndex) => (
+                                            <div key={tIndex} className="flex items-center gap-2">
+                                                <input value={tier.value} onChange={e => { const c=[...serviceConfig]; c[sIndex].complexityTiers[tIndex].value=e.target.value; setServiceConfig(c); }} placeholder="id" className="w-1/4 bg-[var(--bg2)] border border-[var(--border)] p-2 font-mono text-xs focus:border-[var(--neon)] outline-none text-[var(--text)]" />
+                                                <input value={tier.label} onChange={e => { const c=[...serviceConfig]; c[sIndex].complexityTiers[tIndex].label=e.target.value; setServiceConfig(c); }} placeholder="Label" className="w-1/2 bg-[var(--bg2)] border border-[var(--border)] p-2 font-mono text-xs focus:border-[var(--neon)] outline-none text-[var(--text)]" />
+                                                <input type="number" step="0.1" value={tier.multiplier} onChange={e => { const c=[...serviceConfig]; c[sIndex].complexityTiers[tIndex].multiplier=Number(e.target.value); setServiceConfig(c); }} placeholder="1.0" className="w-1/4 bg-[var(--bg2)] border border-[var(--border)] p-2 font-mono text-xs focus:border-[var(--neon)] outline-none text-[var(--text)]" />
+                                                <button
+                                                    onClick={() => {
+                                                        const c = [...serviceConfig];
+                                                        c[sIndex].complexityTiers[tIndex].enabled = tier.enabled === false ? true : false;
+                                                        setServiceConfig(c);
+                                                    }}
+                                                    className={`px-2 py-1 font-mono text-[10px] uppercase rounded border transition-all ${
+                                                        tier.enabled !== false
+                                                            ? 'border-[var(--neon)] text-[var(--neon)]'
+                                                            : 'border-red-500/50 text-red-500/70'
+                                                    }`}
+                                                >
+                                                    {tier.enabled !== false ? 'ON' : 'OFF'}
+                                                </button>
+                                                <button 
+                                                    onClick={() => { const c=[...serviceConfig]; c[sIndex].complexityTiers = c[sIndex].complexityTiers.filter((_, i) => i !== tIndex); setServiceConfig(c); }} 
+                                                    className="p-2 text-red-500 hover:bg-red-500/20 rounded"
+                                                    title="Delete Tier"
+                                                    aria-label={`Delete ${tier.label} tier`}
+                                                >
+                                                    <Trash2 size={14} />
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             ) : (
                 <div className="flex flex-col gap-6">

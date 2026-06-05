@@ -158,7 +158,6 @@ export default function BioVideoPulse({ src, poster, type = 'native' }: BioVideo
                             >
                                 <div 
                                     className={styles.progressBar}
-                                    /* eslint-disable-next-line react/no-inline-styles */
                                     style={{ 
                                         '--progress': `${progress}%`
                                     } as React.CSSProperties}

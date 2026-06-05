@@ -450,7 +450,6 @@ export function SkillConstellation() {
                 <motion.div key={activeSkill.id}
                   className={styles.tooltip}
                   data-sector={activeSkill.category}
-                  /* eslint-disable-next-line react/no-inline-styles */
                   style={{
                     '--left': xFlip ? `${px - 208}px` : `${px + 18}px`,
                     '--top': yFlip ? `${py - 130}px` : `${Math.max(8, py - 52)}px`,
@@ -467,7 +466,6 @@ export function SkillConstellation() {
                   <div className="flex items-center gap-2 mb-2">
                     <div className="flex-1 h-1 rounded-full bg-white/10 overflow-hidden">
                       <div className={`h-full rounded-full ${styles.nodeFill}`}
-                        /* eslint-disable-next-line @next/next/no-inline-styles */
                         style={{ '--progress': `${activeSkill.proficiency}%` } as React.CSSProperties} />
                     </div>
                     <span className="font-mono text-[9px] text-white/50">{activeSkill.proficiency}%</span>

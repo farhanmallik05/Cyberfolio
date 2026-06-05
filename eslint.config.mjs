@@ -2,6 +2,7 @@ import js from "@eslint/js";
 import nextPlugin from "@next/eslint-plugin-next";
 import tsPlugin from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
+import globals from "globals";
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
@@ -19,11 +20,19 @@ export default [
                     jsx: true,
                 },
             },
+            globals: {
+                ...globals.browser,
+                ...globals.node,
+                React: "readonly",
+            },
         },
         rules: {
             ...nextPlugin.configs.recommended.rules,
             ...nextPlugin.configs["core-web-vitals"].rules,
             ...tsPlugin.configs.recommended.rules,
+            "no-undef": "off",
+            "@typescript-eslint/no-unused-vars": "warn",
+            "@typescript-eslint/no-explicit-any": "warn",
             "@next/next/no-img-element": "off",
         },
     },

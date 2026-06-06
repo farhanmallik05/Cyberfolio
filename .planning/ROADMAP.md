@@ -110,6 +110,16 @@
 - **Status**: ✅ Complete
 - **Scope**: /services with interactive pricing calculator, Cal.com booking integration, and service filtering based on new `skillTags`.
 
+### Phase 15.5.1: Connect Qdrant Vector Database (INSERTED)
+
+**Goal:** [Urgent work - to be planned]
+**Requirements**: TBD
+**Depends on:** Phase 15.5
+**Plans:** 1/1 plans complete
+
+Plans:
+- [x] TBD (run /gsd-plan-phase 15.5.1 to break down) (completed 2026-06-06)
+
 ### Phase 16: /hire Conversion Page (M)
 - **Status**: ⏳ Planned
 - **Scope**: Conversion-focused landing for agencies/clients.

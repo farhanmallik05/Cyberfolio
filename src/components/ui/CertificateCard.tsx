@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ExternalLink, Award, Calendar, Hash, ShieldCheck, Trophy, GraduationCap, Code2, LucideIcon, RotateCw, RotateCcw } from "lucide-react";
+import { ExternalLink, Award,   ShieldCheck, Trophy, GraduationCap, Code2, LucideIcon, RotateCw, RotateCcw } from "lucide-react";
 import { useState, useRef } from "react";
 import { MechPanel } from "./MechPanel";
 import styles from "./CertificateCard.module.css";

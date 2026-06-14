@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { Platform } from '@/data/dsa'
-import { Code2, ExternalLink, Award } from 'lucide-react'
+import { Code2, ExternalLink } from 'lucide-react'
 
 interface TagsProps {
   tags: string[];

@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import { FolderGit2, ArrowRight } from 'lucide-react';
-import { fetchGithubProjects, Project } from '@/lib/github-api';
+import {  Project } from '@/lib/github-api';
 import { ProjectCard } from '@/components/ui/ProjectCard';
 import { MechButton } from '@/components/ui/MechButton';
 import Link from 'next/link';
@@ -14,7 +14,9 @@ export function ProjectsPreview() {
   const sectionRef = useRef<HTMLElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [loading, setLoading] = useState(true);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {

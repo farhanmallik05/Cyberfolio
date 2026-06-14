@@ -4,7 +4,7 @@ import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MechPanel } from "@/components/ui/MechPanel";
 import { MechButton } from "@/components/ui/MechButton";
-import { Calendar, Clock, ArrowRight, Search, Tag, X } from "lucide-react";
+import { Calendar, Clock, ArrowRight, Search,  X } from "lucide-react";
 import Link from "next/link";
 import Fuse from "fuse.js";
 import { BlogPost, Category } from "@/types/blog";

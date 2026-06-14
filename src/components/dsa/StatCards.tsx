@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { CheckCircle2, Calendar, Zap, Trophy, History } from 'lucide-react'
+import { CheckCircle2, Calendar, Zap, Trophy } from 'lucide-react'
 import { DsaStats } from '@/data/dsa'
 
 interface Props {

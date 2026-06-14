@@ -48,7 +48,7 @@ export default function ResumeSkills({ skillGroups, activeRole }: Props) {
             </h3>
 
             <div className="space-y-4">
-              {group.skills.map((skill, sIdx) => (
+              {group.skills.map((skill) => (
                 <div key={skill.name} className="space-y-1.5">
                   <div className="flex justify-between items-end">
                     <span className="font-share-mono text-xs text-mech-white tracking-wider">

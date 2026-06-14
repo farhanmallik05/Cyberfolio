@@ -19,6 +19,7 @@ const AICore = dynamic(() => import('@/components/AICore').then(mod => mod.AICor
 });
 
 export function HeroSection() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { activeRole } = useRole();
   const sectionRef = useRef<HTMLElement>(null);
   const q = gsap.utils.selector(sectionRef);

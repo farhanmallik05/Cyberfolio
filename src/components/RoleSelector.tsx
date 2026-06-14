@@ -19,7 +19,7 @@ export function RoleSelector() {
       </div>
       
       <div className="relative flex flex-wrap md:flex-nowrap items-center bg-mech-base/40 border border-mech-cyan/10 p-1 rounded-lg backdrop-blur-md overflow-x-auto no-scrollbar">
-        {roles.map((role, idx) => {
+        {roles.map((role) => {
           const meta = ROLE_META[role]
           const isActive = activeRole === role
           

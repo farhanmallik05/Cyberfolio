@@ -21,7 +21,7 @@ export default function ResumeDownloadButton({ data, activeRole, label }: Props)
         fileName={`Farhan_Mallik_${label.replace(/\s+/g, '_')}_Resume.pdf`}
         className="print:hidden relative px-6 py-3 bg-mech-cyan/10 border border-mech-cyan text-mech-cyan font-orbitron text-xs tracking-widest uppercase flex items-center gap-3 hover:bg-mech-cyan hover:text-mech-base transition-all duration-300 shadow-[0_0_15px_rgba(0,245,255,0.2)]"
       >
-        {({ blob, url, loading, error }) =>
+        {({ loading }) =>
           loading ? (
             <>
               <Loader2 className="w-4 h-4 animate-spin" />

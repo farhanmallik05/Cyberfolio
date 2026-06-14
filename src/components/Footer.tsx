@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Cpu, ArrowUpRight } from "lucide-react";
 import aboutData from "@/data/about.json";
 import { getIconForPlatform } from "@/lib/icons";
+import { FooterNewsletter } from "@/components/FooterNewsletter";
 
 const socialLinks = (aboutData.socials || [])
     .filter(s => s.category === "primary" || ["github", "linkedin", "twitter"].some(p => s.platform.toLowerCase().includes(p)))
@@ -77,6 +78,8 @@ export function Footer() {
                                 ))}
                             </div>
                         </div>
+                        
+                        <FooterNewsletter />
                     </div>
 
                     {/* Right Side: Navigation Columns grouped together */}

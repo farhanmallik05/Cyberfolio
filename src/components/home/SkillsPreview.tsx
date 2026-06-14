@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import { Cpu, Code2, Database, Layout, Brain, Zap } from 'lucide-react';
+import { Cpu,  Database, Layout, Brain, Zap } from 'lucide-react';
 import { MechButton } from '@/components/ui/MechButton';
 import Link from 'next/link';
 import styles from './SkillsPreview.module.css';

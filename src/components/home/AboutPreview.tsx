@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+
 import { User, ShieldCheck } from 'lucide-react';
 import styles from './AboutPreview.module.css';
 

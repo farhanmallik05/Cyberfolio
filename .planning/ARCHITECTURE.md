@@ -321,8 +321,8 @@ POST PAGE (/blog/[slug]):
 
 PRODUCT PAGE (/store/[slug]):
 ├── Mockup carousel, video walkthrough
-├── Razorpay/Stripe checkout
-├── **Idempotency Logic**: Supabase `.upsert` with `onConflict: 'razorpay_payment_id'`.
+├── Dodo Payments checkout
+├── **Idempotency Logic**: Supabase `.upsert` with `onConflict: 'dodo_payment_id'`.
 ├── **Shipping Trigger**: Resend delivery email fires ONLY if the upsert response indicates a newly created row (created_at == updated_at).
 ├── **Pricing Source of Truth**: Database stores prices in **INR**; USD is calculated monthly via edge function for global display.
 ├── Supabase purchase recording

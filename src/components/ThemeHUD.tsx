@@ -3,13 +3,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '@/context/ThemeContext';
+import { useAudio } from '@/context/AudioContext';
 import { THEMES } from '@/data/themes';
-import { X, Palette } from 'lucide-react';
+import { X, Palette, Volume2, VolumeX } from 'lucide-react';
 import styles from './ThemeHUD.module.css';
 import { ThemeSwatch } from './ThemeSwatch';
 
 export function ThemeHUD() {
   const { theme, setTheme, isTransitioning } = useTheme();
+  const { isPlaying, toggleAudio } = useAudio();
   const [isExpanded, setIsExpanded] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -78,13 +80,22 @@ export function ThemeHUD() {
                 <Palette size={14} className="text-neon" />
                 <span className="font-orbitron text-[10px] font-bold tracking-[0.2em] text-text uppercase">System Aesthetics</span>
               </div>
-              <button 
-                onClick={() => setIsExpanded(false)}
-                className="text-dim hover:text-neon transition-colors"
-                aria-label="Close"
-              >
-                <X size={16} />
-              </button>
+              <div className="flex items-center gap-3">
+                <button 
+                  onClick={toggleAudio}
+                  className="text-dim hover:text-neon transition-colors"
+                  aria-label="Toggle Audio"
+                >
+                  {isPlaying ? <Volume2 size={16} /> : <VolumeX size={16} />}
+                </button>
+                <button 
+                  onClick={() => setIsExpanded(false)}
+                  className="text-dim hover:text-neon transition-colors"
+                  aria-label="Close"
+                >
+                  <X size={16} />
+                </button>
+              </div>
             </div>
 
             {/* Theme List */}

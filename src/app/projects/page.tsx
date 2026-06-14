@@ -1,6 +1,6 @@
 'use client';
 
-import dynamic from 'next/dynamic';
+
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { Flip } from 'gsap/all';
 import gsap from 'gsap';

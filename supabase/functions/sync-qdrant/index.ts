@@ -11,6 +11,7 @@ const qdrant = (qdrantUrl && qdrantApiKey) ? new QdrantClient({
   apiKey: qdrantApiKey,
 }) : null;
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
 serve(async (req) => {
   try {
     if (!qdrant) {

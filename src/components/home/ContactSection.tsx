@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, ArrowRight, ArrowLeft, CheckCircle2, Terminal } from 'lucide-react';
+import { Send,  ArrowLeft, CheckCircle2, Terminal } from 'lucide-react';
 import { MechButton } from '@/components/ui/MechButton';
 import styles from './ContactSection.module.css';
 

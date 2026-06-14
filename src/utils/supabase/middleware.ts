@@ -37,6 +37,7 @@ export async function updateSession(request: NextRequest) {
 
   try {
     await supabase.auth.getUser()
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (e) {
     // Ignore auth errors in middleware to ensure the request continues
   }

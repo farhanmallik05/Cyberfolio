@@ -1,0 +1,32 @@
+[
+  {
+    "id": "job-001",
+    "role": "Senior React Native Engineer",
+    "company": "Supabase",
+    "url": "https://supabase.com/careers",
+    "location": "Remote (Global)",
+    "type": "Full-time",
+    "tags": ["React Native", "TypeScript", "PostgreSQL"],
+    "datePosted": "2026-06-01"
+  },
+  {
+    "id": "job-002",
+    "role": "AI Solutions Architect",
+    "company": "Vercel",
+    "url": "https://vercel.com/careers",
+    "location": "Remote (US/EU)",
+    "type": "Full-time",
+    "tags": ["AI/ML", "Next.js", "Edge Computing"],
+    "datePosted": "2026-06-05"
+  },
+  {
+    "id": "job-003",
+    "role": "Open Source Maintainer",
+    "company": "Qdrant",
+    "url": "https://qdrant.tech/careers",
+    "location": "Remote",
+    "type": "Contract",
+    "tags": ["Rust", "Vector Search", "Community"],
+    "datePosted": "2026-06-06"
+  }
+]

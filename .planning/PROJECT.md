@@ -1,5 +1,17 @@
 # Neural Architect — Portfolio
 
+## What This Is
+A highly interactive, performance-optimized personal portfolio and digital presence for a full-stack AI engineer.
+
+## Core Value
+To showcase technical prowess through a custom-built, cinematic, and functional web application that serves as a resume, blog, and service booking platform.
+
+## Requirements
+- Next.js App Router
+- Supabase Backend
+- GSAP Animations
+- Tailwind CSS Styling
+
 ## Identity
 - **Name**: Farhan Mallik
 - **Title**: AI Engineer & Fullstack Builder

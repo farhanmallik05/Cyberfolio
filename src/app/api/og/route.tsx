@@ -1,14 +1,30 @@
 /* eslint-disable */
 import { ImageResponse } from 'next/og';
 import { NextRequest } from 'next/server';
+import { z } from 'zod';
+
+const ogSchema = z.object({
+  title: z.string().optional().default('Neural Architect'),
+  category: z.string().optional().default('TRANSMISSION')
+});
 
 export const runtime = 'edge';
 
 export async function GET(req: NextRequest) {
     try {
         const { searchParams } = new URL(req.url);
-        const title = searchParams.get('title') || 'Neural Architect';
-        const category = searchParams.get('category') || 'TRANSMISSION';
+        
+        const rawParams = {
+            title: searchParams.get('title') || undefined,
+            category: searchParams.get('category') || undefined
+        };
+        
+        const parsed = ogSchema.safeParse(rawParams);
+        if (!parsed.success) {
+             return new Response(`Invalid parameters: ${parsed.error.message}`, { status: 400 });
+        }
+        
+        const { title, category } = parsed.data;
 
         return new ImageResponse(
             (

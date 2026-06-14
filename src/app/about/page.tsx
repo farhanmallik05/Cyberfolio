@@ -3,11 +3,8 @@
 import { MechPanel } from "@/components/ui/MechPanel";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-    Search, 
     ShieldAlert, 
     Database, 
-    GraduationCap, 
-    Briefcase, 
     Terminal, 
     Target, 
     ChevronDown, 
@@ -54,10 +51,7 @@ export default function About() {
         }
     };
 
-    const itemVariants = {
-        hidden: { opacity: 0, y: 20 },
-        visible: { opacity: 1, y: 0 }
-    };
+
 
     return (
         <div className="min-h-screen pt-32 pb-24 px-4 max-w-6xl mx-auto relative z-10 w-full">

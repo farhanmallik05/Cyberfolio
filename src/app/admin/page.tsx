@@ -9,7 +9,7 @@ export default async function AdminPage() {
     const isAuthorized = await verifyAdmin();
     
     let initialPosts: (BlogPost & { is_published: boolean })[] = [];
-    let initialSettings: { is_available: boolean; service_config: Record<string, any> } | null = null;
+    let initialSettings: { is_available: boolean; service_config: Record<string, unknown> } | null = null;
     let metrics: { enquiries: any[]; subscribers: any[] } = { enquiries: [], subscribers: [] };
     
     if (isAuthorized) {

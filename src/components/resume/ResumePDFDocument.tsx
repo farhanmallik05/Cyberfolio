@@ -1,8 +1,8 @@
 'use client'
 
 import React from 'react';
-import { Document, Page, Text, View, StyleSheet, Font, Image } from '@react-pdf/renderer';
-import { ResumeData, ResumeExperience, ResumeProject, ResumeSkillGroup } from '@/data/resume';
+import { Document, Page, Text, View, StyleSheet,  Image } from '@react-pdf/renderer';
+import { ResumeData } from '@/data/resume';
 import { Role } from '@/context/RoleContext';
 import { useEffect, useState } from 'react';
 

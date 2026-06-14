@@ -4,6 +4,7 @@ import { cookies } from 'next/headers';
 import { createClient } from '@/utils/supabase/server';
 import { revalidatePath } from 'next/cache';
 import { BlogPost } from '@/types/blog';
+import { signSession, verifySession } from '@/lib/session';
 
 const COOKIE_NAME = 'admin_session';
 
@@ -14,7 +15,8 @@ async function getAdminSupabase() {
 export async function loginAdmin(password: string) {
     if (password === process.env.ADMIN_PASSWORD) {
         const cookieStore = await cookies();
-        cookieStore.set(COOKIE_NAME, 'authorized', {
+        const secureToken = signSession('authorized');
+        cookieStore.set(COOKIE_NAME, secureToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'lax',
@@ -29,7 +31,7 @@ export async function loginAdmin(password: string) {
 export async function verifyAdmin() {
     const cookieStore = await cookies();
     const session = cookieStore.get(COOKIE_NAME);
-    return session?.value === 'authorized';
+    return verifySession(session?.value);
 }
 
 export async function toggleAvailability(state: boolean) {

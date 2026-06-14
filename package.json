@@ -9,9 +9,12 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@ai-sdk/react": "^3.0.199",
     "@calcom/embed-react": "1.5.3",
+    "@google/genai": "^2.8.0",
     "@gsap/react": "^2.1.2",
     "@qdrant/js-client-rest": "^1.18.0",
+    "@react-email/components": "^1.0.12",
     "@react-pdf/renderer": "^4.5.1",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.5.0",
@@ -19,6 +22,8 @@
     "@supabase/supabase-js": "^2.103.0",
     "@tailwindcss/typography": "^0.5.19",
     "@types/gsap": "^1.20.2",
+    "ai": "^6.0.197",
+    "cheerio": "^1.2.0",
     "clsx": "^2.1.1",
     "framer-motion": "^12.34.3",
     "fuse.js": "^7.3.0",
@@ -32,14 +37,17 @@
     "react-markdown": "^10.1.0",
     "reading-time": "^1.5.0",
     "remark-gfm": "^4.0.1",
+    "resend": "^6.12.4",
     "satori": "^0.26.0",
     "sharp": "^0.34.5",
     "tailwind-merge": "^3.5.0",
-    "three": "^0.183.1"
+    "three": "^0.183.1",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.4",
     "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.60.0",
     "@types/node": "^20",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",

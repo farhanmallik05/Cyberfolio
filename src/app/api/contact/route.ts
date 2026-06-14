@@ -1,9 +1,27 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
+import { z } from "zod";
+
+const contactSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  email: z.string().email("Invalid email"),
+  projectType: z.string().optional(),
+  message: z.string().min(1, "Message is required"),
+});
 
 export async function POST(req: Request) {
   try {
-    const { name, email, projectType, message } = await req.json();
+    const body = await req.json();
+    const parsed = contactSchema.safeParse(body);
+
+    if (!parsed.success) {
+      return NextResponse.json(
+        { message: "Invalid payload", errors: parsed.error.format() },
+        { status: 400 }
+      );
+    }
+
+    const { name, email, projectType, message } = parsed.data;
 
     const supabase = await createClient();
 

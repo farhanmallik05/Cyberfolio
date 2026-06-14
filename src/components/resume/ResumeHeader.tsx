@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Mail, Phone, MapPin, Github, Linkedin, Globe, Download } from 'lucide-react'
+import { Mail,  MapPin, Github, Linkedin } from 'lucide-react'
 import { ResumeIdentity } from '@/data/resume'
 
 interface Props {

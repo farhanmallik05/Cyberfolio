@@ -10,30 +10,14 @@ import {
     Clock, 
     Activity, 
     ArrowUpRight,
-    Search,
-    Monitor,
-    Layers,
-    Terminal,
     MapPin,
-    Zap,
     ExternalLink
 } from "lucide-react";
 import nowData from "@/data/now.json";
 import usesData from "@/data/uses.json";
 import { resumeData } from "@/data/resume";
 
-const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { 
-        opacity: 1,
-        transition: { staggerChildren: 0.1 }
-    }
-};
 
-const itemVariants = {
-    hidden: { opacity: 0, x: -20 },
-    visible: { opacity: 1, x: 0 }
-};
 
 export default function NowPage() {
     // Find active project for the pulse

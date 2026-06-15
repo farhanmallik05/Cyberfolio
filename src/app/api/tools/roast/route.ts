@@ -1,4 +1,4 @@
-export const runtime = 'edge';
+export const runtime = 'nodejs';
 import { GoogleGenAI } from '@google/genai';
 import { scrapeUrl } from '@/lib/scraper';
 

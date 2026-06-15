@@ -107,6 +107,18 @@ export function HeroSection() {
             <span className={styles.statValue}>{SITE_STATS.hackathons}</span>
             <span className={styles.statLabel}>Hackathons</span>
           </div>
+          <div className={styles.statItem}>
+            <span className={styles.statValue}>{SITE_STATS.capstones}</span>
+            <span className={styles.statLabel}>Capstone Projects</span>
+          </div>
+          <div className={styles.statItem}>
+            <span className={styles.statValue}>{SITE_STATS.extensions}</span>
+            <span className={styles.statLabel}>Chrome Extensions</span>
+          </div>
+          <div className={styles.statItem}>
+            <span className={styles.statValue}>{SITE_STATS.themes}</span>
+            <span className={styles.statLabel}>Theme Designs</span>
+          </div>
         </div>
       </div>
 

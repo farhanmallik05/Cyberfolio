@@ -1,8 +1,12 @@
 export const runtime = 'nodejs';
-import { GoogleGenAI } from '@google/genai';
+import { createOpenAI } from '@ai-sdk/openai';
+import { streamText } from 'ai';
 import { scrapeUrl } from '@/lib/scraper';
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+const xai = createOpenAI({
+  apiKey: process.env.GROQ_API_KEY,
+  baseURL: 'https://api.x.ai/v1',
+});
 
 export async function POST(req: Request) {
   try {
@@ -27,27 +31,13 @@ export async function POST(req: Request) {
     
     const systemInstruction = `You are an aggressively honest but highly experienced design and code critic. Your job is to 'roast' the user's portfolio. You should point out cliches, bad UX patterns, poor copywriting, and generic design choices. Be harsh, but make sure the feedback is actually constructive so they know how to fix it. Keep your roast under 300 words.`;
     
-    const responseStream = await ai.models.generateContentStream({
-        model: 'gemini-2.5-flash',
-        contents: `Here is the text content of my portfolio. Roast it:\n\n${contentToRoast}`,
-        config: {
-            systemInstruction: systemInstruction,
-            // safety settings might need to be adjusted for 'harsh' language if blocked
-        }
+    const result = streamText({
+        model: xai('grok-beta'),
+        system: systemInstruction,
+        prompt: `Here is the text content of my portfolio. Roast it:\n\n${contentToRoast}`,
     });
     
-    const stream = new ReadableStream({
-      async start(controller) {
-        for await (const chunk of responseStream) {
-          if (chunk.text) {
-              controller.enqueue(new TextEncoder().encode(chunk.text));
-          }
-        }
-        controller.close();
-      }
-    });
-    
-    return new Response(stream, { headers: { 'Content-Type': 'text/plain; charset=utf-8' }});
+    return result.toTextStreamResponse();
   } catch (error: any) {
     console.error("Portfolio Roaster Error:", error);
     return new Response(error.message, { status: 500 });

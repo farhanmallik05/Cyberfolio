@@ -1,8 +1,12 @@
-import { GoogleGenAI } from '@google/genai';
+import { createOpenAI } from '@ai-sdk/openai';
+import { streamText } from 'ai';
 import { searchSimilarContent } from '@/lib/embeddings';
 import { checkRateLimit } from '@/lib/rate-limit';
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+const xai = createOpenAI({
+  apiKey: process.env.GROQ_API_KEY,
+  baseURL: 'https://api.x.ai/v1',
+});
 
 export async function POST(req: Request) {
   try {
@@ -44,33 +48,20 @@ Example: "I'd love to discuss building this for you. You can book a direct consu
 Relevant Knowledge Base Context:
 ${ragContext ? ragContext : "No specific context found. Rely on general knowledge of Farhan Mallik."}`;
 
-    // 3. Format history for Gemini
-    const contents = messages.map((m: any) => ({
-      role: m.role === 'user' ? 'user' : 'model',
-      parts: [{ text: m.content }]
+    // 3. Format history for xAI
+    const contents: Array<{role: 'user' | 'assistant' | 'system', content: string}> = messages.map((m: any) => ({
+      role: m.role === 'user' ? 'user' : 'assistant',
+      content: m.content
     }));
 
     // 4. Stream response
-    const responseStream = await ai.models.generateContentStream({
-        model: 'gemini-2.5-flash',
-        contents: contents,
-        config: {
-            systemInstruction: systemInstruction,
-        }
-    });
-
-    const stream = new ReadableStream({
-      async start(controller) {
-        for await (const chunk of responseStream) {
-          if (chunk.text) {
-              controller.enqueue(new TextEncoder().encode(chunk.text));
-          }
-        }
-        controller.close();
-      }
+    const result = streamText({
+        model: xai('grok-beta'),
+        system: systemInstruction,
+        messages: contents,
     });
     
-    return new Response(stream, { headers: { 'Content-Type': 'text/plain; charset=utf-8' }});
+    return result.toTextStreamResponse();
 
   } catch (error: any) {
     console.error("Chat API Error:", error);

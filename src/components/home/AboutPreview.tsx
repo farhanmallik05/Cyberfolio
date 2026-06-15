@@ -74,15 +74,10 @@ export function AboutPreview() {
         <div className={styles.identity}>
           <div className={styles.identityFrame} />
           <div className={styles.identityContent}>
-            {`[ SYSTEM_LOG ]
-ENTRY_IDENTITY: FARHAN_MALLIK
-CLEARANCE: LVL_9
-SPECIALIZATION: NEURAL_ARCHITECT
-STATUS: ACTIVE_DEVELOPMENT
-LOC: IST_NODE_5.5
----------------------------
-BUILDING_THE_FUTURE...
-99.9%_STABLE`}
+            {`> root@farhan-mallik:~$ ./profile.sh 
+[ OK ] INITIALIZING: NEXT.JS // SUPABASE // PYTHON // AI 
+[ OK ] SPECIALTY: FULL_STACK_ARCHITECTURE 
+> STATUS: BUILDING_HIGH_PERFORMANCE_SYSTEMS... DONE.`}
           </div>
         </div>
       </div>

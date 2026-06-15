@@ -31,7 +31,16 @@
 }
 
 @media (max-width: 768px) {
+  .scrollContainer {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 1.5rem;
+  }
+
   .projectCardWrapper {
-    width: 300px;
+    width: 85vw;
+    scroll-snap-align: center;
   }
 }

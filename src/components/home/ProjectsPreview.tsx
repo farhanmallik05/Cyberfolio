@@ -48,6 +48,10 @@ export function ProjectsPreview() {
   useEffect(() => {
     if (!scrollContainerRef.current || projects.length === 0) return;
 
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (isMobile || reduced) return;
+
     // Force a refresh after layout potentially shifts due to project loading
     ScrollTrigger.refresh();
 

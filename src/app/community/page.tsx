@@ -40,19 +40,19 @@ export default async function CommunityPage() {
         </p>
 
         <div className="w-full max-w-sm flex flex-col gap-4 mt-4">
-          <a href="https://discord.gg/example" target="_blank" rel="noreferrer" className="w-full flex items-center justify-between p-4 bg-[#5865F2]/10 border border-[#5865F2]/30 hover:border-[#5865F2] hover:bg-[#5865F2]/20 transition-all rounded-sm group">
+          <a href="https://discord.gg/example" target="_blank" rel="noopener noreferrer" className="w-full flex items-center justify-between p-4 bg-[#5865F2]/10 border border-[#5865F2]/30 hover:border-[#5865F2] hover:bg-[#5865F2]/20 transition-all rounded-sm group">
             <div className="flex items-center gap-3 text-white font-heading font-bold tracking-widest">
               <MessageSquare className="text-[#5865F2]" /> DISCORD
             </div>
             <ArrowUpRight className="text-[#5865F2] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
           </a>
-          <a href="https://twitter.com/farhanmallik" target="_blank" rel="noreferrer" className="w-full flex items-center justify-between p-4 bg-[#1DA1F2]/10 border border-[#1DA1F2]/30 hover:border-[#1DA1F2] hover:bg-[#1DA1F2]/20 transition-all rounded-sm group">
+          <a href="https://twitter.com/farhanmallik" target="_blank" rel="noopener noreferrer" className="w-full flex items-center justify-between p-4 bg-[#1DA1F2]/10 border border-[#1DA1F2]/30 hover:border-[#1DA1F2] hover:bg-[#1DA1F2]/20 transition-all rounded-sm group">
             <div className="flex items-center gap-3 text-white font-heading font-bold tracking-widest">
               <Twitter className="text-[#1DA1F2]" /> TWITTER (X)
             </div>
             <ArrowUpRight className="text-[#1DA1F2] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
           </a>
-          <a href="https://github.com/farhanmallik" target="_blank" rel="noreferrer" className="w-full flex items-center justify-between p-4 bg-white/5 border border-white/10 hover:border-white/30 hover:bg-white/10 transition-all rounded-sm group">
+          <a href="https://github.com/farhanmallik" target="_blank" rel="noopener noreferrer" className="w-full flex items-center justify-between p-4 bg-white/5 border border-white/10 hover:border-white/30 hover:bg-white/10 transition-all rounded-sm group">
             <div className="flex items-center gap-3 text-white font-heading font-bold tracking-widest">
               <Github className="text-white" /> GITHUB
             </div>
@@ -71,7 +71,7 @@ export default async function CommunityPage() {
           
           <div className="flex flex-col gap-4">
             {issues.length > 0 ? issues.map((issue: any) => (
-              <a key={issue.id} href={issue.html_url} target="_blank" rel="noreferrer" className="group p-4 bg-[var(--bg2)] border border-[var(--border)] hover:border-[var(--neon)] transition-colors rounded-sm flex flex-col gap-2">
+              <a key={issue.id} href={issue.html_url} target="_blank" rel="noopener noreferrer" className="group p-4 bg-[var(--bg2)] border border-[var(--border)] hover:border-[var(--neon)] transition-colors rounded-sm flex flex-col gap-2">
                 <div className="flex items-start justify-between gap-4">
                   <h3 className="font-heading font-bold text-white group-hover:text-[var(--neon)] transition-colors line-clamp-2 leading-tight">
                     {issue.title}
@@ -107,7 +107,7 @@ export default async function CommunityPage() {
                     <h3 className="font-heading font-bold text-lg group-hover:text-white transition-colors">{job.role}</h3>
                     <div className="font-mono text-sm text-[var(--neon)] mt-1">{job.company}</div>
                   </div>
-                  <a href={job.url} target="_blank" rel="noreferrer" className="p-2 border border-[var(--border)] rounded hover:bg-[var(--neon)] hover:text-black hover:border-[var(--neon)] transition-all">
+                  <a href={job.url} target="_blank" rel="noopener noreferrer" aria-label="Apply to job" className="p-2 border border-[var(--border)] rounded hover:bg-[var(--neon)] hover:text-black hover:border-[var(--neon)] transition-all">
                     <ArrowUpRight size={16} />
                   </a>
                 </div>

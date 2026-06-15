@@ -21,6 +21,10 @@ export function ProcessTimeline({ phases }: { phases: ProcessPhase[] }) {
     const elements = containerRef.current.querySelectorAll('.timeline-node');
     const line = containerRef.current.querySelector('.timeline-line');
     
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (isMobile || reduced) return;
+
     const ctx = gsap.context(() => {
       // Animate line drawing
       gsap.fromTo(line, 
@@ -61,7 +65,7 @@ export function ProcessTimeline({ phases }: { phases: ProcessPhase[] }) {
   return (
     <div ref={containerRef} className="relative py-12 ml-4 md:ml-0 overflow-hidden">
       <div className="absolute left-0 top-0 bottom-0 w-px bg-mech-silver/10 md:left-1/2 md:-translate-x-1/2" />
-      <div className="timeline-line absolute left-0 top-0 w-px bg-mech-cyan shadow-[0_0_10px_var(--neon)] md:left-1/2 md:-translate-x-1/2 h-0" />
+      <div className="timeline-line absolute left-0 top-0 bottom-0 w-px bg-mech-cyan shadow-[0_0_10px_var(--neon)] md:left-1/2 md:-translate-x-1/2 h-full" />
       
       <div className="space-y-16">
         {phases.map((item, index) => {

@@ -3,6 +3,9 @@
   width: 100%;
   max-width: 1000px;
   margin: 0 auto;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
 .grid {
@@ -72,6 +75,11 @@
 }
 
 @media (max-width: 768px) {
+  .section[data-visible="false"] {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
   .grid {
     grid-template-columns: 1fr;
   }

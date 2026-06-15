@@ -21,28 +21,55 @@ import {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
     Zap,
     Award,
-    FileText
+    FileText,
+    ChevronDown
 } from "lucide-react";
 
-const navItems = [
+type NavItem = {
+    href?: string;
+    label: string;
+    icon: any;
+    children?: { href: string; label: string; icon: any; }[];
+};
+
+const navItems: NavItem[] = [
     { href: "/", label: "Home", icon: Home },
-    { href: "/about", label: "About", icon: User },
-    { href: "/skills", label: "Skills", icon: BarChart3 },
-    { href: "/resume", label: "Resume", icon: FileText },
-    { href: "/projects", label: "Projects", icon: FolderGit2 },
-    { href: "/certificates", label: "Certificates", icon: Award },
-    { href: "/social", label: "Social", icon: Share2 },
-    { href: "/now", label: "Now", icon: Activity },
-    { href: "/services", label: "Services", icon: Briefcase },
-    { href: "/marketplace", label: "Market", icon: ShoppingCart },
-    { href: "/blog", label: "Blog", icon: BookOpen },
-    { href: "/contact", label: "Contact", icon: Mail },
+    { 
+        label: "About", 
+        icon: User,
+        children: [
+            { href: "/about", label: "About Me", icon: User },
+            { href: "/skills", label: "Skills", icon: BarChart3 },
+            { href: "/resume", label: "Resume", icon: FileText },
+            { href: "/certificates", label: "Certificates", icon: Award },
+            { href: "/now", label: "Now", icon: Activity },
+        ]
+    },
+    { 
+        label: "Work", 
+        icon: Briefcase,
+        children: [
+            { href: "/projects", label: "Projects", icon: FolderGit2 },
+            { href: "/services", label: "Services", icon: Briefcase },
+            { href: "/marketplace", label: "Market", icon: ShoppingCart },
+        ]
+    },
+    { 
+        label: "Connect", 
+        icon: Share2,
+        children: [
+            { href: "/social", label: "Social", icon: Share2 },
+            { href: "/blog", label: "Blog", icon: BookOpen },
+            { href: "/contact", label: "Contact", icon: Mail },
+        ]
+    },
 ];
 
 export function Navbar() {
     const pathname = usePathname();
     const [scrolled, setScrolled] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
+    const [expandedItem, setExpandedItem] = useState<string | null>(null);
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -53,6 +80,7 @@ export function Navbar() {
     // Close mobile menu on route change
     useEffect(() => {
         setMobileOpen(false);
+        setExpandedItem(null);
     }, [pathname]);
 
     return (
@@ -82,28 +110,73 @@ export function Navbar() {
                         </Link>
 
                         {/* Desktop Navigation */}
-                        <div className="hidden lg:flex items-center gap-1 overflow-x-auto no-scrollbar">
+                        <div className="hidden lg:flex items-center gap-1 overflow-x-visible">
                             {navItems.map((item) => {
-                                const isActive = pathname === item.href;
+                                const isActive = item.href ? pathname === item.href : item.children?.some(child => pathname === child.href);
                                 return (
-                                    <Link
-                                        key={item.href}
-                                        href={item.href}
-                                        className={`relative px-3 py-2 rounded-md font-orbitron text-[10px] tracking-wider uppercase transition-all duration-300 flex items-center gap-1.5 whitespace-nowrap group ${isActive
-                                            ? "text-mech-cyan"
-                                            : "text-mech-silver/60 hover:text-mech-white"
-                                            }`}
-                                    >
-                                        <item.icon className={`w-3 h-3 transition-colors ${isActive ? "text-mech-cyan" : "text-mech-silver/40 group-hover:text-mech-silver/80"}`} />
-                                        {item.label}
-                                        {isActive && (
-                                            <motion.div
-                                                layoutId="nav-indicator"
-                                                className="absolute inset-0 rounded-md bg-mech-cyan/10 border border-mech-cyan/30 -z-10"
-                                                transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                                            />
+                                    <div key={item.label} className="relative group">
+                                        {item.href ? (
+                                            <Link
+                                                href={item.href}
+                                                className={`relative px-3 py-2 rounded-md font-orbitron text-[10px] tracking-wider uppercase transition-all duration-300 flex items-center gap-1.5 whitespace-nowrap ${isActive
+                                                    ? "text-mech-cyan"
+                                                    : "text-mech-silver/60 hover:text-mech-white"
+                                                    }`}
+                                            >
+                                                <item.icon className={`w-3 h-3 transition-colors ${isActive ? "text-mech-cyan" : "text-mech-silver/40 group-hover:text-mech-silver/80"}`} />
+                                                {item.label}
+                                                {isActive && (
+                                                    <motion.div
+                                                        layoutId="nav-indicator"
+                                                        className="absolute inset-0 rounded-md bg-mech-cyan/10 border border-mech-cyan/30 -z-10"
+                                                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                                                    />
+                                                )}
+                                            </Link>
+                                        ) : (
+                                            <button
+                                                className={`relative px-3 py-2 rounded-md font-orbitron text-[10px] tracking-wider uppercase transition-all duration-300 flex items-center gap-1.5 whitespace-nowrap cursor-default ${isActive
+                                                    ? "text-mech-cyan"
+                                                    : "text-mech-silver/60 hover:text-mech-white"
+                                                    }`}
+                                            >
+                                                <item.icon className={`w-3 h-3 transition-colors ${isActive ? "text-mech-cyan" : "text-mech-silver/40 group-hover:text-mech-silver/80"}`} />
+                                                {item.label}
+                                                <ChevronDown className="w-3 h-3 opacity-50 group-hover:opacity-100 transition-opacity" />
+                                                {isActive && (
+                                                    <motion.div
+                                                        layoutId="nav-indicator"
+                                                        className="absolute inset-0 rounded-md bg-mech-cyan/10 border border-mech-cyan/30 -z-10"
+                                                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                                                    />
+                                                )}
+                                            </button>
                                         )}
-                                    </Link>
+
+                                        {/* Dropdown Menu */}
+                                        {item.children && (
+                                            <div className="absolute left-0 top-full pt-2 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-300 z-50">
+                                                <div className="bg-mech-base/95 backdrop-blur-xl border border-mech-cyan/20 rounded-lg shadow-[0_4px_30px_rgba(0,174,239,0.15)] p-2 min-w-[160px] flex flex-col gap-1">
+                                                    {item.children.map(child => {
+                                                        const isChildActive = pathname === child.href;
+                                                        return (
+                                                            <Link
+                                                                key={child.href}
+                                                                href={child.href}
+                                                                className={`px-3 py-2 rounded-md font-orbitron text-[10px] tracking-wider uppercase transition-all duration-200 flex items-center gap-2 whitespace-nowrap ${isChildActive
+                                                                    ? "text-mech-cyan bg-mech-cyan/10"
+                                                                    : "text-mech-silver/70 hover:text-mech-white hover:bg-white/5"
+                                                                }`}
+                                                            >
+                                                                <child.icon className={`w-3 h-3 ${isChildActive ? "text-mech-cyan" : "text-mech-silver/50"}`} />
+                                                                {child.label}
+                                                            </Link>
+                                                        );
+                                                    })}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
                                 );
                             })}
                         </div>
@@ -147,26 +220,78 @@ export function Navbar() {
                             transition={{ type: "spring", stiffness: 300, damping: 30 }}
                             className="absolute right-0 top-0 bottom-0 w-72 bg-mech-base/95 backdrop-blur-xl border-l border-mech-cyan/20 p-6 pt-20"
                         >
-                            <div className="flex flex-col gap-2">
+                            <div className="flex flex-col gap-2 overflow-y-auto max-h-[calc(100vh-120px)] no-scrollbar pb-10">
                                 {navItems.map((item, idx) => {
-                                    const isActive = pathname === item.href;
+                                    const isActive = item.href ? pathname === item.href : item.children?.some(child => pathname === child.href);
+                                    const isExpanded = expandedItem === item.label;
+
                                     return (
                                         <motion.div
-                                            key={item.href}
+                                            key={item.label}
                                             initial={{ opacity: 0, x: 20 }}
                                             animate={{ opacity: 1, x: 0 }}
                                             transition={{ delay: idx * 0.05 }}
+                                            className="flex flex-col"
                                         >
-                                            <Link
-                                                href={item.href}
-                                                className={`flex items-center gap-4 px-4 py-3 rounded-lg font-orbitron text-sm tracking-wider transition-all duration-200 ${isActive
-                                                    ? "text-mech-cyan bg-mech-cyan/10 border border-mech-cyan/30"
-                                                    : "text-mech-silver hover:text-white hover:bg-white/5"
-                                                    }`}
-                                            >
-                                                <item.icon className={`w-5 h-5 ${isActive ? "text-mech-cyan" : "text-mech-silver/50"}`} />
-                                                {item.label}
-                                            </Link>
+                                            {item.href ? (
+                                                <Link
+                                                    href={item.href}
+                                                    className={`flex items-center gap-4 px-4 py-3 rounded-lg font-orbitron text-sm tracking-wider transition-all duration-200 ${isActive
+                                                        ? "text-mech-cyan bg-mech-cyan/10 border border-mech-cyan/30"
+                                                        : "text-mech-silver hover:text-white hover:bg-white/5"
+                                                        }`}
+                                                >
+                                                    <item.icon className={`w-5 h-5 ${isActive ? "text-mech-cyan" : "text-mech-silver/50"}`} />
+                                                    {item.label}
+                                                </Link>
+                                            ) : (
+                                                <button
+                                                    onClick={() => setExpandedItem(isExpanded ? null : item.label)}
+                                                    className={`flex items-center justify-between px-4 py-3 rounded-lg font-orbitron text-sm tracking-wider transition-all duration-200 ${isActive || isExpanded
+                                                        ? "text-mech-cyan bg-mech-cyan/5 border border-mech-cyan/20"
+                                                        : "text-mech-silver hover:text-white hover:bg-white/5"
+                                                        }`}
+                                                >
+                                                    <div className="flex items-center gap-4">
+                                                        <item.icon className={`w-5 h-5 ${isActive || isExpanded ? "text-mech-cyan" : "text-mech-silver/50"}`} />
+                                                        {item.label}
+                                                    </div>
+                                                    <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isExpanded ? "rotate-180 text-mech-cyan" : "text-mech-silver/50"}`} />
+                                                </button>
+                                            )}
+
+                                            {/* Mobile Dropdown Children */}
+                                            {item.children && (
+                                                <AnimatePresence>
+                                                    {isExpanded && (
+                                                        <motion.div
+                                                            initial={{ opacity: 0, height: 0 }}
+                                                            animate={{ opacity: 1, height: "auto" }}
+                                                            exit={{ opacity: 0, height: 0 }}
+                                                            className="overflow-hidden"
+                                                        >
+                                                            <div className="flex flex-col gap-1 pl-12 pr-4 py-2">
+                                                                {item.children.map(child => {
+                                                                    const isChildActive = pathname === child.href;
+                                                                    return (
+                                                                        <Link
+                                                                            key={child.href}
+                                                                            href={child.href}
+                                                                            className={`flex items-center gap-3 px-3 py-2.5 rounded-lg font-orbitron text-xs tracking-wider transition-all duration-200 ${isChildActive
+                                                                                ? "text-mech-cyan bg-mech-cyan/10"
+                                                                                : "text-mech-silver/70 hover:text-mech-white hover:bg-white/5"
+                                                                            }`}
+                                                                        >
+                                                                            <child.icon className={`w-4 h-4 ${isChildActive ? "text-mech-cyan" : "text-mech-silver/50"}`} />
+                                                                            {child.label}
+                                                                        </Link>
+                                                                    );
+                                                                })}
+                                                            </div>
+                                                        </motion.div>
+                                                    )}
+                                                </AnimatePresence>
+                                            )}
                                         </motion.div>
                                     );
                                 })}

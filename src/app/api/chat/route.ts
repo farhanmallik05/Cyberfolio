@@ -1,10 +1,18 @@
 import { GoogleGenAI } from '@google/genai';
 import { searchSimilarContent } from '@/lib/embeddings';
+import { checkRateLimit } from '@/lib/rate-limit';
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 export async function POST(req: Request) {
   try {
+    const ip = req.headers.get('x-forwarded-for') || '127.0.0.1';
+    const rateLimit = await checkRateLimit(ip, 'chat', 30, 24);
+
+    if (!rateLimit.allowed) {
+      return new Response("Rate limit exceeded. Please try again later.", { status: 429 });
+    }
+
     const body = await req.json();
     const messages = body.messages || [];
     const lastMessage = messages[messages.length - 1];
@@ -28,6 +36,10 @@ export async function POST(req: Request) {
     const systemInstruction = `You are Farhan Mallik's AI Assistant. You speak in the first person as Farhan, but you must be transparent that you are an AI if directly asked. 
 Your goal is to answer questions about Farhan's projects, services, and availability. 
 Be professional, concise, and futuristic. Use the Cyber/Matrix aesthetic in your tone.
+
+CRITICAL INSTRUCTION - LEAD QUALIFICATION:
+If the user expresses ANY intent to book a call, hire Farhan, request a custom build, or discuss a project, you MUST provide a direct markdown link to the contact portal: \`/contact\`.
+Example: "I'd love to discuss building this for you. You can book a direct consultation with me here: [Book an Appointment](/contact)"
 
 Relevant Knowledge Base Context:
 ${ragContext ? ragContext : "No specific context found. Rely on general knowledge of Farhan Mallik."}`;

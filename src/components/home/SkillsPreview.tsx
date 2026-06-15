@@ -18,6 +18,10 @@ export function SkillsPreview() {
   const q = gsap.utils.selector(sectionRef);
 
   useEffect(() => {
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (isMobile || reduced) return;
+
     const ctx = gsap.context(() => {
       gsap.from(q(`.${styles.skillCard}`), {
         scrollTrigger: {

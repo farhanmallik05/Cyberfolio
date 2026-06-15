@@ -25,7 +25,18 @@ export function HeroSection() {
   const q = gsap.utils.selector(sectionRef);
 
   useEffect(() => {
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+    if (isMobile || reduced) return;
+
     const ctx = gsap.context(() => {
+      // Desktop only: override CSS default before animating in
+      gsap.set(q(`.${styles.label}, .${styles.title}, .${styles.tagline}, .${styles.actions}, .${styles.statsStrip}`), {
+        opacity: 0,
+        y: 20
+      });
+
       const tl = gsap.timeline({ delay: 0.1 });
 
       tl.to(q(`.${styles.label}`), { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" })
@@ -36,7 +47,7 @@ export function HeroSection() {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [q]);
 
   return (
     <section ref={sectionRef} className={styles.hero}>

@@ -2,12 +2,12 @@ import { GoogleGenAI } from '@google/genai';
 import { qdrantClient } from './qdrant';
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-export const COLLECTION_NAME = 'portfolio_content';
+export const COLLECTION_NAME = 'portfolio_content_v2';
 
 export async function generateEmbedding(text: string): Promise<number[]> {
   try {
     const response = await ai.models.embedContent({
-      model: 'text-embedding-004',
+      model: 'gemini-embedding-2',
       contents: text,
     });
     return response.embeddings?.[0]?.values || [];
@@ -25,7 +25,7 @@ export async function initQdrantCollection() {
     if (!exists) {
       await qdrantClient.createCollection(COLLECTION_NAME, {
         vectors: {
-          size: 768, // text-embedding-004 size
+          size: 3072, // gemini-embedding-2 size
           distance: 'Cosine'
         }
       });

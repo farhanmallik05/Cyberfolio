@@ -53,6 +53,10 @@ export default function TimelineInteractive({ experience, academicRecord }: Time
     useGSAP(() => {
         if (!containerRef.current || !lineRef.current) return;
 
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (isMobile || reduced) return;
+
         const ctx = gsap.context(() => {
             // 1. Animate central line filling
             gsap.fromTo(lineRef.current,
@@ -120,7 +124,7 @@ export default function TimelineInteractive({ experience, academicRecord }: Time
                 {/* Active Filling Line */}
                 <div 
                     ref={lineRef}
-                    className="absolute left-8 md:left-1/2 top-0 w-[1px] bg-mech-cyan shadow-[0_0_15px_rgba(15,211,255,0.8)] md:-translate-x-1/2 z-10"
+                    className="absolute left-8 md:left-1/2 top-0 bottom-0 w-[1px] bg-mech-cyan shadow-[0_0_15px_rgba(15,211,255,0.8)] md:-translate-x-1/2 z-10"
                 />
 
                 {/* Timeline Nodes */}

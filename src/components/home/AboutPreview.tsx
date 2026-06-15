@@ -3,13 +3,19 @@ import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 
 import { User, ShieldCheck } from 'lucide-react';
+import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import styles from './AboutPreview.module.css';
 
 export function AboutPreview() {
   const sectionRef = useRef<HTMLElement>(null);
   const textRef = useRef<HTMLParagraphElement>(null);
+  const { targetRef, isIntersecting } = useIntersectionObserver();
 
   useEffect(() => {
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (isMobile || reduced) return;
+
     const ctx = gsap.context(() => {
       gsap.from(sectionRef.current, {
         scrollTrigger: {
@@ -27,7 +33,15 @@ export function AboutPreview() {
   }, []);
 
   return (
-    <section ref={sectionRef} className={styles.section} id="about-preview">
+    <section 
+      ref={(node) => {
+        sectionRef.current = node;
+        targetRef.current = node;
+      }} 
+      className={styles.section} 
+      data-visible={isIntersecting}
+      id="about-preview"
+    >
       <div className={styles.grid}>
         <div className={styles.content}>
           <h2 className={styles.title}>

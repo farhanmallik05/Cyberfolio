@@ -21,6 +21,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
   title: "Neural Architect | Farhan Mallik",
   description:
     "AI & Automation Developer Portfolio of Farhan Mallik — Engineering intelligent systems, automation frameworks & advanced digital solutions.",
@@ -45,6 +46,9 @@ import { RoleProvider } from "@/context/RoleContext";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { RoleBadge } from "@/components/RoleBadge";
 import { ThemeHUD } from "@/components/ThemeHUD";
+import { AIChatWidget } from "@/components/AIChatWidget";
+import { ContactEscapeHatch } from "@/components/ui/ContactEscapeHatch";
+
 
 
 export default function RootLayout({
@@ -85,6 +89,9 @@ export default function RootLayout({
               </BootSequence>
               <RoleBadge />
               <ThemeHUD />
+              <AIChatWidget />
+              <ContactEscapeHatch />
+
             </div>
           </RoleProvider>
         </ThemeProvider>

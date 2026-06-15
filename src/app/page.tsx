@@ -1,5 +1,5 @@
 "use client";
-import { motion } from "framer-motion";
+
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import GSAPRegistrar from '@/components/home/GSAPRegistrar';
@@ -35,7 +35,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="relative min-h-screen bg-mech-base w-full">
+    <main className="relative min-h-screen w-full">
       {/* Infrastructure */}
       <GSAPRegistrar />
       
@@ -46,23 +46,18 @@ export default function Home() {
       {showMatrix && <MatrixRain />}
 
       <HomeLoader>
-        <motion.div 
-          initial={{ opacity: 1 }}
-          whileHover={{ opacity: 0.7 }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
-          className="flex flex-col w-full relative z-10"
-        >
+        <div className="flex flex-col w-full relative z-10">
           {/* Wave 2: Hero */}
           <div className="relative z-[100]">
             <HeroSection />
           </div>
 
           {/* Wave 3: Content Previews */}
-          <div className="relative z-[90] bg-mech-base">
+          <div className="relative z-[90] bg-mech-base/40 backdrop-blur-[2px]">
             <AboutPreview />
           </div>
           
-          <div className="relative z-[80] bg-mech-base">
+          <div className="relative z-[80] bg-mech-base/40 backdrop-blur-[2px]">
             <SkillsPreview />
           </div>
 
@@ -70,25 +65,25 @@ export default function Home() {
             <ProjectsPreview />
           </div>
           
-          <div className="relative z-[60] bg-mech-base">
+          <div className="relative z-[60] bg-mech-base/40 backdrop-blur-[2px]">
             <ServicesPreview />
           </div>
 
-          <div className="relative z-[50] bg-mech-base">
+          <div className="relative z-[50] bg-mech-base/40 backdrop-blur-[2px]">
             <TestimonialsStrip />
           </div>
 
-          <div className="relative z-[40] bg-mech-base">
+          <div className="relative z-[40] bg-mech-base/40 backdrop-blur-[2px]">
             <BlogPreview />
           </div>
 
           {/* Wave 4: Finalization */}
-          <div id="contact" className="relative z-[30] bg-mech-base">
+          <div id="contact" className="relative z-[30] bg-mech-base/40 backdrop-blur-[2px]">
             <ContactSection />
           </div>
 
           {/* Terminal CLI Restoration */}
-          <div className="relative z-[20] bg-mech-base py-20 border-t border-white/5">
+          <div className="relative z-[20] bg-mech-base/40 backdrop-blur-[2px] py-20 border-t border-white/5">
             <div className="container mx-auto px-4">
                <div className="flex items-center gap-4 mb-8">
                   <TerminalIcon className="text-neon w-5 h-5" />
@@ -98,7 +93,7 @@ export default function Home() {
             </div>
           </div>
 
-        </motion.div>
+        </div>
       </HomeLoader>
     </main>
   );

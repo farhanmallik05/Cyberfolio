@@ -7,10 +7,9 @@ import styles from './BackgroundSystem.module.css';
 const BackgroundCanvas = dynamic(() => import("./canvas/BackgroundCanvas"), { ssr: false });
 
 export function BackgroundSystem() {
-    // Disable WebGL canvas on mobile or when the user prefers reduced motion —
-    // prevents GPU crashes on low-end devices and respects accessibility preferences.
-    const { isMobile, prefersReducedMotion, isLowEnd } = useDeviceCapabilities();
-    const enableCanvas = !isMobile && !prefersReducedMotion && !isLowEnd;
+    // Disable WebGL canvas only when the user prefers reduced motion
+    const { prefersReducedMotion } = useDeviceCapabilities();
+    const enableCanvas = !prefersReducedMotion;
 
     return (
         <div className="fixed inset-0 z-[-1] pointer-events-none overflow-hidden bg-mech-base">

@@ -8,8 +8,8 @@ const AICoreCanvas = dynamic(() => import("./canvas/AICoreCanvas"), { ssr: false
 export function AICore() {
     const { isMobile, prefersReducedMotion, isLowEnd } = useDeviceCapabilities();
     
-    // Disable WebGL completely on constrained devices
-    const enableWebGL = !isMobile && !prefersReducedMotion && !isLowEnd;
+    // Only disable WebGL if user explicitly prefers reduced motion
+    const enableWebGL = !prefersReducedMotion;
 
     return (
         <div className="w-full h-full absolute inset-0 flex items-center justify-center pointer-events-none z-0">

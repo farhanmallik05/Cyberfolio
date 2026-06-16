@@ -62,9 +62,10 @@ const SKILL_POS = buildSkillPositions();
 const CONNECTION_PAIRS = (() => {
   const pairs: { s1id: string; s2id: string; color: string; key: string }[] = [];
   const seen  = new Set<string>();
+  const skillMap = new Map(SKILLS.map(s => [s.id, s]));
   SKILLS.forEach(s1 => {
     s1.relatedTo.forEach(relId => {
-      const s2 = SKILLS.find(s => s.id === relId);
+      const s2 = skillMap.get(relId);
       if (!s2) return;
       const key = [s1.id, s2.id].sort().join('--');
       if (seen.has(key)) return;

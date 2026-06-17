@@ -7,7 +7,6 @@ import { CheckCircle2, UploadCloud, Loader2 } from "lucide-react";
 import { Turnstile } from "@marsidev/react-turnstile";
 import { MechPanel } from "@/components/ui/MechPanel";
 import { briefSchema, type BriefPayload, submitBrief } from "../actions";
-import { createClient } from "@/utils/supabase/client";
 
 const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "";
 
@@ -16,12 +15,8 @@ export function BriefPane() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [file, setFile] = useState<File | null>(null);
-  const [uploadProgress, setUploadProgress] = useState(0);
-  const [isUploading, setIsUploading] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const turnstileRef = useRef<any>(null);
-
-  const supabase = createClient();
 
   const {
     register,
@@ -58,51 +53,27 @@ export function BriefPane() {
     setErrorMessage("");
 
     try {
-      let attachment_url: string | undefined = undefined;
+      const formData = new FormData();
+      formData.append("company_name", data.company_name);
+      formData.append("project_name", data.project_name);
+      formData.append("budget_range", data.budget_range);
+      formData.append("timeline", data.timeline);
+      formData.append("description", data.description);
 
-      // 1. Client-side direct upload to Supabase Storage (bypasses Next.js server timeout)
-      if (file) {
-        setIsUploading(true);
-        const fileExt = file.name.split(".").pop();
-        const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
-        const filePath = `briefs/${fileName}`;
-
-        // Simulate progress for UX (Supabase JS doesn't expose XHR progress natively)
-        const progressInterval = setInterval(() => {
-          setUploadProgress((prev) => Math.min(prev + 10, 85));
-        }, 150);
-
-        const { error: uploadError } = await supabase.storage
-          .from("brief-attachments")
-          .upload(filePath, file, { upsert: false });
-
-        clearInterval(progressInterval);
-        setUploadProgress(100);
-        setIsUploading(false);
-
-        if (uploadError) throw new Error("Failed to upload attachment.");
-
-        const { data: publicUrlData } = supabase.storage
-          .from("brief-attachments")
-          .getPublicUrl(filePath);
-
-        attachment_url = publicUrlData.publicUrl;
+      if (turnstileToken) {
+        formData.append("turnstile_token", turnstileToken);
       }
 
-      // 2. Submit server action (Zod + Turnstile verified server-side)
-      const payload: BriefPayload = {
-        ...data,
-        attachment_url,
-        turnstile_token: turnstileToken ?? undefined,
-      };
+      if (file) {
+        formData.append("attachment", file);
+      }
 
-      const result = await submitBrief(payload);
+      const result = await submitBrief(formData);
 
       if (result.success) {
         setIsSuccess(true);
       } else {
         setErrorMessage(result.error || "Failed to submit brief.");
-        // Reset Turnstile widget on failure so user can retry
         turnstileRef.current?.reset?.();
         setTurnstileToken(null);
       }
@@ -112,8 +83,6 @@ export function BriefPane() {
       setTurnstileToken(null);
     } finally {
       setIsSubmitting(false);
-      setIsUploading(false);
-      setUploadProgress(0);
     }
   };
 
@@ -131,7 +100,6 @@ export function BriefPane() {
     <MechPanel border glowHover={false} className="p-6 md:p-8 bg-black/50">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Company Name */}
           <div className="space-y-2">
             <label className="text-sm font-share-tech text-mech-cyan uppercase tracking-wider">Company / Agency Name *</label>
             <input
@@ -142,7 +110,6 @@ export function BriefPane() {
             {errors.company_name && <p className="text-mech-rose text-xs mt-1">{errors.company_name.message}</p>}
           </div>
 
-          {/* Project Name */}
           <div className="space-y-2">
             <label className="text-sm font-share-tech text-mech-cyan uppercase tracking-wider">Project Name *</label>
             <input
@@ -155,7 +122,6 @@ export function BriefPane() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Budget Range */}
           <div className="space-y-2">
             <label className="text-sm font-share-tech text-mech-cyan uppercase tracking-wider">Budget Range *</label>
             <select
@@ -172,7 +138,6 @@ export function BriefPane() {
             {errors.budget_range && <p className="text-mech-rose text-xs mt-1">{errors.budget_range.message}</p>}
           </div>
 
-          {/* Timeline */}
           <div className="space-y-2">
             <label className="text-sm font-share-tech text-mech-cyan uppercase tracking-wider">Timeline *</label>
             <select
@@ -190,7 +155,6 @@ export function BriefPane() {
           </div>
         </div>
 
-        {/* Description */}
         <div className="space-y-2">
           <label className="text-sm font-share-tech text-mech-cyan uppercase tracking-wider">Project Description *</label>
           <textarea
@@ -202,7 +166,6 @@ export function BriefPane() {
           {errors.description && <p className="text-mech-rose text-xs mt-1">{errors.description.message}</p>}
         </div>
 
-        {/* File Attachment */}
         <div className="space-y-2">
           <label className="text-sm font-share-tech text-mech-cyan uppercase tracking-wider">Attachment (Optional)</label>
           <div className="relative border-2 border-dashed border-mech-silver/20 hover:border-mech-cyan/50 transition-colors p-6 flex flex-col items-center justify-center bg-mech-panel/30">
@@ -211,7 +174,7 @@ export function BriefPane() {
               onChange={handleFileChange}
               accept=".pdf,.png,.jpg,.jpeg,.zip"
               className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-              disabled={isUploading}
+              disabled={isSubmitting}
             />
             <UploadCloud className="w-8 h-8 text-mech-silver mb-2" />
             <span className="text-sm text-mech-silver text-center">
@@ -223,19 +186,8 @@ export function BriefPane() {
             </span>
             <span className="text-xs text-mech-silver/50 mt-1">Max 10MB</span>
           </div>
-
-          {/* Upload progress bar */}
-          {isUploading && (
-            <div className="w-full bg-mech-panel/50 h-1.5 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-mech-cyan transition-all duration-150 rounded-full"
-                style={{ width: `${uploadProgress}%` }}
-              />
-            </div>
-          )}
         </div>
 
-        {/* Cloudflare Turnstile */}
         {TURNSTILE_SITE_KEY && (
           <div className="flex justify-center">
             <Turnstile
@@ -256,13 +208,13 @@ export function BriefPane() {
 
         <button
           type="submit"
-          disabled={isSubmitting || isUploading || (!!TURNSTILE_SITE_KEY && !turnstileToken)}
+          disabled={isSubmitting || (!!TURNSTILE_SITE_KEY && !turnstileToken)}
           className="w-full py-4 font-orbitron uppercase tracking-widest text-black bg-mech-cyan hover:bg-white hover:text-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
           {isSubmitting ? (
             <>
               <Loader2 className="w-5 h-5 animate-spin" />
-              {isUploading ? `Uploading... ${uploadProgress}%` : "Transmitting..."}
+              Transmitting...
             </>
           ) : (
             "Initialize Engagement"

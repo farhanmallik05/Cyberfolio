@@ -25,7 +25,7 @@ export async function initQdrantCollection() {
     if (!exists) {
       await qdrantClient.createCollection(COLLECTION_NAME, {
         vectors: {
-          size: 3072, // gemini-embedding-2 size
+          size: 768, // gemini-embedding-2 size
           distance: 'Cosine'
         }
       });

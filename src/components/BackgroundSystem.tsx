@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { useDeviceCapabilities } from "@/hooks/useDeviceCapabilities";
 import styles from './BackgroundSystem.module.css';
@@ -7,9 +7,15 @@ import styles from './BackgroundSystem.module.css';
 const BackgroundCanvas = dynamic(() => import("./canvas/BackgroundCanvas"), { ssr: false });
 
 export function BackgroundSystem() {
+    const [isMounted, setIsMounted] = useState(false);
     // Disable WebGL canvas only when the user prefers reduced motion
     const { prefersReducedMotion } = useDeviceCapabilities();
-    const enableCanvas = !prefersReducedMotion;
+    
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
+    const enableCanvas = isMounted && !prefersReducedMotion;
 
     return (
         <div className="fixed inset-0 z-[-1] pointer-events-none overflow-hidden bg-mech-base">

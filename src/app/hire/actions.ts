@@ -8,12 +8,17 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-// Supabase URL used for attachment URL validation
-const SUPABASE_STORAGE_HOST = "snyvarunuobcpfadkpmc.supabase.co";
 const TURNSTILE_SECRET = process.env.TURNSTILE_SECRET_KEY;
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+const ALLOWED_MIME_TYPES = [
+  "application/pdf",
+  "image/png",
+  "image/jpeg",
+  "application/zip",
+  "application/x-zip-compressed",
+];
 
 export const briefSchema = z.object({
   company_name: z.string().min(2, "Company name is required"),
@@ -21,15 +26,6 @@ export const briefSchema = z.object({
   budget_range: z.string().min(1, "Budget range is required"),
   timeline: z.string().min(1, "Timeline is required"),
   description: z.string().min(10, "Please provide a brief description"),
-  attachment_url: z
-    .string()
-    .url()
-    .refine(
-      (url) => url.includes(SUPABASE_STORAGE_HOST),
-      "Invalid attachment URL"
-    )
-    .optional(),
-  turnstile_token: z.string().optional(),
 });
 
 export type BriefPayload = z.infer<typeof briefSchema>;
@@ -54,43 +50,81 @@ async function verifyTurnstile(token: string): Promise<boolean> {
   }
 }
 
-export async function submitBrief(data: BriefPayload) {
+export async function submitBrief(formData: FormData) {
   try {
-    const validatedData = briefSchema.parse(data);
+    const company_name = formData.get("company_name") as string;
+    const project_name = formData.get("project_name") as string;
+    const budget_range = formData.get("budget_range") as string;
+    const timeline = formData.get("timeline") as string;
+    const description = formData.get("description") as string;
+    const turnstile_token = formData.get("turnstile_token") as string | null;
+    const file = formData.get("attachment") as File | null;
 
-    // 1. Verify Turnstile token (skip if no secret is configured — dev mode)
+    const validatedData = briefSchema.parse({
+      company_name,
+      project_name,
+      budget_range,
+      timeline,
+      description,
+    });
+
     if (TURNSTILE_SECRET) {
-      if (!validatedData.turnstile_token) {
+      if (!turnstile_token) {
         return { success: false, error: "Security check required." };
       }
-      const isHuman = await verifyTurnstile(validatedData.turnstile_token);
+      const isHuman = await verifyTurnstile(turnstile_token);
       if (!isHuman) {
-        return { success: false, error: "Security verification failed. Please try again." };
+        return { success: false, error: "Security verification failed." };
       }
     }
 
-    // 2. Insert into Supabase
-    const { data: insertedData, error: dbError } = await supabase
+    let attachment_url = null;
+
+    if (file && file.size > 0) {
+      if (file.size > MAX_FILE_SIZE) {
+        return { success: false, error: "File exceeds 10MB limit." };
+      }
+      
+      const ext = file.name.split(".").pop()?.toLowerCase();
+      const validExtensions = ["pdf", "png", "jpg", "jpeg", "zip"];
+      
+      if (!ALLOWED_MIME_TYPES.includes(file.type) && (!ext || !validExtensions.includes(ext))) {
+        return { success: false, error: "Invalid file type. Allowed: PDF, PNG, JPG, ZIP." };
+      }
+
+      const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${ext}`;
+      const filePath = `briefs/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from("brief-attachments")
+        .upload(filePath, file, { upsert: false });
+
+      if (uploadError) {
+        console.error("Upload error:", uploadError);
+        return { success: false, error: "Failed to upload attachment." };
+      }
+
+      const { data: publicUrlData } = supabase.storage
+        .from("brief-attachments")
+        .getPublicUrl(filePath);
+
+      attachment_url = publicUrlData.publicUrl;
+    }
+
+    const { error: dbError } = await supabase
       .from("briefs")
       .insert([
         {
-          company_name: validatedData.company_name,
-          project_name: validatedData.project_name,
-          budget_range: validatedData.budget_range,
-          timeline: validatedData.timeline,
-          description: validatedData.description,
-          attachment_url: validatedData.attachment_url,
+          ...validatedData,
+          attachment_url,
         },
-      ])
-      .select()
-      .single();
+      ]);
 
     if (dbError) {
       console.error("Supabase insert error:", dbError);
       return { success: false, error: "Failed to submit brief to database." };
     }
 
-    // 3. Send email via Resend
     const { error: emailError } = await resend.emails.send({
       from: "Portfolio <onboarding@resend.dev>",
       to: "mallikfarhan10@gmail.com",
@@ -104,15 +138,14 @@ export async function submitBrief(data: BriefPayload) {
         <h3>Description:</h3>
         <p>${validatedData.description.replace(/\n/g, "<br/>")}</p>
         ${
-          validatedData.attachment_url
-            ? `<h3>Attachment:</h3><p><a href="${validatedData.attachment_url}">View Attachment</a></p>`
+          attachment_url
+            ? `<h3>Attachment:</h3><p><a href="${attachment_url}">View Attachment</a></p>`
             : ""
         }
       `,
     });
 
     if (emailError) {
-      // Brief is safely stored in DB — email failure is non-fatal
       console.error("Resend email error:", emailError);
     }
 

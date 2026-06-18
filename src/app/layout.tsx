@@ -48,6 +48,7 @@ import { RoleBadge } from "@/components/RoleBadge";
 import { ThemeHUD } from "@/components/ThemeHUD";
 import { AIChatWidget } from "@/components/AIChatWidget";
 import { ContactEscapeHatch } from "@/components/ui/ContactEscapeHatch";
+import { SystemGlitch } from "@/components/ui/SystemGlitch";
 
 
 
@@ -73,6 +74,24 @@ export default function RootLayout({
             `,
           }}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              "name": "Farhan Mallik",
+              "jobTitle": "Full Stack Developer & AI Engineer",
+              "url": "https://farhanmallik.netlify.app",
+              "sameAs": [
+                "https://github.com/farhanmallik05",
+                "https://twitter.com/farhanmallik05",
+                "https://linkedin.com/in/farhanmallik05"
+              ],
+              "description": "AI & Automation Developer Portfolio of Farhan Mallik — Engineering intelligent systems, automation frameworks & advanced digital solutions."
+            })
+          }}
+        />
       </head>
       <body suppressHydrationWarning={true}>
         <ThemeProvider>
@@ -91,6 +110,7 @@ export default function RootLayout({
               <ThemeHUD />
               <AIChatWidget />
               <ContactEscapeHatch />
+              <SystemGlitch />
 
             </div>
           </RoleProvider>

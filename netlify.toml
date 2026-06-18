@@ -1,6 +1,7 @@
 [build]
   command = "npm run build"
-  publish = ".next"
+  # Next.js App Router applications shouldn't hardcode publish to .next when using @netlify/plugin-nextjs
+  # Instead the plugin will take care of creating the correct build artifact for Netlify
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"

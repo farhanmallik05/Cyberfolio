@@ -206,3 +206,72 @@ export async function getAdminMetrics() {
         subscribers: sub.data || []
     };
 }
+
+export async function saveProject(projectData: any) {
+    if (!(await verifyAdmin())) throw new Error('Unauthorized');
+    const supabase = await getAdminSupabase();
+    
+    // Ensure arrays are properly formatted if they come as strings
+    const formattedData = {
+        ...projectData,
+        updated_at: new Date().toISOString(),
+    };
+
+    const { error } = await supabase
+        .from('portfolio_projects')
+        .upsert(formattedData, { onConflict: 'slug' });
+
+    if (error) {
+        console.error("Save Project Error:", error);
+        throw new Error(error.message);
+    }
+    
+    revalidatePath('/projects');
+    revalidatePath('/resume');
+    revalidatePath('/admin');
+    return { success: true };
+}
+
+export async function deleteProject(slug: string) {
+    if (!(await verifyAdmin())) throw new Error('Unauthorized');
+    const supabase = await getAdminSupabase();
+    const { error } = await supabase
+        .from('portfolio_projects')
+        .delete()
+        .eq('slug', slug);
+
+    if (error) throw error;
+    revalidatePath('/projects');
+    revalidatePath('/resume');
+    revalidatePath('/admin');
+    return { success: true };
+}
+
+export async function toggleProjectStatus(slug: string, status: string) {
+    if (!(await verifyAdmin())) throw new Error('Unauthorized');
+    const supabase = await getAdminSupabase();
+    const { error } = await supabase
+        .from('portfolio_projects')
+        .update({ status })
+        .eq('slug', slug);
+
+    if (error) throw error;
+    revalidatePath('/projects');
+    revalidatePath('/resume');
+    revalidatePath('/admin');
+    return { success: true };
+}
+
+export async function getAllProjects() {
+    const supabase = await getAdminSupabase();
+    const { data, error } = await supabase
+        .from('portfolio_projects')
+        .select('*')
+        .order('year', { ascending: false });
+        
+    if (error) {
+        console.warn("Could not fetch projects (Table might not exist yet):", error.message);
+        return [];
+    }
+    return data || [];
+}

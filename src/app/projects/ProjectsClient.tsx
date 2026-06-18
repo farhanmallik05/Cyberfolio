@@ -1,30 +1,27 @@
 'use client';
 
-
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { Flip } from 'gsap/all';
 import gsap from 'gsap';
 import Fuse from 'fuse.js';
-import projectsData from '@/data/projects.json';
 import { FilterBar } from '@/components/projects/FilterBar';
 import { Code2, Search } from 'lucide-react';
 import { GlitchText } from '@/components/ui/GlitchText';
-
 import { ProjectCard } from '@/components/ui/ProjectCard';
 
-export default function ProjectsPage() {
+export default function ProjectsClient({ initialProjects }: { initialProjects: any[] }) {
   const [activeCategory, setActiveCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
-  const [filteredProjects, setFilteredProjects] = useState(projectsData);
+  const [filteredProjects, setFilteredProjects] = useState(initialProjects);
   const gridRef = useRef<HTMLDivElement>(null);
   
   const categories = ['All', 'Web Dev', 'Automation', 'AI', 'Design', 'Open Source'];
 
   // Initialize Fuse.js
-  const fuse = useMemo(() => new Fuse(projectsData, {
+  const fuse = useMemo(() => new Fuse(initialProjects, {
     keys: ['title', 'description', 'tech', 'category'],
     threshold: 0.3,
-  }), []);
+  }), [initialProjects]);
 
   useEffect(() => {
     // Register Flip securely on client
@@ -38,7 +35,7 @@ export default function ProjectsPage() {
     const items = gsap.utils.toArray('.project-item') as HTMLElement[];
     const state = Flip.getState(items);
 
-    let result = projectsData;
+    let result = initialProjects;
 
     // Search filter
     if (searchQuery) {
@@ -74,7 +71,9 @@ export default function ProjectsPage() {
       <div className="mb-16">
         <div className="flex items-center gap-4 mb-4">
           <Code2 className="w-8 h-8 text-mech-cyan" />
-          <GlitchText text="Neural Ledger" as="h1" className="text-4xl md:text-5xl font-black uppercase tracking-tight" />
+          <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight text-white">
+            <GlitchText text="Neural Ledger" />
+          </h1>
         </div>
         <p className="font-inter text-mech-silver max-w-2xl text-lg mt-4 md:pl-[48px]">
           A verifiable archive of engineered solutions, ranging from immersive web experiences to self-healing automation architectures.

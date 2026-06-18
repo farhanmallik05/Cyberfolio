@@ -1,28 +1,18 @@
 import { NextResponse } from "next/server";
-import { z } from "zod";
 import crypto from "crypto";
 import { createClient } from "@/utils/supabase/server";
+import { sendDeliveryEmail } from "@/lib/email";
 
-// Standard Webhooks specification HMAC verification
 function verifySignature(payload: string, webhookId: string, timestamp: string, signature: string, secret: string) {
   const signedContent = `${webhookId}.${timestamp}.${payload}`;
   const hmac = crypto.createHmac("sha256", secret);
   hmac.update(signedContent);
   const expectedSignature = hmac.digest("base64");
   
-  // Note: Dodo/Standard Webhooks sometimes use v1, signature prefix format, e.g., "v1,..."
-  // This skeleton assumes basic base64 validation or parsing if the prefix is stripped.
-  return signature.includes(expectedSignature); 
+  const signatureParts = signature.split(',');
+  const extractedSignature = signatureParts.find(p => p.startsWith('v1,'))?.substring(3) || signature;
+  return extractedSignature === expectedSignature; 
 }
-
-const webhookPayloadSchema = z.object({
-  type: z.string(),
-  data: z.object({
-    payment_id: z.string(),
-    status: z.string(),
-    customer_email: z.string().email().optional(),
-  }).passthrough(),
-}).passthrough();
 
 export async function POST(req: Request) {
   try {
@@ -47,37 +37,62 @@ export async function POST(req: Request) {
 
     // Parse Payload
     const parsedBody = JSON.parse(rawBody);
-    const parsed = webhookPayloadSchema.safeParse(parsedBody);
+    const { type, data } = parsedBody;
 
-    if (!parsed.success) {
-      return NextResponse.json({ message: "Invalid payload format", errors: parsed.error.format() }, { status: 400 });
-    }
-
-    const { type, data } = parsed.data;
-
-    // Idempotency Logic via Supabase upsert
-    const supabase = await createClient();
-    
     if (type === "payment.succeeded") {
-      const { error } = await supabase
+      const supabase = await createClient();
+      
+      const productId = data.metadata?.product_id;
+      const amount = data.total_amount || 0;
+      const customerEmail = data.customer?.email || "";
+
+      // 1. Idempotent Upsert into orders table
+      const { error: orderError } = await supabase
         .from("orders")
         .upsert(
           {
-            payment_id: data.payment_id,
-            buyer_email: data.customer_email,
-            status: "completed",
-            // Additional mapping needed here later
+            dodo_payment_id: data.payment_id,
+            product_id: productId,
+            customer_email: customerEmail,
+            amount: amount,
+            status: "successful",
           },
-          { onConflict: "payment_id" }
-        );
+          { onConflict: "dodo_payment_id" }
+        )
+        .select()
+        .single();
 
-      if (error) {
-        console.error("Failed to upsert order:", error);
+      if (orderError) {
+        console.error("Failed to upsert order:", orderError);
         return NextResponse.json({ message: "Database Error" }, { status: 500 });
+      }
+
+      // If the order was just created/updated successfully, deliver the product
+      if (productId && customerEmail) {
+        // Fetch product details
+        const { data: product } = await supabase
+            .from("products")
+            .select("*")
+            .eq("id", productId)
+            .single();
+
+        if (product && product.file_path) {
+            // Generate signed URL
+            const { data: signedUrlData, error: signedUrlError } = await supabase
+                .storage
+                .from("store-files")
+                .createSignedUrl(product.file_path, 86400); // 24 hours
+
+            if (signedUrlError) {
+                console.error("Signed URL Error:", signedUrlError);
+            } else if (signedUrlData?.signedUrl) {
+                // Send email via Resend
+                await sendDeliveryEmail(customerEmail, product.name, signedUrlData.signedUrl);
+            }
+        }
       }
     }
 
-    // Must return 2xx immediately
     return NextResponse.json({ received: true }, { status: 200 });
   } catch (error) {
     console.error("Webhook processing error:", error);

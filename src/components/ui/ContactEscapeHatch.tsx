@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Mail, PhoneCall } from "lucide-react";
+import { X, Mail, PhoneCall } from "lucide-react";
 
 const WHATSAPP_URL = "https://wa.me/917988009083?text=Hi%20Farhan%2C%20I%20came%20from%20your%20portfolio%20and%20would%20like%20to%20discuss%20a%20project.";
 const EMAIL_URL = "mailto:mallikfarhan10@gmail.com?subject=Project%20Inquiry%20from%20Portfolio";

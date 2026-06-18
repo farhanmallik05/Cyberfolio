@@ -7,7 +7,30 @@ const contactSchema = z.object({
   email: z.string().email("Invalid email"),
   projectType: z.string().optional(),
   message: z.string().min(1, "Message is required"),
+  turnstileToken: z.string().optional(),
 });
+
+async function verifyTurnstile(token: string): Promise<boolean> {
+  const secret = process.env.TURNSTILE_SECRET_KEY;
+  if (!secret) return true;
+  try {
+    const res = await fetch(
+      "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          secret: secret,
+          response: token,
+        }),
+      }
+    );
+    const data = await res.json();
+    return data.success === true;
+  } catch {
+    return false;
+  }
+}
 
 export async function POST(req: Request) {
   try {
@@ -21,7 +44,18 @@ export async function POST(req: Request) {
       );
     }
 
-    const { name, email, projectType, message } = parsed.data;
+    const { name, email, projectType, message, turnstileToken } = parsed.data;
+
+    // Verify Turnstile
+    if (process.env.TURNSTILE_SECRET_KEY) {
+      if (!turnstileToken) {
+        return NextResponse.json({ message: "Security check required" }, { status: 400 });
+      }
+      const isHuman = await verifyTurnstile(turnstileToken);
+      if (!isHuman) {
+        return NextResponse.json({ message: "Security verification failed" }, { status: 400 });
+      }
+    }
 
     const supabase = await createClient();
 

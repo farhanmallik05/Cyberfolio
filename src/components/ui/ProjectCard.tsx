@@ -112,7 +112,7 @@ export function ProjectCard({
 
                 {isFeatured && (
                     <div className={`absolute -right-12 top-6 rotate-45 py-1 px-12 z-30 shadow-[0_0_15px_var(--border)] border-y border-white/20 ${styles.matchedRibbon}`}>
-                        <span className="text-[10px] font-orbitron font-black text-mech-base tracking-widest uppercase">MATCHED</span>
+                        <span className="text-[10px] font-orbitron font-black text-[var(--bg)] tracking-widest uppercase">MATCHED</span>
                     </div>
                 )}
 
@@ -122,12 +122,12 @@ export function ProjectCard({
                         initial={{ y: "-100%" }}
                         animate={{ y: "200%" }}
                         transition={{ duration: 2.5, repeat: Infinity, ease: "linear" }}
-                        className="w-full h-8 bg-gradient-to-b from-transparent via-mech-cyan/20 to-transparent shadow-[0_4px_10px_rgba(15,211,255,0.3)]"
+                        className="w-full h-8 bg-gradient-to-b from-transparent via-[color-mix(in_srgb,var(--neon)_20%,transparent)] to-transparent shadow-[0_4px_10px_var(--glass)]"
                     />
                 </div>
 
                 {/* Image Region: 3D Inner Scene */}
-                <div className="relative h-48 w-full bg-mech-base border-b border-mech-silver/10 overflow-hidden flex items-center justify-center group-hover:bg-mech-panel/50 transition-colors">
+                <div className="relative h-48 w-full bg-[var(--bg)] border-b border-[color-mix(in_srgb,var(--text)_10%,transparent)] overflow-hidden flex items-center justify-center group-hover:bg-[var(--bg2)]/50 transition-colors">
                     {imagePath ? (
                         <Image 
                             src={imagePath} 
@@ -139,10 +139,10 @@ export function ProjectCard({
                     ) : (
                         <div className="relative w-full h-full flex items-center justify-center">
                             {/* Wireframe grid */}
-                            <div className="absolute inset-0 opacity-20 bg-[linear-gradient(rgba(15,211,255,0.3)_1px,transparent_1px),linear-gradient(90deg,rgba(15,211,255,0.3)_1px,transparent_1px)] bg-[size:20px_20px]" />
+                            <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "linear-gradient(var(--neon) 1px, transparent 1px), linear-gradient(90deg, var(--neon) 1px, transparent 1px)", backgroundSize: "20px 20px" }} />
                             {/* 3D Icon Wireframe Effect */}
                             <motion.div
-                                className="relative z-10 text-mech-cyan/40 group-hover:text-mech-cyan transition-colors"
+                                className="relative z-10 text-[color-mix(in_srgb,var(--neon)_40%,transparent)] group-hover:text-[var(--neon)] transition-colors"
                                 animate={{ rotateY: 360, rotateX: 360 }}
                                 transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                             >
@@ -158,11 +158,11 @@ export function ProjectCard({
                                 href={githubUrl} 
                                 target="_blank" 
                                 rel="noreferrer" 
-                                className="p-2 bg-mech-base/80 backdrop-blur-md border border-mech-silver/20 hover:border-mech-cyan hover:bg-mech-cyan/10 transition-colors"
+                                className="p-2 bg-[var(--bg)]/80 backdrop-blur-md border border-[color-mix(in_srgb,var(--text)_20%,transparent)] hover:border-[var(--neon)] hover:bg-[color-mix(in_srgb,var(--neon)_10%,transparent)] transition-colors"
                                 onClick={(e) => e.stopPropagation()}
                                 aria-label="View Source on GitHub"
                             >
-                                <Github className="w-4 h-4 text-mech-silver group-hover:text-mech-white" />
+                                <Github className="w-4 h-4 text-[var(--text)] group-hover:text-white" />
                             </a>
                         )}
                         {liveUrl && (
@@ -170,62 +170,62 @@ export function ProjectCard({
                                 href={liveUrl} 
                                 target="_blank" 
                                 rel="noreferrer" 
-                                className="p-2 bg-mech-base/80 backdrop-blur-md border border-mech-silver/20 hover:border-mech-blue hover:bg-mech-blue/10 transition-colors"
+                                className="p-2 bg-[var(--bg)]/80 backdrop-blur-md border border-[color-mix(in_srgb,var(--text)_20%,transparent)] hover:border-[var(--neon2)] hover:bg-[color-mix(in_srgb,var(--neon2)_10%,transparent)] transition-colors"
                                 onClick={(e) => e.stopPropagation()}
                                 aria-label="Launch Live Demo"
                             >
-                                <ExternalLink className="w-4 h-4 text-mech-silver group-hover:text-mech-white" />
+                                <ExternalLink className="w-4 h-4 text-[var(--text)] group-hover:text-white" />
                             </a>
                         )}
                     </div>
                 </div>
 
                 {/* Content Region */}
-                <div className="p-6 flex flex-col flex-1 gap-4 bg-gradient-to-b from-mech-navy/40 to-mech-base/60">
+                <div className="p-6 flex flex-col flex-1 gap-4 bg-[var(--bg)]/60">
                     <div className="flex items-center justify-between">
                         <div className="flex flex-col">
                             <div className="flex items-center gap-2 mb-1">
                                 {category && (
-                                    <span className="text-[10px] font-mono text-mech-cyan/60 uppercase tracking-widest">{category}</span>
+                                    <span className="text-[10px] font-mono text-[color-mix(in_srgb,var(--neon)_60%,transparent)] uppercase tracking-widest">{category}</span>
                                 )}
                                 {year && (
                                     <>
-                                        <span className="text-[10px] text-mech-silver/40">•</span>
-                                        <span className="text-[10px] font-mono text-mech-silver/60 tracking-widest">{year}</span>
+                                        <span className="text-[10px] text-[color-mix(in_srgb,var(--text)_40%,transparent)]">•</span>
+                                        <span className="text-[10px] font-mono text-[color-mix(in_srgb,var(--text)_60%,transparent)] tracking-widest">{year}</span>
                                     </>
                                 )}
                             </div>
-                            <h3 className="font-orbitron font-bold text-xl text-mech-white group-hover:text-mech-cyan transition-colors uppercase tracking-wide">
+                            <h3 className="font-orbitron font-bold text-xl text-white group-hover:text-[var(--neon)] transition-colors uppercase tracking-wide">
                                 {title}
                             </h3>
                         </div>
-                        <div className="w-2 h-2 rounded-full bg-mech-blue shadow-[0_0_8px_rgba(0,174,239,0.8)] animate-pulse" />
+                        <div className="w-2 h-2 rounded-full bg-[var(--neon2)] shadow-[0_0_8px_var(--neon)] animate-pulse" />
                     </div>
 
-                    <p className="font-inter text-sm text-mech-silver flex-1 leading-relaxed">
+                    <p className="font-inter text-sm text-[var(--text)] flex-1 leading-relaxed">
                         {description}
                     </p>
 
-                    <div className="flex items-center justify-between mt-auto pt-4 border-t border-mech-silver/10">
+                    <div className="flex items-center justify-between mt-auto pt-4 border-t border-[color-mix(in_srgb,var(--text)_10%,transparent)]">
                         <div className="flex flex-wrap gap-2">
                             {techStack.slice(0, 3).map(tech => (
-                                <span key={tech} className="text-[10px] font-orbitron tracking-wider px-2 py-0.5 bg-mech-cyan/10 text-mech-cyan border border-mech-cyan/20">
+                                <span key={tech} className="text-[10px] font-orbitron tracking-wider px-2 py-0.5 bg-[color-mix(in_srgb,var(--neon)_10%,transparent)] text-[var(--neon)] border border-[color-mix(in_srgb,var(--neon)_20%,transparent)]">
                                     {tech}
                                 </span>
                             ))}
                             {techStack.length > 3 && (
-                                <span className="text-[10px] font-orbitron text-mech-silver/50 self-center">+{techStack.length - 3}</span>
+                                <span className="text-[10px] font-orbitron text-[color-mix(in_srgb,var(--text)_50%,transparent)] self-center">+{techStack.length - 3}</span>
                             )}
                         </div>
                         {caseStudy && (
-                            <span className="text-[10px] font-orbitron text-mech-cyan underline underline-offset-4 group-hover:text-white transition-colors">VIEW CASE</span>
+                            <span className="text-[10px] font-orbitron text-[var(--neon)] underline underline-offset-4 group-hover:text-white transition-colors">VIEW CASE</span>
                         )}
                     </div>
                 </div>
 
                 {/* Decorative Circuit Traces */}
-                <div className="absolute bottom-0 left-0 w-8 h-8 border-l-2 border-b-2 border-mech-cyan/30 pointer-events-none" />
-                <div className="absolute top-0 right-0 w-8 h-8 border-r-2 border-t-2 border-mech-blue/30 pointer-events-none" />
+                <div className="absolute bottom-0 left-0 w-8 h-8 border-l-2 border-b-2 border-[color-mix(in_srgb,var(--neon)_30%,transparent)] pointer-events-none" />
+                <div className="absolute top-0 right-0 w-8 h-8 border-r-2 border-t-2 border-[color-mix(in_srgb,var(--neon2)_30%,transparent)] pointer-events-none" />
 
                 {caseStudy && (
                     <Link 

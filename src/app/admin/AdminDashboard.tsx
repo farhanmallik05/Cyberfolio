@@ -2,30 +2,32 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { loginAdmin, toggleAvailability, togglePostStatus, saveBlogPost, deleteBlogPost, saveServiceConfig } from './actions';
+import { loginAdmin, toggleAvailability, togglePostStatus, saveBlogPost, deleteBlogPost, saveServiceConfig, saveProject, deleteProject, toggleProjectStatus } from './actions';
 import { ServiceConfig } from '@/types/services';
 import { BlogPost, Category } from '@/types/blog';
 import { 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
     FileText, Power, Mail, Users, Lock, Terminal, Activity, 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    Plus, Edit3, Trash2, Eye, Save, X, ArrowLeft, Sliders, Briefcase
+    Plus, Edit3, Trash2, Eye, Save, X, ArrowLeft, Sliders, Briefcase, FolderGit2, Link as LinkIcon
 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
-type Tab = 'overview' | 'compose' | 'services';
+type Tab = 'overview' | 'compose' | 'services' | 'projects';
 
 export default function AdminDashboard({ 
     isAuthorized, 
     initialPosts, 
     initialSettings,
-    metrics
+    metrics,
+    initialProjects = []
 }: { 
     isAuthorized: boolean; 
     initialPosts: (BlogPost & { is_published: boolean })[];
     initialSettings: { is_available: boolean; service_config: any } | null;
     metrics?: { enquiries: any[], subscribers: any[] };
+    initialProjects?: any[];
 }) {
     const router = useRouter();
     const [password, setPassword] = useState('');
@@ -39,10 +41,17 @@ export default function AdminDashboard({
     // Dynamic State
     const [isAvailable, setIsAvailable] = useState(initialSettings?.is_available ?? true);
     const [posts, setPosts] = useState(initialPosts);
+    const [projectsList, setProjectsList] = useState(initialProjects);
     const [serviceConfig, setServiceConfig] = useState<ServiceConfig>(() => {
         return (initialSettings?.service_config ?? []) as ServiceConfig;
     });
     const [configStatus, setConfigStatus] = useState<'idle' | 'saving' | 'saved'>('idle');
+
+    // Project Form State
+    const [editingProject, setEditingProject] = useState<any>(null);
+    const [projectForm, setProjectForm] = useState({
+        slug: '', title: '', description: '', tagline: '', live_url: '', github_url: '', status: 'published', tech: '', year: new Date().getFullYear(), featured: false
+    });
 
     // Editor Form State
     const [form, setForm] = useState({
@@ -166,6 +175,47 @@ export default function AdminDashboard({
         setLoading(false);
     }
 
+    async function handleSaveProject() {
+        if (!projectForm.slug || !projectForm.title) {
+            alert('Missing required fields: Slug, Title');
+            return;
+        }
+        setLoading(true);
+        try {
+            const data = {
+                ...projectForm,
+                tech: projectForm.tech.split(',').map(t => t.trim()).filter(t => t.length > 0),
+                year: Number(projectForm.year)
+            };
+            await saveProject(data);
+            alert('Project saved successfully!');
+            router.refresh();
+            setActiveTab('projects');
+            setEditingProject(null);
+            
+            // Update local state temporarily
+            const exists = projectsList.find((p: any) => p.slug === data.slug);
+            if (exists) {
+                setProjectsList(projectsList.map((p: any) => p.slug === data.slug ? { ...p, ...data } : p));
+            } else {
+                setProjectsList([data, ...projectsList]);
+            }
+        } catch (err: any) {
+            alert(`Save failed: ${err.message}`);
+        }
+        setLoading(false);
+    }
+
+    async function handleDeleteProjectItem(slug: string) {
+        if (!confirm(`Are you sure you want to delete project ${slug}?`)) return;
+        try {
+            await deleteProject(slug);
+            setProjectsList(projectsList.filter((p: any) => p.slug !== slug));
+        } catch (err: any) {
+            alert(`Delete failed: ${err.message}`);
+        }
+    }
+
     const startEditing = (post: BlogPost & { is_published: boolean }) => {
         setEditingPost(post);
         setForm({
@@ -198,6 +248,31 @@ export default function AdminDashboard({
         setActiveTab('compose');
     };
 
+    const startEditingProject = (proj: any) => {
+        setEditingProject(proj);
+        setProjectForm({
+            slug: proj.slug,
+            title: proj.title,
+            description: proj.description || '',
+            tagline: proj.tagline || '',
+            live_url: proj.live_url || '',
+            github_url: proj.github_url || '',
+            status: proj.status || 'published',
+            tech: (proj.tech || []).join(', '),
+            year: proj.year || new Date().getFullYear(),
+            featured: proj.featured || false
+        });
+        setActiveTab('projects');
+    };
+
+    const startNewProject = () => {
+        setEditingProject(null);
+        setProjectForm({
+            slug: '', title: '', description: '', tagline: '', live_url: '', github_url: '', status: 'published', tech: '', year: new Date().getFullYear(), featured: false
+        });
+        setActiveTab('projects');
+    };
+
     return (
         <div className="min-h-screen pt-32 pb-24 px-6 sm:px-12 max-w-7xl mx-auto flex flex-col gap-8">
             <header className="flex flex-col md:flex-row md:items-end justify-between border-b border-[var(--border)] pb-8 gap-4">
@@ -205,22 +280,28 @@ export default function AdminDashboard({
                     <h1 className="text-4xl md:text-5xl font-orbitron mech-text-glow uppercase tracking-wider">Command Core</h1>
                     <p className="text-[var(--dim)] font-mono mt-2">Level 9 Administration Interface (DB CMS Mode)</p>
                 </div>
-                <div className="flex gap-4">
+                <div className="flex gap-4 flex-wrap">
                     <button 
                         onClick={() => setActiveTab('overview')}
-                        className={`px-6 py-2 font-orbitron rounded transition-all text-sm ${activeTab === 'overview' ? 'bg-[var(--neon)] text-[var(--bg)] shadow-[0_0_15px_var(--neon)]' : 'bg-transparent border border-[var(--border)] text-[var(--dim)] hover:text-[var(--text)]'}`}
+                        className={`px-4 py-2 font-orbitron rounded transition-all text-sm ${activeTab === 'overview' ? 'bg-[var(--neon)] text-[var(--bg)] shadow-[0_0_15px_var(--neon)]' : 'bg-transparent border border-[var(--border)] text-[var(--dim)] hover:text-[var(--text)]'}`}
                     >
                         OVERVIEW
                     </button>
                     <button 
+                        onClick={() => setActiveTab('projects')}
+                        className={`px-4 py-2 font-orbitron rounded transition-all text-sm flex items-center gap-2 ${activeTab === 'projects' ? 'bg-[var(--neon)] text-[var(--bg)] shadow-[0_0_15px_var(--neon)]' : 'bg-transparent border border-[var(--border)] text-[var(--dim)] hover:text-[var(--text)]'}`}
+                    >
+                        <FolderGit2 size={16} /> PROJECTS
+                    </button>
+                    <button 
                         onClick={() => setActiveTab('services')}
-                        className={`px-6 py-2 font-orbitron rounded transition-all text-sm flex items-center gap-2 ${activeTab === 'services' ? 'bg-[var(--neon)] text-[var(--bg)] shadow-[0_0_15px_var(--neon)]' : 'bg-transparent border border-[var(--border)] text-[var(--dim)] hover:text-[var(--text)]'}`}
+                        className={`px-4 py-2 font-orbitron rounded transition-all text-sm flex items-center gap-2 ${activeTab === 'services' ? 'bg-[var(--neon)] text-[var(--bg)] shadow-[0_0_15px_var(--neon)]' : 'bg-transparent border border-[var(--border)] text-[var(--dim)] hover:text-[var(--text)]'}`}
                     >
                         <Briefcase size={16} /> SERVICES
                     </button>
                     <button 
                         onClick={startNew}
-                        className={`px-6 py-2 font-orbitron rounded transition-all text-sm flex items-center gap-2 ${activeTab === 'compose' && !editingPost ? 'bg-[var(--neon)] text-[var(--bg)] shadow-[0_0_15px_var(--neon)]' : 'bg-transparent border border-[var(--border)] text-[var(--dim)] hover:text-[var(--text)]'}`}
+                        className={`px-4 py-2 font-orbitron rounded transition-all text-sm flex items-center gap-2 ${activeTab === 'compose' && !editingPost ? 'bg-[var(--neon)] text-[var(--bg)] shadow-[0_0_15px_var(--neon)]' : 'bg-transparent border border-[var(--border)] text-[var(--dim)] hover:text-[var(--text)]'}`}
                     >
                         <Plus size={16} /> COMPOSE
                     </button>
@@ -506,7 +587,125 @@ export default function AdminDashboard({
                         ))}
                     </div>
                 </div>
-            ) : (
+            ) : activeTab === 'projects' ? (
+                <div className="flex flex-col gap-6">
+                    <div className="flex items-center justify-between border-b border-[var(--border)] pb-4">
+                        <div className="flex items-center gap-4">
+                            <button onClick={() => setActiveTab('overview')} className="p-2 hover:bg-[var(--glass)] rounded transition-colors" title="Back to Overview">
+                                <ArrowLeft className="text-[var(--neon)]" />
+                            </button>
+                            <h2 className="text-2xl font-orbitron mech-text-glow flex items-center gap-3">
+                                <FolderGit2 className="w-6 h-6 text-[var(--neon)]" /> Portfolio Projects
+                            </h2>
+                        </div>
+                        <button
+                            onClick={startNewProject}
+                            className="px-5 py-2 font-orbitron font-bold rounded flex items-center gap-2 text-sm bg-[var(--neon)] text-[var(--bg)] shadow-[0_0_15px_var(--neon)] hover:scale-[1.02] transition-all"
+                        >
+                            <Plus size={16} /> ADD PROJECT
+                        </button>
+                    </div>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                        {/* Project List */}
+                        <div className="mech-panel p-6 rounded-xl flex flex-col gap-4 border border-[var(--border)] max-h-[700px] overflow-y-auto">
+                            <h3 className="text-lg font-orbitron text-[var(--neon)] mb-2 sticky top-0 bg-[var(--bg)] py-2 z-10 border-b border-[var(--border)]">Existing Projects</h3>
+                            {projectsList.map((proj: any) => (
+                                <div key={proj.slug} className={`p-4 rounded border transition-all flex flex-col gap-3 ${editingProject?.slug === proj.slug ? 'border-[var(--neon)] bg-[var(--neon)]/5' : 'border-[var(--border)] bg-[var(--bg2)] hover:border-[var(--glass)]'}`}>
+                                    <div className="flex justify-between items-start">
+                                        <div className="flex flex-col">
+                                            <span className="font-orbitron font-bold text-lg">{proj.title}</span>
+                                            <span className="text-xs font-mono text-[var(--dim)]">{proj.slug} • {proj.year}</span>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <button onClick={() => startEditingProject(proj)} className="p-2 hover:text-[var(--neon)]"><Edit3 size={16}/></button>
+                                            <button onClick={() => handleDeleteProjectItem(proj.slug)} className="p-2 hover:text-red-500"><Trash2 size={16}/></button>
+                                        </div>
+                                    </div>
+                                    <p className="text-sm opacity-80">{proj.tagline || proj.description?.substring(0,60)}...</p>
+                                    <div className="flex gap-2 flex-wrap">
+                                        {(proj.tech || []).slice(0,3).map((t: string) => (
+                                            <span key={t} className="text-[10px] px-2 py-0.5 bg-[var(--glass)] rounded text-[var(--dim)]">{t}</span>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
+                            {projectsList.length === 0 && <p className="text-sm font-mono text-[var(--dim)]">No projects found. Add one to get started.</p>}
+                        </div>
+
+                        {/* Project Form */}
+                        {(editingProject || activeTab === 'projects') && (
+                            <div className="mech-panel p-6 rounded-xl flex flex-col gap-6 sticky top-32">
+                                <h3 className="text-lg font-orbitron text-[var(--neon)] border-b border-[var(--border)] pb-2">
+                                    {editingProject ? `Editing: ${editingProject.title}` : 'New Project'}
+                                </h3>
+                                
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="flex flex-col gap-1">
+                                        <label className="text-xs font-mono text-[var(--dim)] uppercase">Slug (URL)</label>
+                                        <input value={projectForm.slug} onChange={e => setProjectForm({...projectForm, slug: e.target.value})} disabled={!!editingProject} className="bg-[var(--bg2)] border border-[var(--border)] p-2 font-mono text-sm focus:border-[var(--neon)] outline-none" />
+                                    </div>
+                                    <div className="flex flex-col gap-1">
+                                        <label className="text-xs font-mono text-[var(--dim)] uppercase">Year</label>
+                                        <input type="number" value={projectForm.year} onChange={e => setProjectForm({...projectForm, year: Number(e.target.value)})} className="bg-[var(--bg2)] border border-[var(--border)] p-2 font-mono text-sm focus:border-[var(--neon)] outline-none" />
+                                    </div>
+                                    <div className="flex flex-col gap-1 col-span-2">
+                                        <label className="text-xs font-mono text-[var(--dim)] uppercase">Title</label>
+                                        <input value={projectForm.title} onChange={e => setProjectForm({...projectForm, title: e.target.value})} className="bg-[var(--bg2)] border border-[var(--border)] p-2 font-orbitron text-sm focus:border-[var(--neon)] outline-none" />
+                                    </div>
+                                    <div className="flex flex-col gap-1 col-span-2">
+                                        <label className="text-xs font-mono text-[var(--dim)] uppercase">Tagline</label>
+                                        <input value={projectForm.tagline} onChange={e => setProjectForm({...projectForm, tagline: e.target.value})} className="bg-[var(--bg2)] border border-[var(--border)] p-2 font-mono text-sm focus:border-[var(--neon)] outline-none" />
+                                    </div>
+                                    <div className="flex flex-col gap-1 col-span-2">
+                                        <label className="text-xs font-mono text-[var(--dim)] uppercase">Description</label>
+                                        <textarea value={projectForm.description} onChange={e => setProjectForm({...projectForm, description: e.target.value})} className="bg-[var(--bg2)] border border-[var(--border)] p-2 font-mono text-sm min-h-[80px] focus:border-[var(--neon)] outline-none resize-y" />
+                                    </div>
+                                    <div className="flex flex-col gap-1 col-span-2">
+                                        <label className="text-xs font-mono text-[var(--dim)] uppercase">Tech Stack (comma separated)</label>
+                                        <input value={projectForm.tech} onChange={e => setProjectForm({...projectForm, tech: e.target.value})} className="bg-[var(--bg2)] border border-[var(--border)] p-2 font-mono text-sm focus:border-[var(--neon)] outline-none" />
+                                    </div>
+                                    <div className="flex flex-col gap-1">
+                                        <label className="text-xs font-mono text-[var(--dim)] uppercase">Live URL</label>
+                                        <input value={projectForm.live_url} onChange={e => setProjectForm({...projectForm, live_url: e.target.value})} className="bg-[var(--bg2)] border border-[var(--border)] p-2 font-mono text-sm focus:border-[var(--neon)] outline-none" />
+                                    </div>
+                                    <div className="flex flex-col gap-1">
+                                        <label className="text-xs font-mono text-[var(--dim)] uppercase">GitHub URL</label>
+                                        <input value={projectForm.github_url} onChange={e => setProjectForm({...projectForm, github_url: e.target.value})} className="bg-[var(--bg2)] border border-[var(--border)] p-2 font-mono text-sm focus:border-[var(--neon)] outline-none" />
+                                    </div>
+                                    <div className="flex flex-col gap-2 col-span-2">
+                                        <label className="text-xs font-mono text-[var(--neon)] uppercase tracking-widest mt-2">Settings</label>
+                                        <div className="flex items-center gap-6">
+                                            <label className="flex items-center gap-2 cursor-pointer">
+                                                <input type="checkbox" checked={projectForm.status === 'published'} onChange={(e) => setProjectForm({...projectForm, status: e.target.checked ? 'published' : 'draft'})} className="hidden" />
+                                                <div className={`w-4 h-4 border-2 flex items-center justify-center transition-all ${projectForm.status === 'published' ? 'border-[var(--neon)] bg-[var(--neon)]' : 'border-[var(--border)]'}`}>
+                                                    {projectForm.status === 'published' && <X size={12} className="text-[var(--bg)] stroke-[3px]" />}
+                                                </div>
+                                                <span className="text-xs font-mono uppercase">Published</span>
+                                            </label>
+                                            <label className="flex items-center gap-2 cursor-pointer">
+                                                <input type="checkbox" checked={projectForm.featured} onChange={(e) => setProjectForm({...projectForm, featured: e.target.checked})} className="hidden" />
+                                                <div className={`w-4 h-4 border-2 flex items-center justify-center transition-all ${projectForm.featured ? 'border-yellow-500 bg-yellow-500' : 'border-[var(--border)]'}`}>
+                                                    {projectForm.featured && <X size={12} className="text-[var(--bg)] stroke-[3px]" />}
+                                                </div>
+                                                <span className="text-xs font-mono uppercase">Featured</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <button 
+                                    onClick={handleSaveProject}
+                                    disabled={loading}
+                                    className="w-full py-4 mt-2 bg-[var(--neon)] text-[var(--bg)] font-orbitron font-bold rounded shadow-[0_0_20px_var(--neon)] hover:scale-[1.02] transition-all flex items-center justify-center gap-2"
+                                >
+                                    <Save size={20} /> {editingProject ? 'UPDATE_PROJECT' : 'SAVE_NEW_PROJECT'}
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            ) : activeTab === 'compose' ? (
                 <div className="flex flex-col gap-6">
                     <div className="flex items-center gap-4 border-b border-[var(--border)] pb-4">
                         <button onClick={() => setActiveTab('overview')} className="p-2 hover:bg-[var(--glass)] rounded transition-colors" title="Back to Overview">
@@ -642,7 +841,7 @@ export default function AdminDashboard({
                         </div>
                     </div>
                 </div>
-            )}
+            ) : null}
         </div>
     );
 }

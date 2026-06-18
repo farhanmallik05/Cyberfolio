@@ -135,26 +135,40 @@ body {
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
   background: var(--bg);
+  border-left: 1px solid var(--border);
 }
 
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, var(--neon), var(--neon2));
-  border-radius: 3px;
+  border-radius: 4px;
+  border: 2px solid var(--bg); /* Adds padding inside the track */
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--neon);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--neon) 80%, white), color-mix(in srgb, var(--neon2) 80%, white));
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--neon) 40%, transparent);
-  color: var(--text);
+  background: color-mix(in srgb, var(--neon) 30%, transparent);
+  color: var(--neon);
+  text-shadow: 0 0 5px var(--neon);
 }
+
+/* Global Accessibility Focus Ring */
+:focus-visible {
+  outline: 2px solid var(--neon);
+  outline-offset: 2px;
+  box-shadow: 0 0 15px color-mix(in srgb, var(--neon) 50%, transparent);
+  border-radius: 2px;
+  transition: outline 0.2s ease, box-shadow 0.2s ease;
+}
+
 
 @layer utilities {
   .text-balance {

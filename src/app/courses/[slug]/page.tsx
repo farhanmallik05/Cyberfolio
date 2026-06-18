@@ -6,7 +6,8 @@ import { createClient } from '@/utils/supabase/server';
 
 export const dynamic = 'force-dynamic';
 
-export default async function CourseDetailPage({ params }: { params: { slug: string } }) {
+export default async function CourseDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -16,7 +17,7 @@ export default async function CourseDetailPage({ params }: { params: { slug: str
       .from('enrollments')
       .select('id')
       .eq('email', user.email)
-      .eq('course_slug', params.slug)
+      .eq('course_slug', slug)
       .single();
     if (data) isEnrolled = true;
   }
@@ -39,7 +40,7 @@ export default async function CourseDetailPage({ params }: { params: { slug: str
         <div className="flex-1 flex flex-col gap-6">
           <header>
             <h1 className="text-3xl md:text-5xl font-black font-heading text-white uppercase tracking-wider mb-4">
-              {params.slug.replace('-', ' ')}
+              {slug.replace('-', ' ')}
             </h1>
             <p className="text-[var(--text-muted)] font-mono leading-relaxed">
               Master the exact patterns and architectures used to build production-grade applications.

@@ -26,8 +26,8 @@ export function HomeLoader({ children }: HomeLoaderProps) {
   }, [progress]);
 
   useEffect(() => {
-    // Session storage check
-    const hasShown = sessionStorage.getItem('na-loader-shown');
+    // Local storage check to persist loader status across visits
+    const hasShown = localStorage.getItem('na-loader-shown') || sessionStorage.getItem('na-loader-shown');
     if (hasShown) {
       setComplete(true);
       setRenderContent(true);
@@ -56,6 +56,7 @@ export function HomeLoader({ children }: HomeLoaderProps) {
       const tl = gsap.timeline({
         onComplete: () => {
           sessionStorage.setItem('na-loader-shown', 'true');
+          localStorage.setItem('na-loader-shown', 'true');
           setComplete(true);
           setRenderContent(true);
         }

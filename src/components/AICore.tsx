@@ -6,7 +6,7 @@ import { useDeviceCapabilities } from "@/hooks/useDeviceCapabilities";
 const AICoreCanvas = dynamic(() => import("./canvas/AICoreCanvas"), { ssr: false });
 
 export function AICore() {
-    const { isMobile, prefersReducedMotion, isLowEnd } = useDeviceCapabilities();
+    const { prefersReducedMotion } = useDeviceCapabilities();
     
     // Only disable WebGL if user explicitly prefers reduced motion
     const enableWebGL = !prefersReducedMotion;

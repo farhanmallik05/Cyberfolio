@@ -117,15 +117,12 @@
 **Depends on:** Phase 15.5
 **Plans:** 1/1 plans complete
 
-Plans:
-- [x] TBD (run /gsd-plan-phase 15.5.1 to break down) (completed 2026-06-06)
-
-### Phase 16: /hire Conversion Page (M)
-- **Status**: ⏳ Planned
+### Phase 16: /hire Conversion Page (M) ✅
+- **Status**: ✅ Complete
 - **Scope**: Conversion-focused landing for agencies/clients.
 
-### Phase 17: Digital Store (/store) (XL)
-- **Status**: ⏳ Planned
+### Phase 17: Digital Store (/store) (XL) ✅
+- **Status**: ✅ Complete
 - **Scope**: Product catalog, Razorpay checkout, Supabase purchase tracking.
 
 ---
@@ -134,7 +131,7 @@ Plans:
 
 ### Phase 18: Free AI Micro-Tools (/tools) (L)
 - **Status**: ⏳ Planned
-- **Scope**: /tools index listing all tools. 3 initial tool pages: /tools/prompt-optimizer, /tools/readme-generator, /tools/portfolio-roaster. Claude API (Anthropic) powered.
+- **Scope**: /tools index listing all tools. 3 initial tool pages: /tools/prompt-optimizer, /tools/readme-generator, /tools/portfolio-roaster. grok API powered.
 - **Depends on**: Phase 2.5 (Supabase — usage counters)
 
 

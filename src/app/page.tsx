@@ -1,6 +1,4 @@
-"use client";
-
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import dynamic from 'next/dynamic';
 import GSAPRegistrar from '@/components/home/GSAPRegistrar';
 import { HomeLoader } from '@/components/home/HomeLoader';
@@ -10,86 +8,132 @@ import { SkillsPreview } from '@/components/home/SkillsPreview';
 import { BackgroundSystem } from '@/components/BackgroundSystem';
 import { Terminal as TerminalIcon } from 'lucide-react';
 import { TerminalCLI } from '@/components/ui/TerminalCLI';
+import { MatrixShortcut } from '@/components/home/MatrixShortcut';
+import projectsDataFallback from '@/data/projects.json';
 
-// Heavy sections wrapped in dynamic imports
-const ProjectsPreview = dynamic(() => import('@/components/home/ProjectsPreview').then(mod => mod.ProjectsPreview), { ssr: false });
-const ServicesPreview = dynamic(() => import('@/components/home/ServicesPreview').then(mod => mod.ServicesPreview), { ssr: false });
-const TestimonialsStrip = dynamic(() => import('@/components/home/TestimonialsStrip').then(mod => mod.TestimonialsStrip), { ssr: false });
-const BlogPreview = dynamic(() => import('@/components/home/BlogPreview').then(mod => mod.BlogPreview), { ssr: false });
-const ContactSection = dynamic(() => import('@/components/home/ContactSection').then(mod => mod.ContactSection), { ssr: false });
-const MatrixRain = dynamic(() => import('@/components/home/MatrixRain').then(mod => mod.MatrixRain), { ssr: false });
+// ISR: rebuild this page at most every 60 seconds.
+// This allows Next.js to pre-render the page as a static file served from
+// the edge while still reflecting Supabase updates within a minute.
+export const revalidate = 60;
 
-export default function Home() {
-  const [showMatrix, setShowMatrix] = useState(false);
+// Dynamic imports - no ssr:false needed; these are safe SSR components
+const ProjectsPreview   = dynamic(() => import('@/components/home/ProjectsPreview').then(m => m.ProjectsPreview));
+const ServicesPreview   = dynamic(() => import('@/components/home/ServicesPreview').then(m => m.ServicesPreview));
+const TestimonialsStrip = dynamic(() => import('@/components/home/TestimonialsStrip').then(m => m.TestimonialsStrip));
+const BlogPreview       = dynamic(() => import('@/components/home/BlogPreview').then(m => m.BlogPreview));
+const ContactSection    = dynamic(() => import('@/components/home/ContactSection').then(m => m.ContactSection));
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      // Secret key to toggle Matrix Rain: Shift + M
-      if (e.shiftKey && e.key === 'M') {
-        setShowMatrix(prev => !prev);
+/**
+ * Fetches public projects using the Supabase REST API directly.
+ * Using raw fetch (not createClient) avoids reading cookies, which would
+ * force Next.js into dynamic rendering mode for the entire page.
+ */
+async function fetchPublicProjects() {
+  const supabaseUrl  = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  const fallback = projectsDataFallback
+    .map((p: any) => ({ ...p, techStack: p.tech }))
+    .slice(0, 6);
+
+  if (!supabaseUrl || !supabaseAnon) return fallback;
+
+  try {
+    const res = await fetch(
+      `${supabaseUrl}/rest/v1/portfolio_projects?select=*&status=eq.live&order=year.desc&limit=6`,
+      {
+        headers: {
+          apikey:        supabaseAnon,
+          Authorization: `Bearer ${supabaseAnon}`,
+        },
+        next: { revalidate: 60 }, // Next.js data cache tag
       }
-    };
+    );
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+    if (!res.ok) throw new Error(`Supabase REST error: ${res.status}`);
+
+    const data: any[] = await res.json();
+    if (!data || data.length === 0) return fallback;
+
+    return data.map(p => ({
+      ...p,
+      githubUrl: p.github_url,
+      liveUrl:   p.live_url,
+      techStack: p.tech_stack || p.tech || [],
+    }));
+  } catch (err) {
+    console.error('[Home] Failed to fetch projects, using fallback:', err);
+    return fallback;
+  }
+}
+
+export default async function Home() {
+  const initialProjects = await fetchPublicProjects();
 
   return (
     <main className="relative min-h-screen w-full">
       {/* Infrastructure */}
       <GSAPRegistrar />
-      
+
       {/* Background System (Stars/Grid) */}
       <BackgroundSystem />
 
-      {/* Secret Matrix Layer */}
-      {showMatrix && <MatrixRain />}
+      {/* Secret Matrix Layer – Shift+M toggles it */}
+      <MatrixShortcut />
 
       <HomeLoader>
         <div className="flex flex-col w-full relative z-10">
-          {/* Wave 2: Hero */}
+
+          {/* Hero */}
           <div className="relative z-[100]">
             <HeroSection />
           </div>
 
-          {/* Wave 3: Content Previews */}
+          {/* About */}
           <div className="relative z-[90] bg-mech-base/40 backdrop-blur-[2px]">
             <AboutPreview />
           </div>
-          
+
+          {/* Skills */}
           <div className="relative z-[80] bg-mech-base/40 backdrop-blur-[2px]">
             <SkillsPreview />
           </div>
 
+          {/* Projects – data passed from server, no client fetch needed */}
           <div className="relative z-[70]">
-            <ProjectsPreview />
+            <ProjectsPreview initialProjects={initialProjects} />
           </div>
-          
+
+          {/* Services */}
           <div className="relative z-[60] bg-mech-base/40 backdrop-blur-[2px]">
             <ServicesPreview />
           </div>
 
+          {/* Testimonials */}
           <div className="relative z-[50] bg-mech-base/40 backdrop-blur-[2px]">
             <TestimonialsStrip />
           </div>
 
+          {/* Blog */}
           <div className="relative z-[40] bg-mech-base/40 backdrop-blur-[2px]">
             <BlogPreview />
           </div>
 
-          {/* Wave 4: Finalization */}
+          {/* Contact */}
           <div id="contact" className="relative z-[30] bg-mech-base/40 backdrop-blur-[2px]">
             <ContactSection />
           </div>
 
-          {/* Terminal CLI Restoration */}
+          {/* Terminal CLI */}
           <div className="relative z-[20] bg-mech-base/40 backdrop-blur-[2px] py-20 border-t border-white/5">
             <div className="container mx-auto px-4">
-               <div className="flex items-center gap-4 mb-8">
-                  <TerminalIcon className="text-neon w-5 h-5" />
-                  <h3 className="font-orbitron text-sm tracking-[0.2em] text-dim uppercase">Interactive Terminal Access</h3>
-               </div>
-               <TerminalCLI />
+              <div className="flex items-center gap-4 mb-8">
+                <TerminalIcon className="text-neon w-5 h-5" />
+                <h3 className="font-orbitron text-sm tracking-[0.2em] text-dim uppercase">
+                  Interactive Terminal Access
+                </h3>
+              </div>
+              <TerminalCLI />
             </div>
           </div>
 

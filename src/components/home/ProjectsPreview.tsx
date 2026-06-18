@@ -3,47 +3,20 @@ import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import { FolderGit2, ArrowRight } from 'lucide-react';
-import {  Project } from '@/lib/github-api';
+import { Project } from '@/lib/github-api';
 import { ProjectCard } from '@/components/ui/ProjectCard';
 import { MechButton } from '@/components/ui/MechButton';
 import Link from 'next/link';
 import styles from './ProjectsPreview.module.css';
 
-export function ProjectsPreview() {
-  const [projects, setProjects] = useState<Project[]>([]);
+interface ProjectsPreviewProps {
+  initialProjects: Project[];
+}
+
+export function ProjectsPreview({ initialProjects }: ProjectsPreviewProps) {
+  const [projects] = useState<Project[]>(initialProjects || []);
   const sectionRef = useRef<HTMLElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [loading, setLoading] = useState(true);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    async function load() {
-      try {
-        setLoading(true);
-        console.log("Fetching project deployments from proxy...");
-        const response = await fetch('/api/github/projects');
-        
-        if (!response.ok) {
-          const errData = await response.json();
-          throw new Error(errData.error || 'Failed to fetch from proxy');
-        }
-        
-        const data = await response.json();
-        console.log(`Successfully received ${data.length} repositories.`);
-        setProjects(data.slice(0, 6)); 
-        setError(null);
-      } catch (err: any) {
-        console.error("Neural grid transmission failure:", err);
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    }
-    load();
-  }, []);
 
   useEffect(() => {
     if (!scrollContainerRef.current || projects.length === 0) return;

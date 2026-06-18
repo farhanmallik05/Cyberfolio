@@ -10,7 +10,7 @@ const routes = [
   '/contact',
   '/courses',
   '/dsa',
-  '/marketplace',
+  '/store',
   '/newsletter',
   '/now',
   '/projects',

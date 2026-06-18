@@ -37,6 +37,13 @@ export default [
         },
     },
     {
-        ignores: [".next/*", "node_modules/*", "dist/*"],
+    ignores: [
+            ".next/*",
+            "node_modules/*",
+            "dist/*",
+            "print_services.js",
+            "test-models.mjs",
+            "test-rate-limit.mjs",
+        ],
     },
 ];

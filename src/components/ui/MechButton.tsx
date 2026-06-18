@@ -23,9 +23,9 @@ export function MechButton({
     const baseStyles = "relative font-orbitron text-sm tracking-widest uppercase py-3 px-6 flex items-center justify-center gap-3 overflow-hidden transition-all duration-300 rounded-sm group";
 
     const variants = {
-        primary: "mech-button text-mech-cyan hover:text-white",
-        secondary: "bg-transparent border border-mech-silver/30 text-mech-silver hover:border-mech-cyan/60 hover:text-mech-cyan hover:bg-mech-cyan/5",
-        ghost: "bg-transparent text-mech-silver hover:text-mech-cyan hover:bg-mech-cyan/10",
+        primary: "bg-[var(--bg2)] border border-[var(--border)] text-[var(--neon)] shadow-[0_0_8px_var(--glass)] hover:text-[var(--bg)] hover:bg-[var(--neon)] hover:shadow-[0_0_15px_var(--neon)]",
+        secondary: "bg-transparent border border-[color-mix(in_srgb,var(--neon)_30%,transparent)] text-[var(--text)] hover:border-[var(--neon)] hover:text-[var(--neon)] hover:bg-[var(--glass)]",
+        ghost: "bg-transparent text-[var(--dim)] hover:text-[var(--neon)] hover:bg-[var(--glass)]",
     };
 
     return (
@@ -36,10 +36,10 @@ export function MechButton({
             {...props}
         >
             {icon && <span className="z-10">{icon}</span>}
-            <span className="z-10 group-hover:text-white transition-colors duration-300">{children}</span>
+            <span className="z-10 transition-colors duration-300">{children}</span>
 
             {variant === "primary" && (
-                <span className="absolute inset-x-0 bottom-0 h-[2px] bg-mech-cyan transform scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100" />
+                <span className="absolute inset-x-0 bottom-0 h-[2px] bg-[var(--neon)] transform scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100" />
             )}
         </motion.button>
     );

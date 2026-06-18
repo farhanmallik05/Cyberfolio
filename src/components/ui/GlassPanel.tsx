@@ -11,7 +11,7 @@ export function GlassPanel({ children, className, neonBorder = false, ...props }
         <div
             className={cn(
                 "glass-panel rounded-lg overflow-hidden relative",
-                neonBorder && "neon-border-blue border",
+                neonBorder && "border-[var(--neon)] shadow-[0_0_15px_var(--glass)] border",
                 className
             )}
             {...props}

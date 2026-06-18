@@ -22,7 +22,6 @@ export function HeroSection() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { activeRole } = useRole();
   const sectionRef = useRef<HTMLElement>(null);
-  const q = gsap.utils.selector(sectionRef);
 
   useEffect(() => {
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
@@ -31,6 +30,7 @@ export function HeroSection() {
     if (isMobile || reduced) return;
 
     const ctx = gsap.context(() => {
+      const q = gsap.utils.selector(sectionRef);
       // Desktop only: override CSS default before animating in
       gsap.set(q(`.${styles.label}, .${styles.title}, .${styles.tagline}, .${styles.actions}, .${styles.statsStrip}`), {
         opacity: 0,
@@ -47,7 +47,7 @@ export function HeroSection() {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, [q]);
+  }, []);
 
   return (
     <section ref={sectionRef} className={styles.hero}>
@@ -62,10 +62,9 @@ export function HeroSection() {
           <div className={styles.line} />
         </div>
 
-        <GlitchText 
-          text="FARHAN MALLIK" 
-          className={styles.title} 
-        />
+        <h1 className={styles.title}>
+          <GlitchText text="FARHAN MALLIK" />
+        </h1>
 
         <p className={styles.tagline}>
           Engineering the future, one neural system at a time.

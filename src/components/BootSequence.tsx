@@ -16,8 +16,8 @@ export function BootSequence({ children }: { children: React.ReactNode }) {
     const [visibleMessages, setVisibleMessages] = useState<string[]>([]);
 
     useEffect(() => {
-        // Check if we've already booted in this session (optional, but good for UX so it doesn't happen on every page reload)
-        const hasBooted = sessionStorage.getItem("hasBooted");
+        // Check if we've already booted dynamically using localStorage to persist across visits
+        const hasBooted = localStorage.getItem("hasBooted") || sessionStorage.getItem("hasBooted");
         if (hasBooted) {
             setIsBooting(false);
             return;
@@ -34,6 +34,7 @@ export function BootSequence({ children }: { children: React.ReactNode }) {
                 setTimeout(() => {
                     setIsBooting(false);
                     sessionStorage.setItem("hasBooted", "true");
+                    localStorage.setItem("hasBooted", "true");
                 }, 1000); // 1 second delay after "System Ready" before fading out
             }
         }, 600); // 600ms between each message

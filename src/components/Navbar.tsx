@@ -90,27 +90,27 @@ export function Navbar() {
                 animate={{ y: 0 }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
                 className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${scrolled
-                    ? "bg-mech-base/80 backdrop-blur-xl border-b border-mech-cyan/20 shadow-[0_4px_30px_rgba(0,174,239,0.1)]"
-                    : "bg-transparent"
+                    ? "bg-[var(--bg2)]/90 backdrop-blur-xl border-b border-[color-mix(in_srgb,var(--neon)_20%,transparent)] shadow-[0_4px_30px_var(--glass)] py-2"
+                    : "bg-transparent py-4 md:py-6"
                     }`}
             >
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-between h-16">
+                    <div className="flex items-center justify-between transition-all duration-300">
                         {/* Logo */}
                         <Link href="/" className="flex items-center gap-3 group">
                             <div className="relative">
-                                <div className="w-9 h-9 rounded-md bg-mech-panel border border-mech-cyan/30 flex items-center justify-center group-hover:border-mech-cyan group-hover:shadow-[0_0_15px_rgba(15,211,255,0.4)] transition-all duration-300">
-                                    <Cpu className="w-5 h-5 text-mech-cyan" />
+                                <div className="w-9 h-9 rounded-md bg-[var(--bg2)] border border-[color-mix(in_srgb,var(--neon)_30%,transparent)] flex items-center justify-center group-hover:border-[var(--neon)] group-hover:shadow-[0_0_15px_var(--glass)] transition-all duration-300">
+                                    <Cpu className="w-5 h-5 text-[var(--neon)]" />
                                 </div>
-                                <div className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-mech-blue rounded-full animate-pulse shadow-[0_0_8px_rgba(0,174,239,0.8)]" />
+                                <div className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-[var(--neon2)] rounded-full animate-pulse shadow-[0_0_8px_var(--neon)]" />
                             </div>
-                            <span className="font-orbitron font-bold text-sm tracking-[0.15em] text-mech-white/90 group-hover:text-mech-cyan transition-colors hidden sm:block">
-                                NEURAL<span className="text-mech-cyan text-glow">.</span>ARCH
+                            <span className="font-orbitron font-bold text-sm tracking-[0.15em] text-[var(--text)] group-hover:text-[var(--neon)] transition-colors hidden sm:block">
+                                NEURAL<span className="text-[var(--neon)] text-glow">.</span>ARCH
                             </span>
                         </Link>
 
                         {/* Desktop Navigation */}
-                        <div className="hidden lg:flex items-center gap-1 overflow-x-visible">
+                        <div className="hidden md:flex flex-wrap items-center gap-1 lg:gap-2 overflow-x-visible">
                             {navItems.map((item) => {
                                 const isActive = item.href ? pathname === item.href : item.children?.some(child => pathname === child.href);
                                 return (
@@ -118,35 +118,35 @@ export function Navbar() {
                                         {item.href ? (
                                             <Link
                                                 href={item.href}
-                                                className={`relative px-3 py-2 rounded-md font-orbitron text-[10px] tracking-wider uppercase transition-all duration-300 flex items-center gap-1.5 whitespace-nowrap ${isActive
-                                                    ? "text-mech-cyan"
-                                                    : "text-mech-silver/60 hover:text-mech-white"
+                                                className={`relative px-2 lg:px-3 py-2 rounded-md font-orbitron text-[10px] lg:text-xs tracking-wider uppercase transition-all duration-300 flex items-center gap-1.5 whitespace-nowrap ${isActive
+                                                    ? "text-[var(--neon)]"
+                                                    : "text-[color-mix(in_srgb,var(--text)_60%,transparent)] hover:text-white"
                                                     }`}
                                             >
-                                                <item.icon className={`w-3 h-3 transition-colors ${isActive ? "text-mech-cyan" : "text-mech-silver/40 group-hover:text-mech-silver/80"}`} />
+                                                <item.icon className={`w-3 h-3 lg:w-4 lg:h-4 transition-colors ${isActive ? "text-[var(--neon)]" : "opacity-40 group-hover:opacity-80 text-[var(--text)]"}`} />
                                                 {item.label}
                                                 {isActive && (
                                                     <motion.div
                                                         layoutId="nav-indicator"
-                                                        className="absolute inset-0 rounded-md bg-mech-cyan/10 border border-mech-cyan/30 -z-10"
+                                                        className="absolute inset-0 rounded-md bg-[color-mix(in_srgb,var(--neon)_10%,transparent)] border border-[color-mix(in_srgb,var(--neon)_30%,transparent)] -z-10"
                                                         transition={{ type: "spring", stiffness: 380, damping: 30 }}
                                                     />
                                                 )}
                                             </Link>
                                         ) : (
                                             <button
-                                                className={`relative px-3 py-2 rounded-md font-orbitron text-[10px] tracking-wider uppercase transition-all duration-300 flex items-center gap-1.5 whitespace-nowrap cursor-default ${isActive
-                                                    ? "text-mech-cyan"
-                                                    : "text-mech-silver/60 hover:text-mech-white"
+                                                className={`relative px-2 lg:px-3 py-2 rounded-md font-orbitron text-[10px] lg:text-xs tracking-wider uppercase transition-all duration-300 flex items-center gap-1.5 whitespace-nowrap cursor-default ${isActive
+                                                    ? "text-[var(--neon)]"
+                                                    : "text-[color-mix(in_srgb,var(--text)_60%,transparent)] hover:text-white"
                                                     }`}
                                             >
-                                                <item.icon className={`w-3 h-3 transition-colors ${isActive ? "text-mech-cyan" : "text-mech-silver/40 group-hover:text-mech-silver/80"}`} />
+                                                <item.icon className={`w-3 h-3 lg:w-4 lg:h-4 transition-colors ${isActive ? "text-[var(--neon)]" : "opacity-40 group-hover:opacity-80 text-[var(--text)]"}`} />
                                                 {item.label}
-                                                <ChevronDown className="w-3 h-3 opacity-50 group-hover:opacity-100 transition-opacity" />
+                                                <ChevronDown className="w-3 h-3 lg:w-4 lg:h-4 opacity-50 group-hover:opacity-100 transition-opacity" />
                                                 {isActive && (
                                                     <motion.div
                                                         layoutId="nav-indicator"
-                                                        className="absolute inset-0 rounded-md bg-mech-cyan/10 border border-mech-cyan/30 -z-10"
+                                                        className="absolute inset-0 rounded-md bg-[color-mix(in_srgb,var(--neon)_10%,transparent)] border border-[color-mix(in_srgb,var(--neon)_30%,transparent)] -z-10"
                                                         transition={{ type: "spring", stiffness: 380, damping: 30 }}
                                                     />
                                                 )}
@@ -156,7 +156,7 @@ export function Navbar() {
                                         {/* Dropdown Menu */}
                                         {item.children && (
                                             <div className="absolute left-0 top-full pt-2 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-300 z-50">
-                                                <div className="bg-mech-base/95 backdrop-blur-xl border border-mech-cyan/20 rounded-lg shadow-[0_4px_30px_rgba(0,174,239,0.15)] p-2 min-w-[160px] flex flex-col gap-1">
+                                                <div className="bg-[var(--bg)]/95 backdrop-blur-xl border border-[color-mix(in_srgb,var(--neon)_20%,transparent)] rounded-lg shadow-[0_4px_30px_var(--glass)] p-2 min-w-[160px] flex flex-col gap-1">
                                                     {item.children.map(child => {
                                                         const isChildActive = pathname === child.href;
                                                         return (
@@ -164,11 +164,11 @@ export function Navbar() {
                                                                 key={child.href}
                                                                 href={child.href}
                                                                 className={`px-3 py-2 rounded-md font-orbitron text-[10px] tracking-wider uppercase transition-all duration-200 flex items-center gap-2 whitespace-nowrap ${isChildActive
-                                                                    ? "text-mech-cyan bg-mech-cyan/10"
-                                                                    : "text-mech-silver/70 hover:text-mech-white hover:bg-white/5"
+                                                                    ? "text-[var(--neon)] bg-[color-mix(in_srgb,var(--neon)_10%,transparent)]"
+                                                                    : "text-[color-mix(in_srgb,var(--text)_70%,transparent)] hover:text-white hover:bg-white/5"
                                                                 }`}
                                                             >
-                                                                <child.icon className={`w-3 h-3 ${isChildActive ? "text-mech-cyan" : "text-mech-silver/50"}`} />
+                                                                <child.icon className={`w-3 h-3 ${isChildActive ? "text-[var(--neon)]" : "opacity-50 text-[var(--text)]"}`} />
                                                                 {child.label}
                                                             </Link>
                                                         );
@@ -184,13 +184,13 @@ export function Navbar() {
                         {/* Mobile Toggle */}
                         <button
                             onClick={() => setMobileOpen(!mobileOpen)}
-                            className="lg:hidden p-2 rounded-md border border-white/10 hover:border-mech-cyan/40 transition-colors"
+                            className="md:hidden p-2 rounded-md border border-[var(--border)] hover:border-[var(--neon)] transition-colors"
                             aria-label="Toggle navigation"
                         >
                             {mobileOpen ? (
-                                <X className="w-5 h-5 text-mech-cyan" />
+                                <X className="w-5 h-5 text-[var(--neon)]" />
                             ) : (
-                                <Menu className="w-5 h-5 text-mech-silver" />
+                                <Menu className="w-5 h-5 text-[var(--text)]" />
                             )}
                         </button>
                     </div>
@@ -218,7 +218,7 @@ export function Navbar() {
                             animate={{ x: 0 }}
                             exit={{ x: "100%" }}
                             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                            className="absolute right-0 top-0 bottom-0 w-72 bg-mech-base/95 backdrop-blur-xl border-l border-mech-cyan/20 p-6 pt-20"
+                            className="absolute right-0 top-0 bottom-0 w-72 bg-[var(--bg2)]/95 backdrop-blur-xl border-l border-[color-mix(in_srgb,var(--neon)_20%,transparent)] p-6 pt-20"
                         >
                             <div className="flex flex-col gap-2 overflow-y-auto max-h-[calc(100vh-120px)] no-scrollbar pb-10">
                                 {navItems.map((item, idx) => {
@@ -237,26 +237,26 @@ export function Navbar() {
                                                 <Link
                                                     href={item.href}
                                                     className={`flex items-center gap-4 px-4 py-3 rounded-lg font-orbitron text-sm tracking-wider transition-all duration-200 ${isActive
-                                                        ? "text-mech-cyan bg-mech-cyan/10 border border-mech-cyan/30"
-                                                        : "text-mech-silver hover:text-white hover:bg-white/5"
+                                                        ? "text-[var(--neon)] bg-[color-mix(in_srgb,var(--neon)_10%,transparent)] border border-[color-mix(in_srgb,var(--neon)_30%,transparent)]"
+                                                        : "text-[var(--text)] hover:text-white hover:bg-white/5"
                                                         }`}
                                                 >
-                                                    <item.icon className={`w-5 h-5 ${isActive ? "text-mech-cyan" : "text-mech-silver/50"}`} />
+                                                    <item.icon className={`w-5 h-5 ${isActive ? "text-[var(--neon)]" : "opacity-50"}`} />
                                                     {item.label}
                                                 </Link>
                                             ) : (
                                                 <button
                                                     onClick={() => setExpandedItem(isExpanded ? null : item.label)}
                                                     className={`flex items-center justify-between px-4 py-3 rounded-lg font-orbitron text-sm tracking-wider transition-all duration-200 ${isActive || isExpanded
-                                                        ? "text-mech-cyan bg-mech-cyan/5 border border-mech-cyan/20"
-                                                        : "text-mech-silver hover:text-white hover:bg-white/5"
+                                                        ? "text-[var(--neon)] bg-[color-mix(in_srgb,var(--neon)_5%,transparent)] border border-[color-mix(in_srgb,var(--neon)_20%,transparent)]"
+                                                        : "text-[var(--text)] hover:text-white hover:bg-white/5"
                                                         }`}
                                                 >
                                                     <div className="flex items-center gap-4">
-                                                        <item.icon className={`w-5 h-5 ${isActive || isExpanded ? "text-mech-cyan" : "text-mech-silver/50"}`} />
+                                                        <item.icon className={`w-5 h-5 ${isActive || isExpanded ? "text-[var(--neon)]" : "opacity-50"}`} />
                                                         {item.label}
                                                     </div>
-                                                    <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isExpanded ? "rotate-180 text-mech-cyan" : "text-mech-silver/50"}`} />
+                                                    <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isExpanded ? "rotate-180 text-[var(--neon)]" : "opacity-50"}`} />
                                                 </button>
                                             )}
 
@@ -278,11 +278,11 @@ export function Navbar() {
                                                                             key={child.href}
                                                                             href={child.href}
                                                                             className={`flex items-center gap-3 px-3 py-2.5 rounded-lg font-orbitron text-xs tracking-wider transition-all duration-200 ${isChildActive
-                                                                                ? "text-mech-cyan bg-mech-cyan/10"
-                                                                                : "text-mech-silver/70 hover:text-mech-white hover:bg-white/5"
+                                                                                ? "text-[var(--neon)] bg-[color-mix(in_srgb,var(--neon)_10%,transparent)]"
+                                                                                : "text-[color-mix(in_srgb,var(--text)_70%,transparent)] hover:text-white hover:bg-white/5"
                                                                             }`}
                                                                         >
-                                                                            <child.icon className={`w-4 h-4 ${isChildActive ? "text-mech-cyan" : "text-mech-silver/50"}`} />
+                                                                            <child.icon className={`w-4 h-4 ${isChildActive ? "text-[var(--neon)]" : "opacity-50"}`} />
                                                                             {child.label}
                                                                         </Link>
                                                                     );
@@ -299,8 +299,8 @@ export function Navbar() {
 
                             {/* Decorative bottom element */}
                             <div className="absolute bottom-6 left-6 right-6">
-                                <div className="h-px bg-gradient-to-r from-transparent via-mech-cyan/40 to-transparent mb-4" />
-                                <p className="text-center font-orbitron text-[10px] text-mech-silver/30 tracking-widest">
+                                <div className="h-px bg-gradient-to-r from-transparent via-[color-mix(in_srgb,var(--neon)_40%,transparent)] to-transparent mb-4" />
+                                <p className="text-center font-orbitron text-[10px] text-[color-mix(in_srgb,var(--text)_30%,transparent)] tracking-widest">
                                     SYS.CORE v3.0
                                 </p>
                             </div>

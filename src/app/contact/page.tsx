@@ -4,7 +4,10 @@ import { MechPanel } from "@/components/ui/MechPanel";
 import { MechButton } from "@/components/ui/MechButton";
 import { motion } from "framer-motion";
 import { ShieldAlert, Send, Terminal, AlertTriangle } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { Turnstile } from "@marsidev/react-turnstile";
+
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "";
 
 export default function Contact() {
     const [formData, setFormData] = useState({
@@ -14,6 +17,8 @@ export default function Contact() {
         message: ""
     });
     const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+    const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+    const turnstileRef = useRef<any>(null);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -25,19 +30,28 @@ export default function Contact() {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify({
+                    ...formData,
+                    turnstileToken
+                }),
             });
 
             if (response.ok) {
                 setStatus("success");
                 setFormData({ name: "", email: "", projectType: "", message: "" });
+                turnstileRef.current?.reset?.();
+                setTurnstileToken(null);
             } else {
                 console.error("Submission failed");
                 setStatus("error");
+                turnstileRef.current?.reset?.();
+                setTurnstileToken(null);
             }
         } catch (err) {
             console.error("API submission error:", err);
             setStatus("error");
+            turnstileRef.current?.reset?.();
+            setTurnstileToken(null);
         }
     };
 
@@ -141,23 +155,35 @@ export default function Contact() {
                                 />
                             </div>
 
-                            {status === "error" && (
-                                <div className="flex items-center gap-2 text-red-500 font-orbitron text-sm bg-red-500/10 p-3 border border-red-500/20 rounded-sm">
-                                    <AlertTriangle className="w-4 h-4" />
-                                    SYSTEM FAILURE: UNABLE TO ROUTE PACKET. Please try again.
-                                </div>
-                            )}
+                             {status === "error" && (
+                                 <div className="flex items-center gap-2 text-red-500 font-orbitron text-sm bg-red-500/10 p-3 border border-red-500/20 rounded-sm">
+                                     <AlertTriangle className="w-4 h-4" />
+                                     SYSTEM FAILURE: UNABLE TO ROUTE PACKET. Please try again.
+                                 </div>
+                             )}
 
-                            <div className="pt-4 flex justify-end w-full">
-                                <MechButton
-                                    variant="primary"
-                                    type="submit"
-                                    disabled={status === "sending"}
-                                    className="w-full md:w-auto"
-                                >
-                                    {status === "sending" ? "ENCRYPTING..." : "DISPATCH TRANSMISSION"}
-                                </MechButton>
-                            </div>
+                             {TURNSTILE_SITE_KEY && (
+                                 <div className="flex justify-center pt-2">
+                                     <Turnstile
+                                         ref={turnstileRef}
+                                         siteKey={TURNSTILE_SITE_KEY}
+                                         onSuccess={(token) => setTurnstileToken(token)}
+                                         onExpire={() => setTurnstileToken(null)}
+                                         options={{ theme: "dark", size: "normal" }}
+                                     />
+                                 </div>
+                             )}
+
+                             <div className="pt-4 flex justify-end w-full">
+                                 <MechButton
+                                     variant="primary"
+                                     type="submit"
+                                     disabled={status === "sending" || (!!TURNSTILE_SITE_KEY && !turnstileToken)}
+                                     className="w-full md:w-auto"
+                                 >
+                                     {status === "sending" ? "ENCRYPTING..." : "DISPATCH TRANSMISSION"}
+                                 </MechButton>
+                             </div>
                         </form>
                     )}
                 </MechPanel>

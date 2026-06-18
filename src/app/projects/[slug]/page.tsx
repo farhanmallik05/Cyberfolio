@@ -69,7 +69,9 @@ export default async function CaseStudyPage({ params }: Props) {
             </div>
         </div>
 
-        <GlitchText text={project.title} as="h1" className="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-6 relative z-10" />
+        <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-6 relative z-10 text-white">
+            <GlitchText text={project.title} />
+        </h1>
         
         <p className="font-inter text-xl md:text-2xl text-mech-silver max-w-3xl leading-relaxed mb-10">
             {project.tagline}

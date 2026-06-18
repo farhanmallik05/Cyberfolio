@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
   title: "Neural Architect | Farhan Mallik",
   description:
-    "AI & Automation Developer Portfolio of Farhan Mallik — Engineering intelligent systems, automation frameworks & advanced digital solutions.",
+    "AI & Automation Developer Portfolio of Farhan Mallik — Engineering intelligent systems, advanced automation frameworks, and high-performance digital solutions.",
   keywords: [
     "Farhan Mallik",
     "AI Developer",
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Neural Architect | Farhan Mallik",
     description:
-      "AI & Automation Developer Portfolio — Architecting the future, one protocol at a time.",
+      "AI & Automation Developer Portfolio of Farhan Mallik — Engineering intelligent systems, advanced automation frameworks, and high-performance digital solutions.",
     type: "website",
   },
 };
@@ -88,7 +88,7 @@ export default function RootLayout({
                 "https://twitter.com/farhanmallik05",
                 "https://linkedin.com/in/farhanmallik05"
               ],
-              "description": "AI & Automation Developer Portfolio of Farhan Mallik — Engineering intelligent systems, automation frameworks & advanced digital solutions."
+              "description": "AI & Automation Developer Portfolio of Farhan Mallik — Engineering intelligent systems, advanced automation frameworks, and high-performance digital solutions."
             })
           }}
         />

@@ -46,7 +46,7 @@ export function AboutPreview() {
         <div className={styles.content}>
           <h2 className={styles.title}>
             <User className="w-5 h-5" />
-            Identity_Profile
+            About Me
           </h2>
           
           <div className={styles.bio} ref={textRef}>

@@ -43,7 +43,7 @@ export function SkillsPreview() {
     <section ref={sectionRef} className={styles.section}>
       <div className={styles.header}>
         <h2 className="font-orbitron text-2xl font-black text-white mb-2 uppercase tracking-tighter">
-          Neural_Core Capabilities
+          Technical Skills
         </h2>
         <p className="text-dim text-sm font-mono uppercase tracking-widest">
           Integrated systems and technical stack

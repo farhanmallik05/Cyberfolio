@@ -30,7 +30,7 @@ export function BlogPreview() {
         <div>
           <h2 className="font-orbitron text-3xl font-black text-white uppercase tracking-tighter flex items-center gap-3">
             <Newspaper className="text-neon" />
-            Neural_Logs
+            Latest Articles
           </h2>
           <p className="text-dim text-sm font-mono uppercase tracking-[0.2em] mt-2">
             Technical research and transmissions

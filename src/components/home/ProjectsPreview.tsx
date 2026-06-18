@@ -59,7 +59,7 @@ export function ProjectsPreview({ initialProjects }: ProjectsPreviewProps) {
           <div>
             <h2 className="font-orbitron text-3xl font-black text-white uppercase tracking-tighter flex items-center gap-3">
               <FolderGit2 className="text-neon" />
-              Project_Deployments
+              Featured Projects
             </h2>
             <p className="text-dim text-sm font-mono uppercase tracking-[0.2em] mt-2">
               Selected neural system architectures

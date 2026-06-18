@@ -29,7 +29,7 @@ export function ServicesPreview() {
     <section className={styles.section} id="services">
       <div className={styles.header}>
         <h2 className="font-orbitron text-3xl font-black text-white uppercase tracking-tighter">
-          System_Solutions
+          Services
         </h2>
         <p className="text-dim text-sm font-mono uppercase tracking-[0.2em] mt-2">
           Specialized service architectures

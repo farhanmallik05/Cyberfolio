@@ -93,6 +93,7 @@ export function AIChatWidget() {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => setIsOpen(true)}
+            aria-label="Open AI Assistant"
             className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-primary/10 border border-primary/30 text-primary shadow-[0_0_20px_rgba(0,255,255,0.2)] backdrop-blur-md hover:bg-primary/20 transition-colors"
           >
             <MessageSquare size={24} />
@@ -122,6 +123,7 @@ export function AIChatWidget() {
               </div>
               <button 
                 onClick={() => setIsOpen(false)}
+                aria-label="Close Chat"
                 className="p-1.5 rounded-md text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
               >
                 <X size={18} />
@@ -178,6 +180,7 @@ export function AIChatWidget() {
                 <button
                   type="submit"
                   disabled={!input.trim() || isLoading}
+                  aria-label="Send message"
                   className="absolute right-1.5 p-2 rounded-full bg-primary text-primary-foreground disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary/90 transition-colors"
                 >
                   <Send size={14} />

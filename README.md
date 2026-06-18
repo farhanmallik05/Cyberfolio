@@ -20,6 +20,42 @@ Welcome to the central repository of **Farhan Mallick**, a Computer Science Engi
 *   **Hardened Styling**: Tailwind CSS + PostCSS + CSS Modules
 *   **Typography**: *Orbitron* (Headings), *Rajdhani* (Body), *Share Tech Mono* (UI)
 
+## 🏛️ System Architecture
+
+```mermaid
+graph TD
+    Client[Client Browser] --> Next[Next.js App Router]
+    Client -.->|WebGL| Canvas[Three.js Canvas]
+    Client -.->|Animations| GSAP[GSAP/Framer]
+    
+    subgraph Frontend [Presentation Layer]
+        Next --> Pages[Server Components]
+        Next --> UI[Client Components]
+        Next --> Terminal[Terminal CLI]
+    end
+    
+    subgraph API [API Routes]
+        Next --> ChatAPI[/api/chat]
+        Next --> AnalyticsAPI[/api/analytics]
+        Next --> LeadsAPI[Server Actions]
+    end
+    
+    subgraph Intelligence [Intelligence Layer]
+        ChatAPI --> |System Prompt| Grok[xAI Grok-2]
+        ChatAPI --> |Query| Qdrant[(Qdrant Vector DB)]
+        Qdrant -.-> |RAG Context| Grok
+    end
+    
+    subgraph Data [Data Layer]
+        LeadsAPI --> Supabase[(Supabase PG)]
+        AnalyticsAPI --> Supabase
+        Next --> GitHub[GitHub API]
+    end
+    
+    Supabase --> Edge[Supabase Edge Functions]
+    Edge --> Resend[Resend Email API]
+```
+
 ## 🚀 Key Features
 
 *   **💻 Neural Terminal CLI**: A custom-built interactive terminal component allowing users to explore professional history through a classic command-line interface.

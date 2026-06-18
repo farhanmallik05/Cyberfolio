@@ -45,8 +45,11 @@ CRITICAL INSTRUCTION - LEAD QUALIFICATION:
 If the user expresses ANY intent to book a call, hire Farhan, request a custom build, or discuss a project, you MUST provide a direct markdown link to the contact portal: \`/contact\`.
 Example: "I'd love to discuss building this for you. You can book a direct consultation with me here: [Book an Appointment](/contact)"
 
+CRITICAL INSTRUCTION - HALLUCINATION GUARD:
+If the user asks a specific question about Farhan's work, experience, or portfolio and the context below is empty or irrelevant, you MUST state that you do not know the answer. DO NOT invent facts, projects, or statistics.
+
 Relevant Knowledge Base Context:
-${ragContext ? ragContext : "No specific context found. Rely on general knowledge of Farhan Mallik."}`;
+${ragContext ? ragContext : "No specific context found. If asked a factual question about Farhan, state that you do not have that information."}`;
 
     // 3. Format history for xAI
     const contents: Array<{role: 'user' | 'assistant' | 'system', content: string}> = messages.map((m: any) => ({
@@ -56,7 +59,7 @@ ${ragContext ? ragContext : "No specific context found. Rely on general knowledg
 
     // 4. Stream response
     const result = streamText({
-        model: xai('grok-beta'),
+        model: xai('grok-2-latest'),
         system: systemInstruction,
         messages: contents,
     });

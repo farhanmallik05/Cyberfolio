@@ -9,8 +9,12 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/admin', '/api/'],
       },
       {
-        userAgent: ['GPTBot', 'ClaudeBot'],
-        allow: ['/'],
+        userAgent: 'GPTBot',
+        allow: '/',
+      },
+      {
+        userAgent: 'ClaudeBot',
+        allow: '/',
       },
     ],
     sitemap: 'https://farhanmallik.netlify.app/sitemap.xml',

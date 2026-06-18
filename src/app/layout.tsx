@@ -77,19 +77,34 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Person",
-              "name": "Farhan Mallik",
-              "jobTitle": "Full Stack Developer & AI Engineer",
-              "url": "https://farhanmallik.netlify.app",
-              "sameAs": [
-                "https://github.com/farhanmallik05",
-                "https://twitter.com/farhanmallik05",
-                "https://linkedin.com/in/farhanmallik05"
-              ],
-              "description": "AI & Automation Developer Portfolio of Farhan Mallik — Engineering intelligent systems, automation frameworks & advanced digital solutions."
-            })
+            __html: JSON.stringify([
+              {
+                "@context": "https://schema.org",
+                "@type": "Person",
+                "name": "Farhan Mallik",
+                "jobTitle": "Full Stack Developer & AI Engineer",
+                "url": "https://farhanmallik.netlify.app",
+                "sameAs": [
+                  "https://github.com/farhanmallik05",
+                  "https://twitter.com/farhanmallik05",
+                  "https://linkedin.com/in/farhanmallik05"
+                ],
+                "description": "AI & Automation Developer Portfolio of Farhan Mallik — Engineering intelligent systems, automation frameworks & advanced digital solutions."
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "name": "Neural Architect",
+                "url": "https://farhanmallik.netlify.app",
+                "logo": "https://farhanmallik.netlify.app/images/farhan.jpg",
+                "description": "AI & Automation Developer Portfolio — Engineering intelligent systems, automation frameworks & advanced digital solutions.",
+                "sameAs": [
+                  "https://github.com/farhanmallik05",
+                  "https://twitter.com/farhanmallik05",
+                  "https://linkedin.com/in/farhanmallik05"
+                ]
+              }
+            ])
           }}
         />
       </head>

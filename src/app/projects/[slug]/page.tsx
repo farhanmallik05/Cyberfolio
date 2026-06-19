@@ -1,11 +1,12 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { ArrowLeft, ExternalLink, Github } from 'lucide-react';
-import projectsData from '@/data/projects.json';
 import { GlitchText } from '@/components/ui/GlitchText';
 import { ScreenshotCarousel } from '@/components/projects/ScreenshotCarousel';
 import { ProcessTimeline } from '@/components/projects/ProcessTimeline';
 import { RelatedProjects } from '@/components/projects/RelatedProjects';
+import { createClient } from '@/utils/supabase/server';
 import { Project } from '@/lib/projects';
 
 interface Props {
@@ -14,27 +15,60 @@ interface Props {
   }>;
 }
 
-export const dynamicParams = false; // Enforce strict SSG since all case studies are known ahead of time
+export const revalidate = 3600; // Cache for 1 hour
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const resolvedParams = await params;
+  const supabase = await createClient();
+  const { data: project } = await supabase
+    .from('portfolio_projects')
+    .select('title, description, thumbnail')
+    .eq('slug', resolvedParams.slug)
+    .single();
+
+  if (!project) return { title: 'Project Not Found' };
+
+  return {
+    title: `${project.title} | Case Study`,
+    description: project.description,
+    openGraph: {
+      images: project.thumbnail ? [project.thumbnail] : [],
+    }
+  };
+}
 
 export async function generateStaticParams() {
-  return projectsData
-    .filter((project) => project.caseStudy)
-    .map((project) => ({
-      slug: project.slug,
-    }));
+  const supabase = await createClient();
+  const { data: projects } = await supabase
+    .from('portfolio_projects')
+    .select('slug')
+    .eq('case_study', true);
+
+  return (projects || []).map((project) => ({
+    slug: project.slug,
+  }));
 }
 
 export default async function CaseStudyPage({ params }: Props) {
   const resolvedParams = await params;
-  const project = projectsData.find((p) => p.slug === resolvedParams.slug);
+  const supabase = await createClient();
+  
+  const { data: project } = await supabase
+    .from('portfolio_projects')
+    .select('*')
+    .eq('slug', resolvedParams.slug)
+    .single();
 
-  if (!project || !project.caseStudy) {
+  if (!project || !project.case_study) {
     notFound();
   }
 
-  const relatedProjects = projectsData
-    .filter((p) => p.slug !== project.slug && (p.category === project.category || p.tech.some(t => project.tech.includes(t))))
-    .slice(0, 3);
+  const { data: relatedProjects } = await supabase
+    .from('portfolio_projects')
+    .select('*')
+    .neq('slug', project.slug)
+    .or(`category.eq.${project.category},tech.cs.{${project.tech[0] || ''}}`)
+    .limit(3);
 
   return (
     <article className="min-h-screen pt-32 pb-20 px-6 max-w-[1400px] mx-auto overflow-hidden">
@@ -93,7 +127,7 @@ export default async function CaseStudyPage({ params }: Props) {
         </div>
 
         <div className="flex flex-wrap gap-2 pt-8 border-t border-mech-silver/10">
-            {project.tech.map(tech => (
+            {project.tech.map((tech: string) => (
                 <span key={tech} className="text-[11px] font-orbitron tracking-wider px-3 py-1 bg-mech-base border border-mech-silver/20 text-mech-silver">
                     {tech}
                 </span>
@@ -126,7 +160,7 @@ export default async function CaseStudyPage({ params }: Props) {
                           <div>
                               <h3 className="font-orbitron text-xl text-white uppercase tracking-wider mb-4">Key Outcomes</h3>
                               <ul className="list-disc list-inside space-y-2 text-mech-silver">
-                                  {project.overview.outcomes.map((outcome, i) => <li key={i}>{outcome}</li>)}
+                                  {project.overview.outcomes.map((outcome: string, i: number) => <li key={i}>{outcome}</li>)}
                               </ul>
                           </div>
                       )}

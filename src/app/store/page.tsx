@@ -7,6 +7,8 @@ export const metadata: Metadata = {
     description: "Downloadable assets, architectural templates, and pre-built automation layers.",
 };
 
+export const revalidate = 3600; // Cache Supabase queries for 1 hour
+
 export default async function StorePage() {
     const supabase = await createClient();
     const { data: products, error } = await supabase

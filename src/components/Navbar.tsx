@@ -186,6 +186,7 @@ export function Navbar() {
                             onClick={() => setMobileOpen(!mobileOpen)}
                             className="md:hidden p-2 rounded-md border border-[var(--border)] hover:border-[var(--neon)] transition-colors"
                             aria-label="Toggle navigation"
+                            aria-expanded={mobileOpen}
                         >
                             {mobileOpen ? (
                                 <X className="w-5 h-5 text-[var(--neon)]" />

@@ -2,7 +2,7 @@ import ProjectsClient from './ProjectsClient';
 import { createClient } from '@/utils/supabase/server';
 import projectsDataFallback from '@/data/projects.json';
 
-export const revalidate = 0;
+export const revalidate = 3600; // Cache Supabase queries for 1 hour
 
 const mapFallback = () =>
     projectsDataFallback.map((p: Record<string, unknown>) => ({ ...p, techStack: p['tech'] }));

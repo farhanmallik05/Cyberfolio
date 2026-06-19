@@ -1,10 +1,13 @@
-import { MetadataRoute } from 'next'
+import { MetadataRoute } from 'next';
+import { createClient } from '@/utils/supabase/server';
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export const revalidate = 3600; // Cache Supabase queries for 1 hour
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://farhanmallik.netlify.app';
 
   // Core pages
-  const routes = [
+  const staticRoutes: MetadataRoute.Sitemap = [
     '',
     '/hire',
     '/services',
@@ -15,7 +18,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/skills',
     '/contact',
     '/resume',
-    '/newsletter'
+    '/newsletter',
+    '/store'
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
@@ -23,8 +27,28 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: route === '' ? 1 : 0.8,
   }));
 
-  // You can later expand this by dynamically fetching blog posts or projects from Supabase
-  // and mapping them to the sitemap format.
+  try {
+    const supabase = await createClient();
+    const { data: projects, error } = await supabase
+      .from('portfolio_projects')
+      .select('slug, created_at')
+      .eq('status', 'published');
 
-  return [...routes];
+    if (error) {
+      console.error('Error fetching projects for sitemap:', error);
+      return staticRoutes;
+    }
+
+    const projectRoutes: MetadataRoute.Sitemap = (projects || []).map((project) => ({
+      url: `${baseUrl}/projects/${project.slug}`,
+      lastModified: new Date(project.created_at || new Date()),
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    }));
+
+    return [...staticRoutes, ...projectRoutes];
+  } catch (error) {
+    console.error('Unexpected error generating sitemap:', error);
+    return staticRoutes;
+  }
 }

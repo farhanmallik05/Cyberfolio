@@ -49,8 +49,7 @@ import { ThemeHUD } from "@/components/ThemeHUD";
 import { AIChatWidget } from "@/components/AIChatWidget";
 import { ContactEscapeHatch } from "@/components/ui/ContactEscapeHatch";
 import { SystemGlitch } from "@/components/ui/SystemGlitch";
-
-
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 export default function RootLayout({
   children,
@@ -116,6 +115,7 @@ export default function RootLayout({
           </RoleProvider>
         </ThemeProvider>
       </body>
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID as string} />
     </html>
   );
 }

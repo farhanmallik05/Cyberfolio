@@ -1,18 +1,40 @@
 'use server';
 
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { createClient } from '@/utils/supabase/server';
 import { revalidatePath } from 'next/cache';
 import { BlogPost } from '@/types/blog';
 import { signSession, verifySession } from '@/lib/session';
+import { Ratelimit } from '@upstash/ratelimit';
+import { Redis } from '@upstash/redis';
 
 const COOKIE_NAME = 'admin_session';
+
+// Initialize rate limiter (5 requests per 15 minutes)
+let ratelimit: Ratelimit | null = null;
+if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
+    ratelimit = new Ratelimit({
+        redis: Redis.fromEnv(),
+        limiter: Ratelimit.slidingWindow(5, '15 m'),
+        analytics: true,
+    });
+}
 
 async function getAdminSupabase() {
     return createClient(true);
 }
 
 export async function loginAdmin(password: string) {
+    if (ratelimit) {
+        const headersList = await headers();
+        const ip = headersList.get('x-forwarded-for') || '127.0.0.1';
+        const { success } = await ratelimit.limit(ip);
+        
+        if (!success) {
+            return { success: false, error: 'Too many attempts. Please try again in 15 minutes.' };
+        }
+    }
+
     if (password === process.env.ADMIN_PASSWORD) {
         const cookieStore = await cookies();
         const secureToken = signSession('authorized');

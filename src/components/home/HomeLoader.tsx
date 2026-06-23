@@ -52,7 +52,6 @@ export function HomeLoader({ children }: HomeLoaderProps) {
 
     // Sequence start
     const ctx = gsap.context(() => {
-      console.log("HomeLoader: bootLinesRef.current =", bootLinesRef.current);
       const tl = gsap.timeline({
         onComplete: () => {
           sessionStorage.setItem('na-loader-shown', 'true');

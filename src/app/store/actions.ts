@@ -10,17 +10,13 @@ const dodo = new DodoPayments({
 });
 
 export async function createCheckoutSession(productId: string, formData: FormData) {
-    console.log('[createCheckoutSession] Called with productId:', productId);
     const email = formData?.get('email') as string || 'guest@example.com';
-    console.log('[createCheckoutSession] Email:', email);
     const supabase = await createClient();
-    console.log('[createCheckoutSession] Supabase client created');
     const { data: product, error } = await supabase
         .from('products')
         .select('*')
         .eq('slug', productId)
         .single();
-    console.log('[createCheckoutSession] Product query result:', product ? 'found' : 'not found', error || '');
 
     if (error || !product) {
         console.error("Product not found", error);

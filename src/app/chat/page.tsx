@@ -101,7 +101,7 @@ export default function ChatPage() {
                         <ReactMarkdown
                           key={i}
                           components={{
-                            a: ({ node, href, children, ...props }) => {
+                            a: ({ href, children, ...props }) => {
                               if (!href) return <a {...props}>{children}</a>;
                               const isProject = href.includes('/projects/');
                               const isService = href.includes('/services/');

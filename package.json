@@ -10,6 +10,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@ai-sdk/google": "^3.0.83",
     "@ai-sdk/openai": "^3.0.71",
     "@ai-sdk/react": "^3.0.199",
     "@calcom/embed-react": "1.5.3",
@@ -23,6 +24,7 @@
     "@react-pdf/renderer": "^4.5.1",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.5.0",
+    "@rolldown/binding-win32-x64-msvc": "^1.1.2",
     "@sentry/nextjs": "^10.57.0",
     "@supabase/ssr": "^0.10.2",
     "@supabase/supabase-js": "^2.103.0",
@@ -70,6 +72,7 @@
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5",
-    "vitest": "^4.1.4"
+    "vite": "^8.0.16",
+    "vitest": "^4.1.9"
   }
 }

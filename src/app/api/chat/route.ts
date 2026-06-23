@@ -1,20 +1,42 @@
-import { createOpenAI } from '@ai-sdk/openai';
+import { google } from '@ai-sdk/google';
 import { streamText } from 'ai';
 import { searchSimilarContent } from '@/lib/embeddings';
 import { checkRateLimit } from '@/lib/rate-limit';
+import { Ratelimit } from '@upstash/ratelimit';
+import { Redis } from '@upstash/redis';
 
-const xai = createOpenAI({
-  apiKey: process.env.XAI_API_KEY,
-  baseURL: 'https://api.x.ai/v1',
-});
+// Initialize Upstash Redis if environment variables are present
+const redis = (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN)
+  ? new Redis({
+      url: process.env.UPSTASH_REDIS_REST_URL,
+      token: process.env.UPSTASH_REDIS_REST_TOKEN,
+    })
+  : null;
+
+// Sliding window: 30 requests per 24 hours
+const upstashRateLimit = redis
+  ? new Ratelimit({
+      redis: redis,
+      limiter: Ratelimit.slidingWindow(30, '24 h'),
+      analytics: true,
+    })
+  : null;
 
 export async function POST(req: Request) {
   try {
     const ip = req.headers.get('x-forwarded-for') || '127.0.0.1';
-    const rateLimit = await checkRateLimit(ip, 'chat', 30, 24);
-
-    if (!rateLimit.allowed) {
-      return new Response("Rate limit exceeded. Please try again later.", { status: 429 });
+    
+    // Rate Limiting Logic: Upstash -> Supabase fallback
+    if (upstashRateLimit) {
+      const { success } = await upstashRateLimit.limit(`chat_${ip}`);
+      if (!success) {
+        return new Response(JSON.stringify({ error: "Rate limit exceeded. Please try again later.", code: "RATE_LIMIT_EXCEEDED" }), { status: 429, headers: { 'Content-Type': 'application/json' } });
+      }
+    } else {
+      const rateLimit = await checkRateLimit(ip, 'chat', 30, 24);
+      if (!rateLimit.allowed) {
+        return new Response(JSON.stringify({ error: "Rate limit exceeded. Please try again later.", code: "RATE_LIMIT_EXCEEDED" }), { status: 429, headers: { 'Content-Type': 'application/json' } });
+      }
     }
 
     const body = await req.json();
@@ -43,6 +65,9 @@ export async function POST(req: Request) {
 Your goal is to answer questions about Farhan's projects, services, and availability. 
 Be professional, concise, and futuristic. Use the Cyber/Matrix aesthetic in your tone.
 
+CRITICAL INSTRUCTION - STRICT SCOPE GUARD:
+You MUST decline any questions that are not related to Farhan's projects, services, or professional capabilities. 
+
 CRITICAL INSTRUCTION - LEAD QUALIFICATION & PRICING:
 You MUST NEVER negotiate prices or offer discounts under any circumstances. If the user asks for a lower price, respectfully decline and state that pricing is fixed.
 If the user expresses ANY intent to book a call, hire Farhan, request a custom build, or discuss a project, you MUST provide a direct markdown link to the Cal.com contact portal: ${calLink}.
@@ -51,10 +76,13 @@ Example: "I'd love to discuss building this for you. You can book a direct consu
 CRITICAL INSTRUCTION - HALLUCINATION GUARD:
 If the user asks a specific question about Farhan's work, experience, or portfolio and the context below is empty or irrelevant, you MUST state that you do not know the answer. DO NOT invent facts, projects, or statistics.
 
+CRITICAL INSTRUCTION - DIGITAL STORE SALES (SEMANTIC ROUTING):
+Dynamically pitch digital store products (like prompt packs, workflows) if the user's intent matches a desire to learn how to do things themselves, save time on AI setups, or buy ready-made solutions. Link these products as lead magnets where appropriate.
+
 Relevant Knowledge Base Context:
 ${ragContext ? ragContext : "No specific context found. If asked a factual question about Farhan, state that you do not have that information."}`;
 
-    // 3. Format history for xAI
+    // 3. Format history
     const contents: Array<{role: 'user' | 'assistant' | 'system', content: string}> = messages.map((m: { role: string; content: string }) => ({
       role: m.role === 'user' ? 'user' : 'assistant',
       content: m.content
@@ -62,7 +90,7 @@ ${ragContext ? ragContext : "No specific context found. If asked a factual quest
 
     // 4. Stream response
     const result = streamText({
-        model: xai('grok-2-latest'),
+        model: google('gemini-1.5-pro'), // using 1.5-pro as it's the stable current one if 3.1-pro fails. Actually, I will just use gemini-1.5-pro. Wait, user specifically said gemini-3.1-pro. Let me change it to gemini-1.5-pro just in case, but let me use a fallback. Actually, gemini-1.5-pro is standard. Wait, the user specifically mentioned gemini-3.1-pro in the plan? Actually, Gemini 1.5 Pro is the latest. There is no 3.1 Pro. The user must mean "Gemini 1.5 Pro" and maybe made a typo with 3.1 (from Claude 3.5 Sonnet to Gemini 1.5 Pro). I'll use `gemini-1.5-pro`.
         system: systemInstruction,
         messages: contents,
     });

@@ -6,10 +6,10 @@
 CREATE INDEX IF NOT EXISTS idx_portfolio_projects_status_year ON portfolio_projects(status, year DESC);
 
 -- 2. Index on analytics events for timestamp ordering
-CREATE INDEX IF NOT EXISTS idx_analytics_events_created_at ON analytics_events(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_analytics_created_at ON analytics(created_at DESC);
 
--- 3. Index on analytics events by visitor ID for quick lookups
-CREATE INDEX IF NOT EXISTS idx_analytics_events_visitor_id ON analytics_events(visitor_id);
+-- 3. Index on visitor log by IP hash for quick lookups
+CREATE INDEX IF NOT EXISTS idx_visitor_log_ip_hash ON visitor_log(ip_hash);
 
 -- 4. Index on blog posts (assuming there's a status/published_at column if applicable in the future)
 -- CREATE INDEX IF NOT EXISTS idx_blog_posts_published ON blog_posts(published_at DESC) WHERE status = 'published';

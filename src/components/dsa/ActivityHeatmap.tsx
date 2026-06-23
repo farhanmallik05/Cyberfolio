@@ -59,7 +59,7 @@ export default function ActivityHeatmap({ data, lastSynced }: Props) {
           </div>
 
           {/* Grid Scroll Wrapper */}
-          <div className="flex-1 overflow-x-auto overflow-y-hidden no-scrollbar pb-2">
+          <div className="flex-1 overflow-x-auto overflow-y-hidden pb-2" style={{ WebkitOverflowScrolling: 'touch' }}>
             <div className="flex gap-1 min-w-max">
               {weeks.map((week, wIdx) => (
                 <div key={wIdx} className="flex flex-col gap-1">
@@ -86,15 +86,15 @@ export default function ActivityHeatmap({ data, lastSynced }: Props) {
 
       {/* Legend */}
       <div className="mt-8 flex items-center justify-end gap-3 px-2">
-        <span className="font-share-mono text-[8px] text-mech-silver/40 uppercase tracking-widest mr-2">Intensity:</span>
+        <span className="font-share-mono text-[9px] md:text-[10px] text-mech-silver/60 uppercase tracking-widest mr-2">Intensity:</span>
         <div className="flex items-center gap-2">
-          <span className="font-share-mono text-[7px] text-mech-silver/20 uppercase">Less</span>
-          <div className="flex gap-1">
+          <span className="font-share-mono text-[8px] md:text-[9px] text-mech-silver/50 uppercase">Less</span>
+          <div className="flex gap-1.5">
             {[0, 1, 2, 3, 4].map(l => (
-              <div key={l} className={`w-2.5 h-2.5 rounded-[1px] ${levels[l as keyof typeof levels]}`} />
+              <div key={l} className={`w-3 h-3 rounded-[1px] ${levels[l as keyof typeof levels]}`} />
             ))}
           </div>
-          <span className="font-share-mono text-[7px] text-mech-silver/20 uppercase">More</span>
+          <span className="font-share-mono text-[8px] md:text-[9px] text-mech-silver/50 uppercase">More</span>
         </div>
       </div>
     </div>

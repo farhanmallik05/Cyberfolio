@@ -297,3 +297,65 @@ export async function getAllProjects() {
     }
     return data || [];
 }
+
+export async function getAllStoreProducts() {
+    if (!(await verifyAdmin())) return [];
+    const supabase = await getAdminSupabase();
+    const { data, error } = await supabase
+        .from('products')
+        .select('*')
+        .order('created_at', { ascending: false });
+    
+    if (error) {
+        console.warn("Could not fetch products:", error.message);
+        return [];
+    }
+    return data || [];
+}
+
+export async function saveStoreProduct(productData: Record<string, unknown> & { slug: string }) {
+    if (!(await verifyAdmin())) throw new Error('Unauthorized');
+    const supabase = await getAdminSupabase();
+
+    const { error } = await supabase
+        .from('products')
+        .upsert(productData, { onConflict: 'slug' });
+
+    if (error) {
+        console.error("Save Product Error:", error);
+        throw new Error(error.message);
+    }
+    
+    revalidatePath('/store');
+    revalidatePath('/admin');
+    return { success: true };
+}
+
+export async function deleteStoreProduct(slug: string) {
+    if (!(await verifyAdmin())) throw new Error('Unauthorized');
+    const supabase = await getAdminSupabase();
+    const { error } = await supabase
+        .from('products')
+        .delete()
+        .eq('slug', slug);
+
+    if (error) throw error;
+    revalidatePath('/store');
+    revalidatePath('/admin');
+    return { success: true };
+}
+
+export async function getStoreOrders() {
+    if (!(await verifyAdmin())) return [];
+    const supabase = await getAdminSupabase();
+    const { data, error } = await supabase
+        .from('orders')
+        .select('*')
+        .order('created_at', { ascending: false });
+    
+    if (error) {
+        console.warn("Could not fetch orders:", error.message);
+        return [];
+    }
+    return data || [];
+}

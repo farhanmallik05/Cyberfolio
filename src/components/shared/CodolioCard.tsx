@@ -2,8 +2,9 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
 import { Code2, ExternalLink, Trophy, Zap, Activity } from 'lucide-react'
-import { dsaStats } from '@/data/dsa'
+import { dsaStats as staticStats, DsaStats } from '@/data/dsa'
 
 interface Props {
   className?: string;
@@ -11,7 +12,26 @@ interface Props {
 }
 
 export default function CodolioCard({ className, showLink = true }: Props) {
-  const [imgError, setImgError] = React.useState(false);
+  const [imgError, setImgError] = useState(false);
+  const [stats, setStats] = useState<DsaStats>(staticStats);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadStats() {
+      try {
+        const res = await fetch('/api/dsa/stats');
+        if (res.ok) {
+          const data = await res.json();
+          setStats((prev) => ({ ...prev, ...data }));
+        }
+      } catch (error) {
+        console.error("Failed to load Codolio stats", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadStats();
+  }, []);
 
   return (
     <motion.div
@@ -53,9 +73,9 @@ export default function CodolioCard({ className, showLink = true }: Props) {
 
       {/* Manual Stats Row (Always show if Image fails, or show as secondary) */}
       <div className={`grid grid-cols-3 gap-2 mb-4 relative z-10 transition-opacity ${imgError ? 'opacity-100' : 'opacity-60 group-hover:opacity-100'}`}>
-        <StatMini label="Solved" value={dsaStats.solutionsSolved} icon={Code2} color="var(--neon)" />
-        <StatMini label="Active" value={dsaStats.activeDays} icon={Zap} color="#F59E0B" />
-        <StatMini label="Dev Days" value={dsaStats.totalDevDays} icon={Trophy} color="var(--neon2)" />
+        <StatMini label="Solved" value={stats.solutionsSolved} icon={Code2} color="var(--neon)" isLoading={loading} />
+        <StatMini label="Active" value={stats.activeDays} icon={Zap} color="#F59E0B" isLoading={loading} />
+        <StatMini label="Dev Days" value={stats.totalDevDays} icon={Trophy} color="var(--neon2)" isLoading={loading} />
       </div>
 
       {/* Verification footer */}
@@ -85,7 +105,7 @@ export default function CodolioCard({ className, showLink = true }: Props) {
 
                                                                                            
                                                                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function StatMini({ label, value, icon: Icon, color }: { label: string, value: any, icon: any, color: string }) {
+function StatMini({ label, value, icon: Icon, color, isLoading }: { label: string, value: any, icon: any, color: string, isLoading?: boolean }) {
   return (
     <div className="text-center">
       <div className="flex items-center justify-center gap-1 mb-1 opacity-60">
@@ -93,7 +113,7 @@ function StatMini({ label, value, icon: Icon, color }: { label: string, value: a
         <span className="font-share-mono text-[7px] text-mech-silver uppercase tracking-tighter">{label}</span>
       </div>
       <div className="font-orbitron text-xs font-bold text-mech-white tracking-widest">
-        {value}
+        {isLoading ? <span className="animate-pulse text-mech-silver/50">...</span> : value}
       </div>
     </div>
   )

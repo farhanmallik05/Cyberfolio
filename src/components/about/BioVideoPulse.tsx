@@ -21,6 +21,7 @@ export default function BioVideoPulse({ src, poster, type = 'native' }: BioVideo
     const [isMuted, setIsMuted] = useState(true);
     const [progress, setProgress] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
+    const [hasError, setHasError] = useState(false);
 
     // For Loom: convert share URL to embed URL
     const loomEmbedUrl = type === 'loom' 
@@ -126,10 +127,19 @@ export default function BioVideoPulse({ src, poster, type = 'native' }: BioVideo
                             playsInline
                             className="w-full aspect-video object-cover"
                             onClick={togglePlay}
+                            onError={() => setHasError(true)}
                         />
 
+                        {hasError && (
+                            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-mech-base/90 backdrop-blur-md border border-mech-cyan/20">
+                                <VolumeX className="w-8 h-8 text-mech-silver/40 mb-2" />
+                                <span className="font-orbitron text-xs text-mech-silver/60 uppercase tracking-widest">Signal Lost</span>
+                                <span className="font-mono text-[9px] text-mech-silver/40 mt-1">Video stream unavailable</span>
+                            </div>
+                        )}
+
                         {/* Big Center Play Button (shown when paused) */}
-                        {!isPlaying && (
+                        {!isPlaying && !hasError && (
                             <motion.button
                                 onClick={togglePlay}
                                 className="absolute inset-0 z-20 flex items-center justify-center"

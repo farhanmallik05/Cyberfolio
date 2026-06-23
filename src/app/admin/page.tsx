@@ -1,4 +1,4 @@
-import { verifyAdmin, getAdminSettings, getAdminMetrics, getAllProjects } from './actions';
+import { verifyAdmin, getAdminSettings, getAdminMetrics, getAllProjects, getAllStoreProducts, getStoreOrders } from './actions';
 import { getAllPosts } from '@/lib/mdx';
 import AdminDashboard from './AdminDashboard';
 import { BlogPost } from '@/types/blog';
@@ -15,12 +15,18 @@ export default async function AdminPage() {
     let metrics: { enquiries: any[]; subscribers: any[] } = { enquiries: [], subscribers: [] };
                          // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let initialProjects: any[] = [];
+                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let initialStoreProducts: any[] = [];
+                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let initialStoreOrders: any[] = [];
     
     if (isAuthorized) {
         initialPosts = await getAllPosts(true);
         initialSettings = await getAdminSettings();
         metrics = await getAdminMetrics();
         initialProjects = await getAllProjects();
+        initialStoreProducts = await getAllStoreProducts();
+        initialStoreOrders = await getStoreOrders();
     }
 
     return (
@@ -30,6 +36,8 @@ export default async function AdminPage() {
             initialSettings={initialSettings}
             metrics={metrics}
             initialProjects={initialProjects}
+            initialStoreProducts={initialStoreProducts}
+            initialStoreOrders={initialStoreOrders}
         />
     );
 }

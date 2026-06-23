@@ -34,6 +34,31 @@ export const dsaStats: DsaStats = {
   lastSynced: new Date().toISOString()
 };
 
+/**
+ * Fetch real-time DSA stats from the internal API route.
+ * Falls back to static dsaStats if the API fails.
+ */
+export async function fetchDsaStats(): Promise<DsaStats> {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/dsa/stats`, {
+      next: { revalidate: 3600 }
+    });
+    if (!res.ok) throw new Error('API route failed');
+    const data = await res.json();
+    return {
+      solutionsSolved: data.solutionsSolved || dsaStats.solutionsSolved,
+      activeDays: data.activeDays || dsaStats.activeDays,
+      currentStreak: data.currentStreak || dsaStats.currentStreak,
+      globalRank: data.globalRank || dsaStats.globalRank,
+      totalDevDays: data.totalDevDays || dsaStats.totalDevDays,
+      lastSynced: data.lastSynced || dsaStats.lastSynced
+    };
+  } catch (error) {
+    console.warn("Failed to fetch live DSA stats, using static fallback.", error);
+    return dsaStats;
+  }
+}
+
 export const platforms: Platform[] = [
   { name: "Codolio", handle: "farhanmallik", url: "https://codolio.com/profile/farhanmallik", color: "#6366f1" },
   { name: "LeetCode", handle: "farhanmallik", url: "https://leetcode.com/u/farhanmallik", color: "#ffa116" },

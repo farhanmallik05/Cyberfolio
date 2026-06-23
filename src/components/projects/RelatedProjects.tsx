@@ -41,6 +41,7 @@ export function RelatedProjects({ projects }: RelatedProjectsProps) {
               imagePath={p.thumbnail || undefined}
               category={p.category}
               year={p.year}
+                                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
               status={p.status as any}
               caseStudy={p.caseStudy}
             />

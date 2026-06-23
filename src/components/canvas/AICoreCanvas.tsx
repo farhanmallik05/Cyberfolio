@@ -57,7 +57,7 @@ function Core() {
 
 export default function AICoreCanvas() {
     return (
-        <Canvas camera={{ position: [0, 0, 4] }}>
+        <Canvas camera={{ position: [0, 0, 4] }} dpr={[1, 2]}>
             <Core />
         </Canvas>
     );

@@ -13,11 +13,11 @@ export async function GET() {
 
     if (error) {
       console.error('Error fetching projects from Supabase:', error);
-      return NextResponse.json(projectsDataFallback.map((p: any) => ({...p, techStack: p.tech})));
+      return NextResponse.json(projectsDataFallback.map((p: Record<string, unknown> & { tech?: string[] }) => ({...p, techStack: p.tech})));
     }
     
     if (!data || data.length === 0) {
-      return NextResponse.json(projectsDataFallback.map((p: any) => ({...p, techStack: p.tech})));
+      return NextResponse.json(projectsDataFallback.map((p: Record<string, unknown> & { tech?: string[] }) => ({...p, techStack: p.tech})));
     }
 
     const formattedProjects = data.map(p => ({
@@ -30,6 +30,6 @@ export async function GET() {
     return NextResponse.json(formattedProjects);
   } catch (error) {
     console.error('Error in projects API route:', error);
-    return NextResponse.json(projectsDataFallback.map((p: any) => ({...p, techStack: p.tech})));
+    return NextResponse.json(projectsDataFallback.map((p: Record<string, unknown> & { tech?: string[] }) => ({...p, techStack: p.tech})));
   }
 }

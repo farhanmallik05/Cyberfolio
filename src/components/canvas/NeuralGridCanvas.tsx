@@ -42,7 +42,7 @@ function Particles() {
 
 export default function NeuralGridCanvas() {
     return (
-        <Canvas camera={{ position: [0, 0, 5] }}>
+        <Canvas camera={{ position: [0, 0, 5] }} dpr={[1, 2]}>
             <Particles />
         </Canvas>
     );

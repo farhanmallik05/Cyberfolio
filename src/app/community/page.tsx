@@ -70,7 +70,7 @@ export default async function CommunityPage() {
           <p className="text-[var(--text-muted)] font-mono text-xs">Recommended "Good First Issues" in the TS ecosystem.</p>
           
           <div className="flex flex-col gap-4">
-            {issues.length > 0 ? issues.map((issue: any) => (
+            {issues.length > 0 ? issues.map((issue: { id: number; html_url: string; title: string; number: number; user: { login: string }; repository_url: string }) => (
               <a key={issue.id} href={issue.html_url} target="_blank" rel="noopener noreferrer" className="group p-4 bg-[var(--bg2)] border border-[var(--border)] hover:border-[var(--neon)] transition-colors rounded-sm flex flex-col gap-2">
                 <div className="flex items-start justify-between gap-4">
                   <h3 className="font-heading font-bold text-white group-hover:text-[var(--neon)] transition-colors line-clamp-2 leading-tight">

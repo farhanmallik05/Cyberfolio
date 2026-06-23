@@ -33,6 +33,7 @@ const STEPS = [
 
 export function ContactSection() {
   const [step, setStep] = useState(0);
+                                           // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [formData, setFormData] = useState<any>({
     type: '',
     budget: '',
@@ -45,6 +46,7 @@ export function ContactSection() {
   const progressBarRef = useRef<HTMLDivElement>(null);
 
   const handleOptionSelect = (key: string, value: string) => {
+                       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setFormData((prev: any) => ({ ...prev, [key]: value }));
     if (step < STEPS.length - 1) setStep(step + 1);
   };
@@ -154,6 +156,7 @@ export function ContactSection() {
                     placeholder="YOUR_EMAIL_COORDINATES"
                     className={styles.inputField}
                     value={formData.email}
+                                                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     onChange={(e) => setFormData((p: any) => ({ ...p, email: e.target.value }))}
                   />
                   <textarea 
@@ -161,6 +164,7 @@ export function ContactSection() {
                     placeholder="MISSION_DETAILS..."
                     className={styles.inputField}
                     value={formData.message}
+                                                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     onChange={(e) => setFormData((p: any) => ({ ...p, message: e.target.value }))}
                   />
                   <div className="flex justify-end pt-4">

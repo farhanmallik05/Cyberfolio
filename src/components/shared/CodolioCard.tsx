@@ -83,6 +83,8 @@ export default function CodolioCard({ className, showLink = true }: Props) {
   )
 }
 
+                                                                                           
+                                                                               // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function StatMini({ label, value, icon: Icon, color }: { label: string, value: any, icon: any, color: string }) {
   return (
     <div className="text-center">

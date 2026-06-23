@@ -10,7 +10,10 @@ export default async function AdminPage() {
     
     let initialPosts: (BlogPost & { is_published: boolean })[] = [];
     let initialSettings: { is_available: boolean; service_config: Record<string, unknown> } | null = null;
+                                                   
+                              // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let metrics: { enquiries: any[]; subscribers: any[] } = { enquiries: [], subscribers: [] };
+                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let initialProjects: any[] = [];
     
     if (isAuthorized) {

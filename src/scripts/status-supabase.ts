@@ -19,6 +19,7 @@ async function checkStatus() {
     console.log("Status:", res.status, res.statusText);
     const body = (await res.json().catch(() => null)) || (await res.text());
     console.log("Project details:", JSON.stringify(body, null, 2));
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     console.error("Fetch error:", err.message);
   }

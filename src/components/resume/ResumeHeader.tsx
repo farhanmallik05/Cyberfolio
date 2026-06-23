@@ -77,6 +77,7 @@ export default function ResumeHeader({ identity, activeRoleLabel, downloadButton
   )
 }
 
+                                                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ContactItem({ icon: Icon, text, href }: { icon: any, text: string, href?: string }) {
   const content = (
     <div className="flex items-center gap-2 text-mech-silver/60 hover:text-mech-white transition-colors">

@@ -40,7 +40,7 @@ function RotatingRings() {
 
 export default function BackgroundCanvas() {
     return (
-        <Canvas camera={{ position: [0, 0, 8], fov: 60 }} dpr={[1, 1.5]}>
+        <Canvas camera={{ position: [0, 0, 8], fov: 60 }} dpr={[1, 2]}>
             <Stars radius={100} depth={50} count={2000} factor={4} saturation={0} fade speed={1.5} />
             <ambientLight intensity={0.5} />
             <RotatingRings />

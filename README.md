@@ -84,6 +84,27 @@ graph TD
 │   └── utils/          # Helper utilities
 ```
 
+## 🔄 CI/CD Pipeline & Automation
+
+This project utilizes GitHub Actions and Dependabot for automated quality assurance and maintenance.
+
+### 1. Automated Testing (CI)
+The `ci.yml` workflow triggers on pushes and pull requests to the `main` branch. It ensures codebase integrity through:
+- **Type Checking:** Validates TypeScript strictness (`npm run type-check`).
+- **Linting:** Enforces ESLint rules (`npm run lint`).
+- **Unit Tests:** Executes the Vitest test suite with coverage (`npm run test:coverage`).
+- **E2E Testing:** Runs Playwright end-to-end browser tests to guarantee critical user flows.
+
+### 2. Performance & Accessibility Scoring
+The `lighthouse.yml` workflow automates Lighthouse audits on every pull request to `main`. It runs the project against Lighthouse CI (`lhci`) to enforce:
+- A targeted **90+ score** across Performance, Accessibility, Best Practices, and SEO.
+- Graceful degradation tests for WebGL and GSAP animations to maintain high FPS and low TBT (Total Blocking Time).
+
+### 3. Automated Maintenance
+Dependabot is configured (`.github/dependabot.yml`) to automatically schedule monthly Pull Requests for:
+- **Minor/Patch Updates:** Keeping libraries like `react`, `next`, `@supabase/supabase-js`, and `gsap` up to date securely.
+- **Major Upgrades Isolation:** Major framework versions (e.g., Tailwind v4, ESLint v10) are intentionally ignored by Dependabot to allow manual validation, ensuring the UI remains unbroken.
+
 ## ⚙️ Environment Variables
 
 Copy `.env.example` to `.env.local` and configure the following variables to connect all services:

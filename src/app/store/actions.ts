@@ -58,6 +58,7 @@ export async function createCheckoutSession(productId: string, formData: FormDat
         } else {
              throw new Error("Failed to get payment link");
         }
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (e: any) {
         if (e.message === "NEXT_REDIRECT") throw e;
         console.error("Payment error:", e);

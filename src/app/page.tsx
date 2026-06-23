@@ -33,6 +33,7 @@ async function fetchPublicProjects() {
   const supabaseAnon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   const fallback = projectsDataFallback
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .map((p: any) => ({ ...p, techStack: p.tech }))
     .slice(0, 6);
 
@@ -52,6 +53,7 @@ async function fetchPublicProjects() {
 
     if (!res.ok) throw new Error(`Supabase REST error: ${res.status}`);
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const data: any[] = await res.json();
     if (!data || data.length === 0) return fallback;
 

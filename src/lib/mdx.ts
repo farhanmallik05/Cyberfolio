@@ -2,6 +2,7 @@ import { createClient } from '@/utils/supabase/server';
 import { BlogPost } from '@/types/blog';
 
 // Utility to convert Supabase row to BlogPost type
+                               // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const mapDBToBlogPost = (post: any): (BlogPost & { is_published: boolean }) => ({
     slug: post.slug,
     title: post.title,

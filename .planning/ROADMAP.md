@@ -148,20 +148,20 @@
 ## 🌐 Milestone 6: Community & Scale
 
 ### Phase 21: Newsletter System (/newsletter) (M)
-- **Status**: ⏳ Planned
+- **Status**: ❌ CUT - Maintenance Mode
 - **Scope**: Resend + React Email + Supabase subscriber list.
 
 ### Phase 22: Course Platform (/courses) (L)
-- **Status**: ⏳ Planned
+- **Status**: ❌ CUT - Maintenance Mode
 - **Scope**: Course index page, future self-hosted with Mux video.
 
 ### Phase 23: Community Hub (/community) (M)
-- **Status**: ⏳ Planned
+- **Status**: ❌ CUT - Maintenance Mode
 - **Scope**: Discord server links, open source contribution showcase, job board.
 
-### Phase 24: DSA Arena + Resume + Codolio Integration (M) ✅
-- **Status**: ✅ Complete
-- **Scope**: Three interconnected deliverables: /resume (role-adaptive), /dsa (heatmap/stats), and CodolioCard widget integration across About/DSA pages.
+### Phase 24: DSA Arena + Resume + Codolio Integration (M)
+- **Status**: ❌ CUT - Simplified to CodolioCard only
+- **Scope**: Reduced to simple Codolio widget to minimize bundle size.
 
 ---
 

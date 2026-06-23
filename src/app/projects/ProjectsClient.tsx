@@ -9,6 +9,7 @@ import { Code2, Search } from 'lucide-react';
 import { GlitchText } from '@/components/ui/GlitchText';
 import { ProjectCard } from '@/components/ui/ProjectCard';
 
+                                                                               // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function ProjectsClient({ initialProjects }: { initialProjects: any[] }) {
   const [activeCategory, setActiveCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
@@ -119,6 +120,7 @@ export default function ProjectsClient({ initialProjects }: { initialProjects: a
                 featuredColor="#00F5FF"
                 category={project.category}
                 year={project.year}
+                                          // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 status={project.status as any}
                 caseStudy={project.caseStudy}
              />

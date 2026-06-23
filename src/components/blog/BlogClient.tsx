@@ -151,6 +151,7 @@ export function BlogClient({ initialPosts }: BlogClientProps) {
     );
 }
 
+                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function Database(props: any) {
     return (
         <svg

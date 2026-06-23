@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { loginAdmin, toggleAvailability, togglePostStatus, saveBlogPost, deleteBlogPost, saveServiceConfig, saveProject, deleteProject, toggleProjectStatus } from './actions';
+import { loginAdmin, toggleAvailability, togglePostStatus, saveBlogPost, deleteBlogPost, saveServiceConfig, saveProject, deleteProject } from './actions';
 import { ServiceConfig } from '@/types/services';
 import { BlogPost, Category } from '@/types/blog';
 import { 
@@ -16,6 +16,21 @@ import remarkGfm from 'remark-gfm';
 
 type Tab = 'overview' | 'compose' | 'services' | 'projects';
 
+export type ProjectRecord = {
+    slug: string;
+    title?: string;
+    description?: string;
+    tagline?: string;
+    live_url?: string;
+    github_url?: string;
+    status?: string;
+    tech?: string[];
+    year?: number;
+    featured?: boolean;
+                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [key: string]: any;
+};
+
 export default function AdminDashboard({ 
     isAuthorized, 
     initialPosts, 
@@ -25,8 +40,12 @@ export default function AdminDashboard({
 }: { 
     isAuthorized: boolean; 
     initialPosts: (BlogPost & { is_published: boolean })[];
+                                                              // eslint-disable-next-line @typescript-eslint/no-explicit-any
     initialSettings: { is_available: boolean; service_config: any } | null;
+                                                
+                           // eslint-disable-next-line @typescript-eslint/no-explicit-any
     metrics?: { enquiries: any[], subscribers: any[] };
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     initialProjects?: any[];
 }) {
     const router = useRouter();
@@ -48,6 +67,7 @@ export default function AdminDashboard({
     const [configStatus, setConfigStatus] = useState<'idle' | 'saving' | 'saved'>('idle');
 
     // Project Form State
+                                                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [editingProject, setEditingProject] = useState<any>(null);
     const [projectForm, setProjectForm] = useState({
         slug: '', title: '', description: '', tagline: '', live_url: '', github_url: '', status: 'published', tech: '', year: new Date().getFullYear(), featured: false
@@ -114,8 +134,8 @@ export default function AdminDashboard({
         try {
             await toggleAvailability(newState);
             setIsAvailable(newState);
-        } catch (err: any) {
-            alert(`Toggle failed: ${err.message}`);
+        } catch (err: unknown) {
+            alert(`Toggle failed: ${err instanceof Error ? err.message : String(err)}`);
         }
         setLoading(false);
     }
@@ -126,8 +146,8 @@ export default function AdminDashboard({
             await saveServiceConfig(serviceConfig);
             setConfigStatus('saved');
             setTimeout(() => setConfigStatus('idle'), 2000);
-        } catch (err: any) {
-            alert(`Save failed: ${err.message}`);
+        } catch (err: unknown) {
+            alert(`Save failed: ${err instanceof Error ? err.message : String(err)}`);
             setConfigStatus('idle');
         }
     }
@@ -138,8 +158,8 @@ export default function AdminDashboard({
         try {
             await togglePostStatus(slug, !currentState);
             setPosts(posts.map(p => p.slug === slug ? { ...p, is_published: !currentState } : p));
-        } catch (err: any) {
-            alert(`Post toggle failed: ${err.message}`);
+        } catch (err: unknown) {
+            alert(`Post toggle failed: ${err instanceof Error ? err.message : String(err)}`);
         }
     }
 
@@ -148,8 +168,8 @@ export default function AdminDashboard({
         try {
             await deleteBlogPost(slug);
             setPosts(posts.filter(p => p.slug !== slug));
-        } catch (err: any) {
-            alert(`Delete failed: ${err.message}`);
+        } catch (err: unknown) {
+            alert(`Delete failed: ${err instanceof Error ? err.message : String(err)}`);
         }
     }
 
@@ -164,13 +184,14 @@ export default function AdminDashboard({
                 ...form,
                 tags: form.tags.split(',').map(t => t.trim()).filter(t => t.length > 0)
             };
+                                       // eslint-disable-next-line @typescript-eslint/no-explicit-any
             await saveBlogPost(data as any);
             alert('Post saved successfully!');
             router.refresh(); // Reload to update lists
             setActiveTab('overview');
             setEditingPost(null);
-        } catch (err: any) {
-            alert(`Save failed: ${err.message}`);
+        } catch (err: unknown) {
+            alert(`Save failed: ${err instanceof Error ? err.message : String(err)}`);
         }
         setLoading(false);
     }
@@ -194,14 +215,14 @@ export default function AdminDashboard({
             setEditingProject(null);
             
             // Update local state temporarily
-            const exists = projectsList.find((p: any) => p.slug === data.slug);
+            const exists = projectsList.find((p: ProjectRecord) => p.slug === data.slug);
             if (exists) {
-                setProjectsList(projectsList.map((p: any) => p.slug === data.slug ? { ...p, ...data } : p));
+                setProjectsList(projectsList.map((p: ProjectRecord) => p.slug === data.slug ? { ...p, ...data } : p));
             } else {
                 setProjectsList([data, ...projectsList]);
             }
-        } catch (err: any) {
-            alert(`Save failed: ${err.message}`);
+        } catch (err: unknown) {
+            alert(`Save failed: ${err instanceof Error ? err.message : String(err)}`);
         }
         setLoading(false);
     }
@@ -210,9 +231,9 @@ export default function AdminDashboard({
         if (!confirm(`Are you sure you want to delete project ${slug}?`)) return;
         try {
             await deleteProject(slug);
-            setProjectsList(projectsList.filter((p: any) => p.slug !== slug));
-        } catch (err: any) {
-            alert(`Delete failed: ${err.message}`);
+            setProjectsList(projectsList.filter((p: ProjectRecord) => p.slug !== slug));
+        } catch (err: unknown) {
+            alert(`Delete failed: ${err instanceof Error ? err.message : String(err)}`);
         }
     }
 
@@ -248,11 +269,11 @@ export default function AdminDashboard({
         setActiveTab('compose');
     };
 
-    const startEditingProject = (proj: any) => {
+    const startEditingProject = (proj: ProjectRecord) => {
         setEditingProject(proj);
         setProjectForm({
             slug: proj.slug,
-            title: proj.title,
+            title: proj.title || '',
             description: proj.description || '',
             tagline: proj.tagline || '',
             live_url: proj.live_url || '',
@@ -610,7 +631,7 @@ export default function AdminDashboard({
                         {/* Project List */}
                         <div className="mech-panel p-6 rounded-xl flex flex-col gap-4 border border-[var(--border)] max-h-[700px] overflow-y-auto">
                             <h3 className="text-lg font-orbitron text-[var(--neon)] mb-2 sticky top-0 bg-[var(--bg)] py-2 z-10 border-b border-[var(--border)]">Existing Projects</h3>
-                            {projectsList.map((proj: any) => (
+                            {projectsList.map((proj: ProjectRecord) => (
                                 <div key={proj.slug} className={`p-4 rounded border transition-all flex flex-col gap-3 ${editingProject?.slug === proj.slug ? 'border-[var(--neon)] bg-[var(--neon)]/5' : 'border-[var(--border)] bg-[var(--bg2)] hover:border-[var(--glass)]'}`}>
                                     <div className="flex justify-between items-start">
                                         <div className="flex flex-col">

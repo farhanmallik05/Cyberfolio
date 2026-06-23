@@ -5,6 +5,7 @@ import { Download } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export function PWAInstaller() {
+                                                       // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [showInstall, setShowInstall] = useState(false);
 
@@ -16,6 +17,7 @@ export function PWAInstaller() {
       });
     }
 
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handler = (e: any) => {
       e.preventDefault();
       setDeferredPrompt(e);

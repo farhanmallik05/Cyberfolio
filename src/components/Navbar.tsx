@@ -28,7 +28,9 @@ import {
 type NavItem = {
     href?: string;
     label: string;
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
     icon: any;
+                                                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     children?: { href: string; label: string; icon: any; }[];
 };
 

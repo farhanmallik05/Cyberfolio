@@ -18,6 +18,7 @@ export default function Contact() {
     });
     const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
     const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const turnstileRef = useRef<any>(null);
 
     const handleSubmit = async (e: React.FormEvent) => {

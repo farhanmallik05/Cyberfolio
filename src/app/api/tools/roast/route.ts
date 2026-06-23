@@ -38,8 +38,8 @@ export async function POST(req: Request) {
     });
     
     return result.toTextStreamResponse();
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Portfolio Roaster Error:", error);
-    return new Response(error.message, { status: 500 });
+    return new Response(error instanceof Error ? error.message : "Unknown error", { status: 500 });
   }
 }

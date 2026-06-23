@@ -229,7 +229,7 @@ export async function getAdminMetrics() {
     };
 }
 
-export async function saveProject(projectData: any) {
+export async function saveProject(projectData: Record<string, unknown> & { slug: string }) {
     if (!(await verifyAdmin())) throw new Error('Unauthorized');
     const supabase = await getAdminSupabase();
     

@@ -16,6 +16,7 @@ export function BriefPane() {
   const [errorMessage, setErrorMessage] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+                              // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const turnstileRef = useRef<any>(null);
 
   const {
@@ -77,6 +78,7 @@ export function BriefPane() {
         turnstileRef.current?.reset?.();
         setTurnstileToken(null);
       }
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setErrorMessage(err.message || "An unexpected error occurred.");
       turnstileRef.current?.reset?.();

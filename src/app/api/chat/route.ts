@@ -4,7 +4,7 @@ import { searchSimilarContent } from '@/lib/embeddings';
 import { checkRateLimit } from '@/lib/rate-limit';
 
 const xai = createOpenAI({
-  apiKey: process.env.GROQ_API_KEY,
+  apiKey: process.env.XAI_API_KEY,
   baseURL: 'https://api.x.ai/v1',
 });
 
@@ -30,20 +30,23 @@ export async function POST(req: Request) {
     try {
         const searchResults = await searchSimilarContent(lastMessage.content, 3);
         if (searchResults && searchResults.length > 0) {
-            ragContext = searchResults.map((res: any) => res.payload?.text).join('\n\n');
+            ragContext = searchResults.map((res: { payload?: Record<string, unknown> | null }) => res.payload?.text as string | undefined).filter(Boolean).join('\n\n');
         }
     } catch (e) {
         console.warn("RAG search failed, proceeding without context", e);
     }
+
+    const calLink = process.env.NEXT_PUBLIC_CAL_LINK || 'https://cal.com/farhanmallik';
 
     // 2. Build the System Prompt
     const systemInstruction = `You are Farhan Mallik's AI Assistant. You speak in the first person as Farhan, but you must be transparent that you are an AI if directly asked. 
 Your goal is to answer questions about Farhan's projects, services, and availability. 
 Be professional, concise, and futuristic. Use the Cyber/Matrix aesthetic in your tone.
 
-CRITICAL INSTRUCTION - LEAD QUALIFICATION:
-If the user expresses ANY intent to book a call, hire Farhan, request a custom build, or discuss a project, you MUST provide a direct markdown link to the contact portal: \`/contact\`.
-Example: "I'd love to discuss building this for you. You can book a direct consultation with me here: [Book an Appointment](/contact)"
+CRITICAL INSTRUCTION - LEAD QUALIFICATION & PRICING:
+You MUST NEVER negotiate prices or offer discounts under any circumstances. If the user asks for a lower price, respectfully decline and state that pricing is fixed.
+If the user expresses ANY intent to book a call, hire Farhan, request a custom build, or discuss a project, you MUST provide a direct markdown link to the Cal.com contact portal: ${calLink}.
+Example: "I'd love to discuss building this for you. You can book a direct consultation with me here: [Book an Appointment](${calLink})"
 
 CRITICAL INSTRUCTION - HALLUCINATION GUARD:
 If the user asks a specific question about Farhan's work, experience, or portfolio and the context below is empty or irrelevant, you MUST state that you do not know the answer. DO NOT invent facts, projects, or statistics.
@@ -52,7 +55,7 @@ Relevant Knowledge Base Context:
 ${ragContext ? ragContext : "No specific context found. If asked a factual question about Farhan, state that you do not have that information."}`;
 
     // 3. Format history for xAI
-    const contents: Array<{role: 'user' | 'assistant' | 'system', content: string}> = messages.map((m: any) => ({
+    const contents: Array<{role: 'user' | 'assistant' | 'system', content: string}> = messages.map((m: { role: string; content: string }) => ({
       role: m.role === 'user' ? 'user' : 'assistant',
       content: m.content
     }));
@@ -66,8 +69,8 @@ ${ragContext ? ragContext : "No specific context found. If asked a factual quest
     
     return result.toTextStreamResponse();
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Chat API Error:", error);
-    return new Response(error.message, { status: 500 });
+    return new Response(error instanceof Error ? error.message : String(error), { status: 500 });
   }
 }

@@ -170,6 +170,7 @@ export default function NowPage() {
     );
 }
 
+                                                             // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function SectionHeader({ icon: Icon, title, color }: { icon: any, title: string, color: string }) {
     return (
         <div className="flex items-center gap-3">
@@ -181,6 +182,7 @@ function SectionHeader({ icon: Icon, title, color }: { icon: any, title: string,
     );
 }
 
+                                             // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function StatusCard({ item, color }: { item: any, color: 'cyan' | 'blue' }) {
     const accentClass = color === 'cyan' ? 'border-l-mech-cyan hover:bg-mech-cyan/5' : 'border-l-mech-blue hover:bg-mech-blue/5';
     const textClass = color === 'cyan' ? 'group-hover:text-mech-cyan' : 'group-hover:text-mech-blue';

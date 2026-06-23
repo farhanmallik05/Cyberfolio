@@ -87,8 +87,9 @@ Phase 0 blueprint in: `.planning/phases/phase-00-architecture-blueprint/PLAN.md`
 | 16–17 | Monetization / Store | 📋 Plans Ready |
 | 18 | AI Tools (/tools) | 🚢 Shipped |
 | 18.1 | Mobile Animation Optimization (Failure 5) | ✅ Complete |
-| 19-23 | AI Chat / Admin / Community | 📋 Plans Ready |
-| 24 | DSA Arena + Resume + Codolio | ✅ Complete |
+| 19 | AI Chat (/chat) | ⏳ Planned (Final Phase) |
+| 20-23 | Admin / Community | ❌ CUT - Maintenance Mode |
+| 24 | DSA Arena | ❌ CUT - Simplified to CodolioCard |
 
 ---
 

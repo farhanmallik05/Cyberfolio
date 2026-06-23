@@ -74,8 +74,9 @@ export function AIChatWidget() {
           return newMessages;
         });
       }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      setMessages(prev => [...prev, { role: 'model', content: `[SYSTEM ERROR]: ${error.message}` }]);
+      setMessages(prev => [...prev, { id: Date.now().toString(), role: 'model', content: `Error: ${error?.message || String(error)}` }]);
     } finally {
       setIsLoading(false);
     }

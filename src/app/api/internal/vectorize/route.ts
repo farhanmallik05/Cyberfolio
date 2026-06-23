@@ -135,8 +135,8 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({ success: true, pointsInserted: points.length });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Vectorize Error:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : "Unknown error" }, { status: 500 });
   }
 }

@@ -54,7 +54,7 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Newsletter API Error:', error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }

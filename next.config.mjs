@@ -1,3 +1,10 @@
+/* global process */
+import NextBundleAnalyzer from '@next/bundle-analyzer';
+
+const withBundleAnalyzer = NextBundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+})
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     async headers() {
@@ -35,4 +42,20 @@ const nextConfig = {
     },
 };
 
-export default nextConfig;
+import { withSentryConfig } from '@sentry/nextjs';
+
+export default withSentryConfig(
+  withBundleAnalyzer(nextConfig),
+  {
+    silent: true,
+    org: "neural-architect",
+    project: "portfolio"
+  },
+  {
+    widenClientFileUpload: true,
+    transpileClientSDK: true,
+    tunnelRoute: "/monitoring",
+    hideSourceMaps: true,
+    disableLogger: true,
+  }
+);

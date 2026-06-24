@@ -40,7 +40,7 @@
     "fuse.js": "^7.3.0",
     "gray-matter": "^4.0.3",
     "gsap": "^3.14.2",
-    "lucide-react": "^0.575.0",
+    "lucide-react": "^1.21.0",
     "next": "^16.1.6",
     "next-mdx-remote": "^6.0.0",
     "react": "^19.2.4",

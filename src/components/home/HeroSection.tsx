@@ -31,19 +31,14 @@ export function HeroSection() {
 
     const ctx = gsap.context(() => {
       const q = gsap.utils.selector(sectionRef);
-      // Desktop only: override CSS default before animating in
-      gsap.set(q(`.${styles.label}, .${styles.title}, .${styles.tagline}, .${styles.actions}, .${styles.statsStrip}`), {
-        opacity: 0,
-        y: 20
-      });
 
       const tl = gsap.timeline({ delay: 0.1 });
 
-      tl.to(q(`.${styles.label}`), { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" })
-        .to(q(`.${styles.title}`), { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, "-=0.3")
-        .to(q(`.${styles.tagline}`), { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, "-=0.3")
-        .to(q(`.${styles.actions}`), { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, "-=0.3")
-        .to(q(`.${styles.statsStrip}`), { opacity: 1, y: 0, duration: 0.5, ease: "expo.out" }, "-=0.2");
+      tl.from(q(`.${styles.label}`), { opacity: 0, y: 20, duration: 0.4, ease: "power3.out" })
+        .from(q(`.${styles.title}`), { opacity: 0, y: 20, duration: 0.4, ease: "power3.out" }, "-=0.3")
+        .from(q(`.${styles.tagline}`), { opacity: 0, y: 20, duration: 0.4, ease: "power3.out" }, "-=0.3")
+        .from(q(`.${styles.actions}`), { opacity: 0, y: 20, duration: 0.4, ease: "power3.out" }, "-=0.3")
+        .from(q(`.${styles.statsStrip}`), { opacity: 0, y: 20, duration: 0.5, ease: "expo.out" }, "-=0.2");
     }, sectionRef);
 
     return () => ctx.revert();

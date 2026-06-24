@@ -13,7 +13,7 @@ const bootMessages = [
 
 export function BootSequence({ children }: { children: React.ReactNode }) {
     const [isBooting, setIsBooting] = useState(true);
-    const [visibleMessages, setVisibleMessages] = useState<string[]>([]);
+    const [visibleMessages, setVisibleMessages] = useState<string[]>([bootMessages[0]]);
 
     useEffect(() => {
         // Check if we've already booted dynamically using localStorage to persist across visits
@@ -23,7 +23,7 @@ export function BootSequence({ children }: { children: React.ReactNode }) {
             return;
         }
 
-        let currentIndex = 0;
+        let currentIndex = 1;
 
         const interval = setInterval(() => {
             if (currentIndex < bootMessages.length) {

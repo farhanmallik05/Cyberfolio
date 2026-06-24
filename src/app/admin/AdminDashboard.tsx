@@ -9,12 +9,37 @@ import {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
     FileText, Power, Mail, Users, Lock, Terminal, Activity, 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    Plus, Edit3, Trash2, Eye, Save, X, ArrowLeft, Sliders, Briefcase, FolderGit2, Link as LinkIcon
+    Plus, Edit3, Trash2, Eye, Save, X, ArrowLeft, Sliders, Briefcase, FolderGit2, Link as LinkIcon, ShoppingCart, Box, DollarSign, Download
 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
-type Tab = 'overview' | 'compose' | 'services' | 'projects';
+type Tab = 'overview' | 'compose' | 'services' | 'projects' | 'store';
+
+
+export type StoreProduct = {
+    id?: string;
+    slug: string;
+    name: string;
+    description: string;
+    price: number;
+    currency: string;
+    type: string;
+    color_theme: string;
+    is_free: boolean;
+    file_path: string;
+    [key: string]: any;
+};
+
+export type StoreOrder = {
+    id: string;
+    dodo_payment_id: string;
+    product_id: string;
+    customer_email: string;
+    amount: number;
+    status: string;
+    created_at: string;
+};
 
 export type ProjectRecord = {
     slug: string;
@@ -36,7 +61,9 @@ export default function AdminDashboard({
     initialPosts, 
     initialSettings,
     metrics,
-    initialProjects = []
+    initialProjects = [],
+    initialStoreProducts = [],
+    initialStoreOrders = []
 }: { 
     isAuthorized: boolean; 
     initialPosts: (BlogPost & { is_published: boolean })[];
@@ -47,6 +74,8 @@ export default function AdminDashboard({
     metrics?: { enquiries: any[], subscribers: any[] };
                       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     initialProjects?: any[];
+    initialStoreProducts?: any[];
+    initialStoreOrders?: any[];
 }) {
     const router = useRouter();
     const [password, setPassword] = useState('');
@@ -71,6 +100,16 @@ export default function AdminDashboard({
     const [editingProject, setEditingProject] = useState<any>(null);
     const [projectForm, setProjectForm] = useState({
         slug: '', title: '', description: '', tagline: '', live_url: '', github_url: '', status: 'published', tech: '', year: new Date().getFullYear(), featured: false
+    });
+
+
+    // Store Form State
+    const [storeProducts, setStoreProducts] = useState<StoreProduct[]>(initialStoreProducts);
+    const [storeOrders] = useState<StoreOrder[]>(initialStoreOrders);
+    const [activeStoreTab, setActiveStoreTab] = useState<'products' | 'orders'>('products');
+    const [editingProduct, setEditingProduct] = useState<StoreProduct | null>(null);
+    const [productForm, setProductForm] = useState<StoreProduct>({
+        slug: '', name: '', description: '', price: 0, currency: 'USD', type: 'asset', color_theme: 'var(--neon)', is_free: false, file_path: ''
     });
 
     // Editor Form State
@@ -325,6 +364,13 @@ export default function AdminDashboard({
                         className={`px-4 py-2 font-orbitron rounded transition-all text-sm flex items-center gap-2 ${activeTab === 'compose' && !editingPost ? 'bg-[var(--neon)] text-[var(--bg)] shadow-[0_0_15px_var(--neon)]' : 'bg-transparent border border-[var(--border)] text-[var(--dim)] hover:text-[var(--text)]'}`}
                     >
                         <Plus size={16} /> COMPOSE
+                    </button>
+
+                    <button 
+                        onClick={() => setActiveTab('store')}
+                        className={`px-4 py-2 font-orbitron rounded transition-all text-sm flex items-center gap-2 ${activeTab === 'store' ? 'bg-[var(--neon)] text-[var(--bg)] shadow-[0_0_15px_var(--neon)]' : 'bg-transparent border border-[var(--border)] text-[var(--dim)] hover:text-[var(--text)]'}`}
+                    >
+                        <ShoppingCart size={16} /> STORE
                     </button>
                 </div>
             </header>

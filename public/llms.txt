@@ -1,0 +1,22 @@
+# Neural Architect
+
+> A high-fidelity, interactive professional portfolio by Farhan Mallick, designed to showcase the intersection of AI Agents, Immersive UX, and Data-Driven Architecture.
+
+This repository serves as a professional portfolio and a playground for integrating advanced front-end technologies (Next.js, React, GSAP, Three.js) with intelligence layers (Supabase, Qdrant, Google GenAI, Groq).
+
+Important notes:
+- The project relies on a hybrid data model: static JSON ledgers (`src/data/`) for deterministic structures, and dynamic external APIs (GitHub, Supabase) for live proofs of work.
+- It uses standard `npm` for dependency management and scripts (`npm run dev`, `npm run build`, `npm run lint`).
+- Theming is built on native CSS variables injected at the `:root` level, managed by `ThemeContext.tsx`.
+
+## Docs
+
+- [Architecture Document](/docs/ARCHITECTURE.md): Outlines the high-level architecture of the Neural Architect portfolio.
+- [API Reference](/docs/API.md): Details the internal API proxies and static data integrations.
+- [Configuration Guide](/docs/CONFIGURATION.md): Information regarding environment variables, tools, and build configurations.
+- [Development Guide](/docs/DEVELOPMENT.md): Guidelines for developing, styling, and animating components within the project.
+- [Getting Started Guide](/docs/GETTING-STARTED.md): Instructions to bootstrap the project locally.
+- [Testing Guide](/docs/TESTING.md): Overview of the testing strategy, including Vitest, Playwright, and manual QA procedures.
+
+## Source Code
+- [GitHub Project Source](https://github.com/Farhan-Mallick/portfolio)

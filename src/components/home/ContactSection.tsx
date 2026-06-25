@@ -87,7 +87,7 @@ export function ContactSection() {
         <div className={styles.wizardContainer}>
           <div className="flex flex-col items-center justify-center h-full p-10 text-center">
             <CheckCircle2 className="w-16 h-16 text-neon mb-6" />
-            <h2 className="font-orbitron text-2xl font-black text-white uppercase mb-2">Transmission_Success</h2>
+            <h2 className="font-orbitron text-2xl font-black text-white uppercase mb-2">Message Sent Successfully</h2>
             <p className="text-dim font-inter">Your data has been successfully encrypted and sent to HQ. Expect a breach confirmation soon.</p>
             <MechButton variant="secondary" className="mt-8" onClick={() => { setSubmitted(false); setStep(0); setFormData({}); }}>
               Reset Nexus
@@ -105,7 +105,7 @@ export function ContactSection() {
       <div className="mb-12">
         <h2 className="font-orbitron text-3xl font-black text-white uppercase tracking-tighter flex items-center gap-3">
           <Terminal className="text-neon" />
-          Mission_Control
+          Contact Me
         </h2>
         <p className="text-dim text-sm font-mono uppercase tracking-[0.2em] mt-2">
           Secure channel for deployment requests

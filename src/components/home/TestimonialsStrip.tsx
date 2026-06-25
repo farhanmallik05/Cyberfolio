@@ -11,7 +11,7 @@ export function TestimonialsStrip() {
           <Quote className="text-neon w-6 h-6" />
         </div>
         <h2 className="font-orbitron text-3xl font-black text-white uppercase tracking-tighter text-center">
-          Neural_Network Feedback
+          Client Testimonials
         </h2>
         <p className="text-dim text-sm font-mono uppercase tracking-[0.2em] mt-2">
           Verified transmissions from the matrix

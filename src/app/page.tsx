@@ -22,6 +22,7 @@ const ServicesPreview   = dynamic(() => import('@/components/home/ServicesPrevie
 const TestimonialsStrip = dynamic(() => import('@/components/home/TestimonialsStrip').then(m => m.TestimonialsStrip));
 const BlogPreview       = dynamic(() => import('@/components/home/BlogPreview').then(m => m.BlogPreview));
 const ContactSection    = dynamic(() => import('@/components/home/ContactSection').then(m => m.ContactSection));
+const HomeFAQSection    = dynamic(() => import('@/components/home/HomeFAQSection').then(m => m.HomeFAQSection));
 
 /**
  * Fetches public projects using the Supabase REST API directly.
@@ -119,6 +120,11 @@ export default async function Home() {
           {/* Blog */}
           <div className="relative z-[40] bg-mech-base/40 backdrop-blur-[2px]">
             <BlogPreview />
+          </div>
+
+          {/* FAQ */}
+          <div className="relative z-[35] bg-mech-base/40 backdrop-blur-[2px]">
+            <HomeFAQSection />
           </div>
 
           {/* Contact */}

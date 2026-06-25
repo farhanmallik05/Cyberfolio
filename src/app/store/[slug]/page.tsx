@@ -5,6 +5,31 @@ import { SubmitButton } from "@/components/ui/SubmitButton";
 import { ShoppingCart, CheckCircle2 } from "lucide-react";
 import { createCheckoutSession } from "../actions";
 import Link from "next/link";
+import type { Metadata } from 'next';
+
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const supabase = await createClient();
+  const { data: product } = await supabase
+      .from('products')
+      .select('title, description')
+      .eq('slug', slug)
+      .single();
+
+  const title = product?.title || slug.replace(/-/g, ' ');
+  const desc = product?.description || 'Digital product available on Neural Architect Store.';
+
+  return {
+    title: `${title} | Store | Neural Architect | Farhan Mallik`,
+    description: desc,
+    openGraph: {
+      title: `${title} | Store | Neural Architect`,
+      description: desc,
+    },
+  };
+}
+
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;

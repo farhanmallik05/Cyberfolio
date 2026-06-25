@@ -3,8 +3,25 @@ import { GlassPanel } from '@/components/ui/GlassPanel';
 import { ArrowLeft, Lock, FileCode, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
 import { createClient } from '@/utils/supabase/server';
+import type { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
+
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const title = slug.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+
+  return {
+    title: `${title} Course | Neural Architect | Farhan Mallik`,
+    description: `Explore the ${title} course module. Advance your engineering capabilities with structured learning protocols.`,
+    openGraph: {
+      title: `${title} Course | Neural Architect`,
+      description: `Explore the ${title} course module on Neural Architect.`,
+    },
+  };
+}
+
 
 export default async function CourseDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;

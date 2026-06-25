@@ -7,6 +7,7 @@ import { ScreenshotCarousel } from '@/components/projects/ScreenshotCarousel';
 import { ProcessTimeline } from '@/components/projects/ProcessTimeline';
 import { RelatedProjects } from '@/components/projects/RelatedProjects';
 import { Project } from '@/lib/projects';
+import type { Metadata } from 'next';
 
 interface Props {
   params: Promise<{
@@ -23,6 +24,26 @@ export async function generateStaticParams() {
       slug: project.slug,
     }));
 }
+
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const resolvedParams = await params;
+  const project = projectsData.find((p) => p.slug === resolvedParams.slug);
+
+  if (!project) {
+    return { title: 'Project Not Found | Neural Architect' };
+  }
+
+  return {
+    title: `${project.title} | Neural Architect | Farhan Mallik`,
+    description: project.description,
+    openGraph: {
+      title: `${project.title} | Neural Architect`,
+      description: project.description,
+    },
+  };
+}
+
 
 export default async function CaseStudyPage({ params }: Props) {
   const resolvedParams = await params;

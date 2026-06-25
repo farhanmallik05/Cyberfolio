@@ -5,6 +5,31 @@ import { SubmitButton } from "@/components/ui/SubmitButton";
 import { Mail, CheckCircle2 } from "lucide-react";
 import { claimFreeProduct } from "../../actions";
 import Link from "next/link";
+import type { Metadata } from 'next';
+
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const supabase = await createClient();
+  const { data: product } = await supabase
+      .from('products')
+      .select('title, description')
+      .eq('slug', slug)
+      .single();
+
+  const title = product?.title || slug.replace(/-/g, ' ');
+  const desc = product?.description || 'Download free digital product from Neural Architect Store.';
+
+  return {
+    title: `Download ${title} | Neural Architect | Farhan Mallik`,
+    description: desc,
+    openGraph: {
+      title: `Download ${title} | Neural Architect`,
+      description: desc,
+    },
+  };
+}
+
 
 export default async function FreeProductPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;

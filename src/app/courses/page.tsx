@@ -4,6 +4,19 @@ import { BookOpen, Code, Database, BrainCircuit, Play } from 'lucide-react';
 import { GlassPanel } from '@/components/ui/GlassPanel';
 import { createClient } from '@/utils/supabase/server';
 
+import type { Metadata } from 'next';
+
+
+
+export const metadata: Metadata = {
+  title: 'Courses | Neural Architect | Farhan Mallik',
+  description: 'Explore the Courses page of Neural Architect | Farhan Mallik\'s portfolio. Discover AI engineering, web development, and automation projects.',
+  openGraph: {
+    title: 'Courses | Neural Architect',
+    description: 'Explore the Courses page of Neural Architect | Farhan Mallik\'s portfolio. Discover AI engineering, web development, and automation projects.',
+  },
+};
+
 export const dynamic = 'force-dynamic';
 
 const COURSES = [

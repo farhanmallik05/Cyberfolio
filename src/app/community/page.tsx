@@ -4,6 +4,19 @@ import { MessageSquare, Twitter, Github, ArrowUpRight, Briefcase, GitPullRequest
 import { GlassPanel } from '@/components/ui/GlassPanel';
 import jobsData from '@/data/jobs.json';
 
+import type { Metadata } from 'next';
+
+
+
+export const metadata: Metadata = {
+  title: 'Community | Neural Architect | Farhan Mallik',
+  description: 'Explore the Community page of Neural Architect | Farhan Mallik\'s portfolio. Discover AI engineering, web development, and automation projects.',
+  openGraph: {
+    title: 'Community | Neural Architect',
+    description: 'Explore the Community page of Neural Architect | Farhan Mallik\'s portfolio. Discover AI engineering, web development, and automation projects.',
+  },
+};
+
 export const dynamic = 'force-dynamic';
 export const revalidate = 3600; // Cache for 1 hour
 

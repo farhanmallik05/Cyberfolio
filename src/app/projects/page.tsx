@@ -2,6 +2,19 @@ import ProjectsClient from './ProjectsClient';
 import { createClient } from '@/utils/supabase/server';
 import projectsDataFallback from '@/data/projects.json';
 
+import type { Metadata } from 'next';
+
+
+
+export const metadata: Metadata = {
+  title: 'Projects | Neural Architect | Farhan Mallik',
+  description: 'Explore the Projects page of Neural Architect | Farhan Mallik\'s portfolio. Discover AI engineering, web development, and automation projects.',
+  openGraph: {
+    title: 'Projects | Neural Architect',
+    description: 'Explore the Projects page of Neural Architect | Farhan Mallik\'s portfolio. Discover AI engineering, web development, and automation projects.',
+  },
+};
+
 export const revalidate = 0;
 
 const mapFallback = () =>

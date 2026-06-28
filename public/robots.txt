@@ -5,8 +5,12 @@ Disallow: /api/
 
 User-Agent: GPTBot
 Allow: /
+Disallow: /admin
+Disallow: /api/
 
 User-Agent: ClaudeBot
 Allow: /
+Disallow: /admin
+Disallow: /api/
 
 Sitemap: https://farhanmallik.netlify.app/sitemap.xml

@@ -12,7 +12,7 @@
   "dependencies": {
     "@ai-sdk/google": "3.0.83",
     "@ai-sdk/openai": "3.0.71",
-    "@ai-sdk/react": "3.0.199",
+    "@ai-sdk/react": "3.0.223",
     "@calcom/embed-react": "1.5.3",
     "@google/genai": "2.8.0",
     "@gsap/react": "2.1.2",

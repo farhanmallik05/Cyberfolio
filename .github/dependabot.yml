@@ -7,11 +7,7 @@ updates:
     open-pull-requests-limit: 10
     target-branch: "main"
     ignore:
-      - dependency-name: "tailwindcss"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "eslint"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "typescript"
+      - dependency-name: "*"
         update-types: ["version-update:semver-major"]
   
   - package-ecosystem: "github-actions"

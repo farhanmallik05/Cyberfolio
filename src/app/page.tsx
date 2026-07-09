@@ -14,14 +14,14 @@ import projectsDataFallback from '@/data/projects.json';
 // ISR: rebuild this page at most every 60 seconds.
 // This allows Next.js to pre-render the page as a static file served from
 // the edge while still reflecting Supabase updates within a minute.
-export const revalidate = 60;
+export const revalidate = 3600;
 
 // Dynamic imports - no ssr:false needed; these are safe SSR components
-const ProjectsPreview   = dynamic(() => import('@/components/home/ProjectsPreview').then(m => m.ProjectsPreview));
-const ServicesPreview   = dynamic(() => import('@/components/home/ServicesPreview').then(m => m.ServicesPreview));
-const TestimonialsStrip = dynamic(() => import('@/components/home/TestimonialsStrip').then(m => m.TestimonialsStrip));
-const BlogPreview       = dynamic(() => import('@/components/home/BlogPreview').then(m => m.BlogPreview));
-const ContactSection    = dynamic(() => import('@/components/home/ContactSection').then(m => m.ContactSection));
+const ProjectsPreview   = dynamic(() => import('@/components/home/ProjectsPreview').then(m => m.ProjectsPreview), { loading: () => <div className="h-96 w-full bg-mech-base/20 animate-pulse" /> });
+const ServicesPreview   = dynamic(() => import('@/components/home/ServicesPreview').then(m => m.ServicesPreview), { loading: () => <div className="h-96 w-full bg-mech-base/20 animate-pulse" /> });
+const TestimonialsStrip = dynamic(() => import('@/components/home/TestimonialsStrip').then(m => m.TestimonialsStrip), { loading: () => <div className="h-64 w-full bg-mech-base/20 animate-pulse" /> });
+const BlogPreview       = dynamic(() => import('@/components/home/BlogPreview').then(m => m.BlogPreview), { loading: () => <div className="h-96 w-full bg-mech-base/20 animate-pulse" /> });
+const ContactSection    = dynamic(() => import('@/components/home/ContactSection').then(m => m.ContactSection), { loading: () => <div className="h-96 w-full bg-mech-base/20 animate-pulse" /> });
 
 /**
  * Fetches public projects using the Supabase REST API directly.
@@ -47,7 +47,7 @@ async function fetchPublicProjects() {
           apikey:        supabaseAnon,
           Authorization: `Bearer ${supabaseAnon}`,
         },
-        next: { revalidate: 60 }, // Next.js data cache tag
+        next: { revalidate: 3600 }, // Next.js data cache tag
       }
     );
 

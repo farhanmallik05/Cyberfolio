@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
 import { z } from "zod";
-
+import { checkRateLimit } from "@/lib/rate-limit";
 const contactSchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Invalid email"),
@@ -44,6 +44,12 @@ export async function POST(req: Request) {
       );
     }
 
+    const ip = req.headers.get('x-forwarded-for') || '127.0.0.1';
+    const rateLimit = await checkRateLimit(ip, 'contact', 5, 24);
+    if (!rateLimit.allowed) {
+      return NextResponse.json({ message: "Too many requests. Please try again later." }, { status: 429 });
+    }
+
     const { name, email, projectType, message, turnstileToken } = parsed.data;
 
     // Verify Turnstile
@@ -57,7 +63,7 @@ export async function POST(req: Request) {
       }
     }
 
-    const supabase = await createClient();
+    const supabase = await createClient(true);
 
     const { error } = await supabase
       .from("enquiries")

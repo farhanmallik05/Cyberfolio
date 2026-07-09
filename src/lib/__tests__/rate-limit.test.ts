@@ -1,73 +1,64 @@
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 
-// Set up env variables before module imports
+// ── Env variables must be hoisted before any module imports ─────────────────
 vi.hoisted(() => {
-  process.env.NEXT_PUBLIC_SUPABASE_URL = 'https://mock.supabase.co';
-  process.env.SUPABASE_SERVICE_ROLE_KEY = 'mock-service-key';
+  process.env.UPSTASH_REDIS_REST_URL = 'https://mock.upstash.io';
+  process.env.UPSTASH_REDIS_REST_TOKEN = 'mock-token';
   process.env.IP_SALT = 'test-salt';
 });
 
-// Setup mock functions using vi.hoisted so they are available inside vi.mock
-const { mockGte, mockEq1, mockEq2, mockSelect, mockInsert } = vi.hoisted(() => {
-  const mockGte = vi.fn();
-  const mockEq2 = vi.fn();
-  const mockEq1 = vi.fn();
-  const mockSelect = vi.fn();
-  const mockInsert = vi.fn();
-  return { mockGte, mockEq1, mockEq2, mockSelect, mockInsert };
-});
+// ── Mock @upstash/redis ──────────────────────────────────────────────────────
+vi.mock('@upstash/redis', () => ({
+  Redis: vi.fn().mockImplementation(() => ({})),
+}));
 
-vi.mock('@supabase/supabase-js', () => {
-  return {
-    createClient: vi.fn(() => ({
-      from: vi.fn(() => ({
-        select: mockSelect,
-        insert: mockInsert,
-      })),
-    })),
-  };
-});
+// ── Shared mock for upstashRatelimit.limit() ─────────────────────────────────
+const mockLimit = vi.hoisted(() => vi.fn());
 
-// Import the module under test after env variables and mocks are hoisted
+vi.mock('@upstash/ratelimit', () => ({
+  Ratelimit: vi.fn().mockImplementation(() => ({
+    limit: mockLimit,
+  })),
+}));
+
+// Re-attach static methods after the class mock
+import { Ratelimit } from '@upstash/ratelimit';
+(Ratelimit as unknown as Record<string, unknown>).slidingWindow = vi.fn().mockReturnValue({});
+
+// ── Import module under test AFTER mocks are registered ─────────────────────
 import { checkRateLimit } from '../rate-limit';
 
-describe('Rate Limiter', () => {
+// ── Tests ────────────────────────────────────────────────────────────────────
+describe('Rate Limiter (Upstash)', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-
-    // Setup default chaining mocks for: supabase.from().select().eq().eq().gte()
-    mockSelect.mockReturnValue({
-      eq: mockEq1.mockReturnValue({
-        eq: mockEq2.mockReturnValue({
-          gte: mockGte,
-        }),
-      }),
-    });
   });
 
-  it('allows request when count is below limit', async () => {
-    mockGte.mockResolvedValue({ count: 2, error: null });
-    mockInsert.mockResolvedValue({ error: null });
+  it('allows request when under the limit', async () => {
+    // remaining=8 means 2 have been used; after this call used=3
+    mockLimit.mockResolvedValue({ success: true, limit: 10, remaining: 8, reset: Date.now() + 86400000 });
 
     const result = await checkRateLimit('127.0.0.1', 'test-tool', 10, 24);
 
     expect(result.allowed).toBe(true);
-    expect(result.count).toBe(3); // count (2) + 1
-    expect(mockInsert).toHaveBeenCalled();
+    // used = limit - remaining = 10 - 8 = 2; count returned = used + 1 = 3
+    expect(result.count).toBe(3);
+    expect(mockLimit).toHaveBeenCalledOnce();
   });
 
-  it('blocks request when count matches or exceeds limit', async () => {
-    mockGte.mockResolvedValue({ count: 10, error: null });
+  it('blocks request when the limit is exceeded', async () => {
+    // success=false means the limiter rejected this request
+    mockLimit.mockResolvedValue({ success: false, limit: 10, remaining: 0, reset: Date.now() + 86400000 });
 
     const result = await checkRateLimit('127.0.0.1', 'test-tool', 10, 24);
 
     expect(result.allowed).toBe(false);
-    expect(result.count).toBe(10);
-    expect(mockInsert).not.toHaveBeenCalled();
+    expect(result.count).toBe(10); // used = limit - remaining = 10 - 0 = 10
+    expect(mockLimit).toHaveBeenCalledOnce();
   });
 
-  it('fails open (allows request) when database query errors', async () => {
-    mockGte.mockResolvedValue({ count: null, error: new Error('DB Query Error') });
+  it('fails open when Redis throws an error', async () => {
+    mockLimit.mockRejectedValue(new Error('Redis connection error'));
 
     const result = await checkRateLimit('127.0.0.1', 'test-tool', 10, 24);
 

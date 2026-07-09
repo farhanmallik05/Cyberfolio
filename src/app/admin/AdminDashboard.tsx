@@ -28,6 +28,7 @@ export type StoreProduct = {
     color_theme: string;
     is_free: boolean;
     file_path: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: any;
 };
 
@@ -74,8 +75,8 @@ export default function AdminDashboard({
     metrics?: { enquiries: any[], subscribers: any[] };
                       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     initialProjects?: any[];
-    initialStoreProducts?: any[];
-    initialStoreOrders?: any[];
+    initialStoreProducts?: StoreProduct[];
+    initialStoreOrders?: StoreOrder[];
 }) {
     const router = useRouter();
     const [password, setPassword] = useState('');
@@ -104,7 +105,7 @@ export default function AdminDashboard({
 
 
     // Store Form State
-    const [storeProducts, setStoreProducts] = useState<StoreProduct[]>(initialStoreProducts);
+    const [storeProducts] = useState<StoreProduct[]>(initialStoreProducts);
     const [storeOrders] = useState<StoreOrder[]>(initialStoreOrders);
     const [activeStoreTab, setActiveStoreTab] = useState<'products' | 'orders'>('products');
     const [editingProduct, setEditingProduct] = useState<StoreProduct | null>(null);
@@ -909,6 +910,125 @@ export default function AdminDashboard({
                     </div>
                 </div>
             ) : null}
+
+            {activeTab === 'store' && (
+                <div className="flex flex-col gap-10 animate-fade-in">
+                    <div className="flex gap-4 border-b border-[var(--border)] pb-4">
+                        <button 
+                            onClick={() => setActiveStoreTab('products')}
+                            className={`font-orbitron tracking-widest text-sm pb-2 border-b-2 transition-colors ${activeStoreTab === 'products' ? 'border-[var(--neon)] text-[var(--neon)]' : 'border-transparent text-[var(--dim)] hover:text-[var(--text)]'}`}
+                        >
+                            <Box className="inline-block w-4 h-4 mr-2 mb-1" /> PRODUCTS
+                        </button>
+                        <button 
+                            onClick={() => setActiveStoreTab('orders')}
+                            className={`font-orbitron tracking-widest text-sm pb-2 border-b-2 transition-colors ${activeStoreTab === 'orders' ? 'border-[var(--neon)] text-[var(--neon)]' : 'border-transparent text-[var(--dim)] hover:text-[var(--text)]'}`}
+                        >
+                            <DollarSign className="inline-block w-4 h-4 mr-2 mb-1" /> ORDERS
+                        </button>
+                    </div>
+
+                    {activeStoreTab === 'products' && (
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <div className="mech-panel p-6 rounded-xl h-fit">
+                                <h2 className="text-xl font-orbitron text-[var(--neon)] mb-6 flex items-center gap-2">
+                                    {editingProduct ? 'Edit Product' : 'Add New Product'}
+                                </h2>
+                                <div className="space-y-4">
+                                    <input placeholder="Slug (e.g. n8n-automation)" value={productForm.slug} onChange={e => setProductForm({...productForm, slug: e.target.value})} className="w-full p-3 bg-[var(--bg)] border border-[var(--border)] rounded text-[var(--text)] font-mono text-sm" />
+                                    <input placeholder="Name" value={productForm.name} onChange={e => setProductForm({...productForm, name: e.target.value})} className="w-full p-3 bg-[var(--bg)] border border-[var(--border)] rounded text-[var(--text)] font-mono text-sm" />
+                                    <textarea placeholder="Description" value={productForm.description} onChange={e => setProductForm({...productForm, description: e.target.value})} className="w-full p-3 bg-[var(--bg)] border border-[var(--border)] rounded text-[var(--text)] font-mono text-sm min-h-[100px]" />
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <input type="number" placeholder="Price (in cents)" value={productForm.price} onChange={e => setProductForm({...productForm, price: parseInt(e.target.value)})} className="w-full p-3 bg-[var(--bg)] border border-[var(--border)] rounded text-[var(--text)] font-mono text-sm" />
+                                        <input placeholder="Currency (USD)" value={productForm.currency} onChange={e => setProductForm({...productForm, currency: e.target.value})} className="w-full p-3 bg-[var(--bg)] border border-[var(--border)] rounded text-[var(--text)] font-mono text-sm" />
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <select value={productForm.type} onChange={e => setProductForm({...productForm, type: e.target.value})} className="w-full p-3 bg-[var(--bg)] border border-[var(--border)] rounded text-[var(--text)] font-mono text-sm">
+                                            <option value="asset">Asset</option>
+                                            <option value="template">Template</option>
+                                            <option value="automation">Automation</option>
+                                            <option value="figma">Figma</option>
+                                        </select>
+                                        <input placeholder="Color Theme" value={productForm.color_theme} onChange={e => setProductForm({...productForm, color_theme: e.target.value})} className="w-full p-3 bg-[var(--bg)] border border-[var(--border)] rounded text-[var(--text)] font-mono text-sm" />
+                                    </div>
+                                    <label className="flex items-center gap-2 font-mono text-sm text-[var(--dim)]">
+                                        <input type="checkbox" checked={productForm.is_free} onChange={e => setProductForm({...productForm, is_free: e.target.checked})} className="bg-[var(--bg)] border-[var(--border)] text-[var(--neon)] rounded" />
+                                        Is Free?
+                                    </label>
+                                    <input placeholder="File Path (in Supabase storage)" value={productForm.file_path} onChange={e => setProductForm({...productForm, file_path: e.target.value})} className="w-full p-3 bg-[var(--bg)] border border-[var(--border)] rounded text-[var(--text)] font-mono text-sm" />
+                                    
+                                    <div className="flex gap-4 pt-4">
+                                        <button 
+                                            onClick={async () => {
+                                                await import('./actions').then(m => m.saveStoreProduct(productForm));
+                                                window.location.reload();
+                                            }}
+                                            className="mech-button px-6 py-2 rounded text-[var(--neon)] font-orbitron w-full flex items-center justify-center gap-2"
+                                        >
+                                            <Save size={16} /> SAVE
+                                        </button>
+                                        {editingProduct && (
+                                            <button 
+                                                onClick={() => { setEditingProduct(null); setProductForm({slug: '', name: '', description: '', price: 0, currency: 'USD', type: 'asset', color_theme: 'var(--neon)', is_free: false, file_path: ''}); }}
+                                                className="px-6 py-2 rounded border border-[var(--border)] text-[var(--dim)] hover:text-[var(--text)] font-orbitron w-full"
+                                            >
+                                                CANCEL
+                                            </button>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="flex flex-col gap-4">
+                                {storeProducts.map(prod => (
+                                    <div key={prod.slug} className="mech-panel p-4 rounded-lg flex justify-between items-center group">
+                                        <div>
+                                            <h3 className="font-orbitron text-lg">{prod.name}</h3>
+                                            <p className="text-xs text-[var(--dim)] font-mono">{prod.slug} | {prod.is_free ? 'FREE' : `${prod.price/100} ${prod.currency}`}</p>
+                                        </div>
+                                        <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <button onClick={() => { setEditingProduct(prod); setProductForm(prod); }} className="p-2 bg-[var(--glass)] hover:bg-[color-mix(in_srgb,var(--neon)_20%,transparent)] text-[var(--neon)] rounded"><Edit3 size={16} /></button>
+                                            <button onClick={async () => { await import('./actions').then(m => m.deleteStoreProduct(prod.slug)); window.location.reload(); }} className="p-2 bg-[var(--glass)] hover:bg-red-500/20 text-red-400 rounded"><Trash2 size={16} /></button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {activeStoreTab === 'orders' && (
+                        <div className="mech-panel p-6 rounded-xl overflow-x-auto">
+                            <table className="w-full text-left font-mono text-sm">
+                                <thead>
+                                    <tr className="border-b border-[var(--border)] text-[var(--dim)]">
+                                        <th className="pb-4 font-normal">Date</th>
+                                        <th className="pb-4 font-normal">Customer</th>
+                                        <th className="pb-4 font-normal">Product ID</th>
+                                        <th className="pb-4 font-normal">Amount</th>
+                                        <th className="pb-4 font-normal">Status</th>
+                                        <th className="pb-4 font-normal">Payment ID</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {storeOrders.map(order => (
+                                        <tr key={order.id} className="border-b border-[var(--glass)] hover:bg-[var(--glass)] transition-colors">
+                                            <td className="py-4 whitespace-nowrap text-[var(--dim)]">{new Date(order.created_at).toLocaleDateString()}</td>
+                                            <td className="py-4 text-[var(--text)]">{order.customer_email}</td>
+                                            <td className="py-4 text-[var(--neon)]">{order.product_id.substring(0,8)}...</td>
+                                            <td className="py-4">${(order.amount/100).toFixed(2)}</td>
+                                            <td className="py-4"><span className={`px-2 py-1 rounded text-xs ${order.status === 'successful' ? 'bg-green-500/10 text-green-400' : 'bg-yellow-500/10 text-yellow-400'}`}>{order.status}</span></td>
+                                            <td className="py-4 text-[var(--dim)] text-xs">{order.dodo_payment_id}</td>
+                                        </tr>
+                                    ))}
+                                    {storeOrders.length === 0 && (
+                                        <tr><td colSpan={6} className="py-8 text-center text-[var(--dim)] italic">No orders detected in the system.</td></tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+                </div>
+            )}
         </div>
     );
 }

@@ -40,7 +40,7 @@ export async function POST(req: Request) {
     const { type, data } = parsedBody;
 
     if (type === "payment.succeeded") {
-      const supabase = await createClient();
+      const supabase = await createClient(true);
       
       const productId = data.metadata?.product_id;
       const amount = data.total_amount || 0;

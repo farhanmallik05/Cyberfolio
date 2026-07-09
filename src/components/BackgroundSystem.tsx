@@ -27,7 +27,7 @@ export function BackgroundSystem() {
 
             {/* Layer 1 & 4: Starfield and 3D Rings — disabled on mobile / reduced-motion */}
             {enableCanvas && (
-                <div className="absolute inset-0">
+                <div className="absolute inset-0" aria-hidden="true">
                     <BackgroundCanvas />
                 </div>
             )}

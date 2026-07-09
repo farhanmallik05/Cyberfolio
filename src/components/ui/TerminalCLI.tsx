@@ -132,6 +132,8 @@ export function TerminalCLI() {
               ref={scrollRef}
               onClick={() => inputRef.current?.focus()} // Focus input when clicking terminal area
               className="flex-1 overflow-y-auto p-4 space-y-4 font-mono text-sm scrollbar-thin scrollbar-thumb-[var(--neon)] cursor-text"
+              aria-live="polite"
+              aria-atomic="false"
             >
               {/* Welcome Message */}
               <div className="text-[var(--neon)]/60 animate-pulse">

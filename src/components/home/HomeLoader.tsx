@@ -1,7 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from 'react';
-import { gsap } from 'gsap';
-import styles from './HomeLoader.module.css';
+import React from 'react';
 
 interface HomeLoaderProps {
   children: React.ReactNode;

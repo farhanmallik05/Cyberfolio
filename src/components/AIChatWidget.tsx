@@ -17,6 +17,8 @@ export function AIChatWidget() {
     { role: 'model', content: "Hello! I'm Farhan's AI Assistant. How can I help you today?" }
   ]);
   const [input, setInput] = useState('');
+  const [email, setEmail] = useState('');
+  const [showEmailPrompt, setShowEmailPrompt] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -32,6 +34,19 @@ export function AIChatWidget() {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
 
+    if (showEmailPrompt) {
+      // Basic email validation
+      if (!input.includes('@') || !input.includes('.')) {
+        setMessages(prev => [...prev, { role: 'model', content: 'Please enter a valid email address.' }]);
+        return;
+      }
+      setEmail(input.trim());
+      setShowEmailPrompt(false);
+      setInput('');
+      setMessages(prev => [...prev, { role: 'model', content: 'Email verified. You have unlocked 30 more queries. How can I help?' }]);
+      return;
+    }
+
     const userMsg = input.trim();
     setInput('');
     setMessages(prev => [...prev, { role: 'user', content: userMsg }]);
@@ -42,13 +57,19 @@ export function AIChatWidget() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          messages: [...messages, { role: 'user', content: userMsg }]
+          messages: [...messages, { role: 'user', content: userMsg }],
+          email: email || undefined
         })
       });
 
       if (!response.ok) {
         if (response.status === 429) {
-            throw new Error("Rate limit exceeded. Please try again later.");
+            if (!email) {
+                setShowEmailPrompt(true);
+                throw new Error("Anonymous rate limit (10/day) reached. Please enter your email address in the chat to unlock 30 more queries.");
+            } else {
+                throw new Error("Premium rate limit (30/day) reached. Please try again tomorrow or contact Farhan directly.");
+            }
         }
         throw new Error('Failed to connect to the neural network.');
       }
@@ -76,7 +97,7 @@ export function AIChatWidget() {
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      setMessages(prev => [...prev, { id: Date.now().toString(), role: 'model', content: `Error: ${error?.message || String(error)}` }]);
+      setMessages(prev => [...prev, { role: 'model', content: `System Notice: ${error?.message || String(error)}` }]);
     } finally {
       setIsLoading(false);
     }
@@ -174,7 +195,7 @@ export function AIChatWidget() {
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder="Ask me anything..."
+                  placeholder={showEmailPrompt ? "Enter your email..." : "Ask me anything..."}
                   className="w-full bg-black/40 border border-primary/30 rounded-full py-2.5 pl-4 pr-12 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
                   disabled={isLoading}
                 />

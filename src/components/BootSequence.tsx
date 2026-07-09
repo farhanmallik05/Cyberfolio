@@ -88,16 +88,16 @@ export function BootSequence({ children }: { children: React.ReactNode }) {
                 )}
             </AnimatePresence>
 
-            {!isBooting && (
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, ease: "easeOut" }}
-                    className="min-h-screen"
-                >
-                    {children}
-                </motion.div>
-            )}
+            {/* Render children immediately for hydration, but hide them visually until boot is complete */}
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: isBooting ? 0 : 1, y: isBooting ? 20 : 0 }}
+                transition={{ duration: 1, ease: "easeOut" }}
+                className="min-h-screen"
+                style={{ pointerEvents: isBooting ? "none" : "auto" }}
+            >
+                {children}
+            </motion.div>
         </>
     );
 }

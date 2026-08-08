@@ -23,53 +23,68 @@ const mapDBToBlogPost = (post: any): (BlogPost & { is_published: boolean }) => (
 });
 
 export async function getAllPosts(includeDrafts: boolean = false): Promise<(BlogPost & { is_published: boolean })[]> {
-    const supabase = await createClient();
-    
-    let query = supabase
-        .from('blog_posts')
-        .select('*')
-        .order('created_at', { ascending: false });
+    try {
+        const supabase = await createClient();
 
-    if (!includeDrafts) {
-        query = query.eq('is_published', true);
-    }
+        let query = supabase
+            .from('blog_posts')
+            .select('*')
+            .order('created_at', { ascending: false });
 
-    const { data, error } = await query;
+        if (!includeDrafts) {
+            query = query.eq('is_published', true);
+        }
 
-    if (error) {
-        console.error('Error fetching posts from Supabase:', error);
+        const { data, error } = await query;
+
+        if (error) {
+            console.error('Error fetching posts from Supabase:', error);
+            return [];
+        }
+
+        return (data || []).map(mapDBToBlogPost);
+    } catch (e) {
+        console.error('Failed to initialize Supabase or fetch posts:', e);
         return [];
     }
-
-    return (data || []).map(mapDBToBlogPost);
 }
 
 export async function getPostBySlug(slug: string): Promise<(BlogPost & { is_published: boolean }) | null> {
-    const supabase = await createClient();
-    
-    const { data, error } = await supabase
-        .from('blog_posts')
-        .select('*')
-        .eq('slug', slug)
-        .single();
+    try {
+        const supabase = await createClient();
 
-    if (error) {
-        if (error.code === 'PGRST116') return null; // Post not found
-        console.error('Error fetching post by slug:', error);
+        const { data, error } = await supabase
+            .from('blog_posts')
+            .select('*')
+            .eq('slug', slug)
+            .single();
+
+        if (error) {
+            if (error.code === 'PGRST116') return null; // Post not found
+            console.error('Error fetching post by slug:', error);
+            return null;
+        }
+
+        return mapDBToBlogPost(data);
+    } catch (e) {
+        console.error('Failed to initialize Supabase or fetch post by slug:', e);
         return null;
     }
-
-    return mapDBToBlogPost(data);
 }
 
 // Slugs remain useful for static generation
 export async function getPostSlugs() {
-    const supabase = await createClient();
-    const { data, error } = await supabase
-        .from('blog_posts')
-        .select('slug')
-        .eq('is_published', true);
+    try {
+        const supabase = await createClient();
+        const { data, error } = await supabase
+            .from('blog_posts')
+            .select('slug')
+            .eq('is_published', true);
 
-    if (error) return [];
-    return data.map(d => d.slug);
+        if (error) return [];
+        return data.map(d => d.slug);
+    } catch (e) {
+        console.error('Failed to initialize Supabase or fetch post slugs:', e);
+        return [];
+    }
 }

@@ -8,12 +8,22 @@ import Link from "next/link";
 
 export default async function FreeProductPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
-    const supabase = await createClient();
-    const { data: product } = await supabase
-        .from('products')
-        .select('*')
-        .eq('slug', slug)
-        .single();
+    let product = null;
+
+    try {
+        const supabase = await createClient();
+        const { data, error } = await supabase
+            .from('products')
+            .select('*')
+            .eq('slug', slug)
+            .single();
+
+        if (!error && data) {
+            product = data;
+        }
+    } catch (e) {
+        console.error('Failed to init Supabase or fetch free product:', e);
+    }
 
     if (!product || !product.is_free) {
         notFound();

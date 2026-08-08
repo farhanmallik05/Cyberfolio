@@ -10,14 +10,21 @@ export const metadata: Metadata = {
 export const revalidate = 3600; // Cache Supabase queries for 1 hour
 
 export default async function StorePage() {
-    const supabase = await createClient();
-    const { data: products, error } = await supabase
-        .from('products')
-        .select('*')
-        .order('created_at', { ascending: false });
+    let products = null;
+    try {
+        const supabase = await createClient();
+        const { data, error } = await supabase
+            .from('products')
+            .select('*')
+            .order('created_at', { ascending: false });
 
-    if (error) {
-        console.error('Error fetching products:', error);
+        if (error) {
+            console.error('Error fetching products:', error);
+        } else {
+            products = data;
+        }
+    } catch (error) {
+        console.error('Failed to initialize Supabase or fetch products:', error);
     }
 
     return (
